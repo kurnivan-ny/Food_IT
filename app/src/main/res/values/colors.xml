@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_cyan">#006464</color>
+    <color name="teal_green">#069A8E</color>
+    <color name="green_apple">#64C871</color>
+    <color name="yellow_green">#88F300</color>
+    <color name="light_lime">#C7F28A</color>
+    <color name="ivory">#FEFFF4</color>
+    <color name="lime_green">#B3FF48</color>
+    <color name="slate_gray">#737373</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

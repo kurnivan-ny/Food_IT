@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "624163658766",
+    "project_id": "foodit-35ca8",
+    "storage_bucket": "foodit-35ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624163658766:android:6e45737007be42b7e7f05f",
+        "android_client_info": {
+          "package_name": "com.kurnivan_ny.foodit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624163658766-5edelpudedfrsuqjjrobrfgo9i2a9k6h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWeU43xnWiilRbUbPHcbPwVD-vbRbLrTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624163658766-5edelpudedfrsuqjjrobrfgo9i2a9k6h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
