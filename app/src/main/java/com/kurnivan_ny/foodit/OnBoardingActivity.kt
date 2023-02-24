@@ -1,5 +1,6 @@
 package com.kurnivan_ny.foodit
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -69,6 +70,29 @@ class OnBoardingActivity : AppCompatActivity() {
 
         handler.post(runnable)
 
+        preferences = SharedPreferences(this)
+        if (preferences.getValuesString("onboarding").equals("1")){
+            preferences.setValuesString("onboarding", "1")
+
+            val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnMasuk.setOnClickListener {
+            preferences.setValuesString("onboarding", "1")
+            finishAffinity()
+
+            val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnDaftar.setOnClickListener {
+            preferences.setValuesString("onboarding", "1")
+            finishAffinity()
+
+            val intent = Intent(this@OnBoardingActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

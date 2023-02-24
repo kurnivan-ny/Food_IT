@@ -6,10 +6,14 @@
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable-v24/ic_button_transparent.xml" value="0.123" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_background.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_button.xml" value="0.123" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_form_white.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_line.xml" value="0.176" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/image_slider_onboarding.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_login.xml" value="0.23143115942028986" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_main.xml" value="0.23143115942028986" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_on_boarding.xml" value="0.33" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_register_akun.xml" value="0.23143115942028986" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/image_slide_onboarding.xml" value="0.15" />
       </map>
     </option>
