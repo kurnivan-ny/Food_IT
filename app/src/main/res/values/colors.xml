@@ -9,6 +9,11 @@
     <color name="lime_green">#B3FF48</color>
     <color name="slate_gray">#737373</color>
 
+<!--stroke-->
+    <color name="tea_green">#D2FCB8</color>
+    <color name="inchworm">#B1FF63</color>
+
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

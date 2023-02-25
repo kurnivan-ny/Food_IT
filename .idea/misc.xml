@@ -4,17 +4,31 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable-v24/ic_button_transparent.xml" value="0.123" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_add_circle.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_background.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_background_white.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_border_round.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_btn_linegreen.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_button.xml" value="0.123" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_form_white.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_history.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_line.xml" value="0.176" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_searchbox_tanggal.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_user_profile.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/image_slider_onboarding.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_login.xml" value="0.23143115942028986" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_main.xml" value="0.23143115942028986" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_on_boarding.xml" value="0.33" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_register_akun.xml" value="0.23143115942028986" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_edit_profile.xml" value="0.1358695652173913" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_edt_akun.xml" value="0.1358695652173913" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_history.xml" value="0.3583815028901734" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/image_slide_onboarding.xml" value="0.15" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/menu/bottom_nav.xml" value="0.22083333333333333" />
       </map>
     </option>
   </component>

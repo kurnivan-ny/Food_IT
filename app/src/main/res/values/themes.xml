@@ -13,4 +13,9 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="BottomNavigationViewTextStyle">
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:keyTextSize">14sp</item>
+    </style>
 </resources>
