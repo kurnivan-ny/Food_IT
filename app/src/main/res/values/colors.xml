@@ -13,6 +13,11 @@
     <color name="tea_green">#D2FCB8</color>
     <color name="inchworm">#B1FF63</color>
 
+<!--alert-->
+    <color name="kurang">#FDFF96</color>
+    <color name="normal">#BAFF99</color>
+    <color name="lebih">#FFC0C0</color>
+
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>

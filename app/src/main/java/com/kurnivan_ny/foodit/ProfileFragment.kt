@@ -1,59 +1,127 @@
 package com.kurnivan_ny.foodit
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.kurnivan_ny.foodit.databinding.FragmentProfileBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class ProfileFragment : Fragment(), View.OnClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var storage: FirebaseStorage
+    lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(layoutInflater)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sharedPreferences = SharedPreferences(requireContext())
+        db = FirebaseFirestore.getInstance()
+
+        storage = FirebaseStorage.getInstance()
+
+        //SETUP
+        showDataUser()
+
+        itemOnClickListener()
+    }
+
+    private fun showDataUser() {
+
+        binding.tvNama.setText(sharedPreferences.getValuesString("nama").toString())
+
+        val sUrl = sharedPreferences.getValuesString("url").toString()
+
+        storage.reference.child("image_profile/$sUrl").downloadUrl.addOnSuccessListener { Uri ->
+            Glide.with(this)
+                .load(Uri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.ivProfile)
+        }
+    }
+
+    private fun itemOnClickListener(){
+        binding.btnDetailPribadi.setOnClickListener(this)
+        binding.btnPengAkun.setOnClickListener(this)
+        binding.btnKeluar.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_detail_pribadi -> {
+                val toDetailPribadiFragment = ProfileFragmentDirections
+                    .actionProfileFragmentToDetailPribadiFragment()
+                binding.root.findNavController().navigate(toDetailPribadiFragment)
             }
+            R.id.btn_peng_akun -> {
+                val toPengAkunFragment = ProfileFragmentDirections
+                    .actionProfileFragmentToPengAkunFragment()
+                binding.root.findNavController().navigate(toPengAkunFragment)
+            }
+            R.id.btn_keluar -> {
+
+                //logout, go to login activity
+                alertLogout()
+            }
+        }
+    }
+
+    private fun alertLogout() {
+        val view = View.inflate(requireContext(), R.layout.profile_logout_dialog, null)
+
+        AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+            .setView(view)
+            .setCancelable(false)
+            .setNegativeButton("Tidak"){ p0, _ ->
+                p0.dismiss()
+            }
+            .setPositiveButton("Ya"){_, _ ->
+                progressBar(true)
+                observerLogout()
+            }.show()
+    }
+
+    private fun observerLogout() {
+        progressBar(false)
+        sharedPreferences.clear()
+        killActivity()
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
+    }
+
+    private fun killActivity() {
+        activity?.finish()
+    }
+
+    private fun progressBar(isLoading: Boolean) = with(binding){
+        if (isLoading){
+            this.progressBar.visibility = View.VISIBLE
+        } else {
+            this.progressBar.visibility = View.GONE
+        }
     }
 }

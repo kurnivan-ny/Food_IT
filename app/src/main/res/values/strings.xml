@@ -24,6 +24,9 @@
         <item>November</item>
         <item>Desember</item>
     </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_images">Pilih Gambar</string>
+    <string name="error_400">400 Error</string>
 </resources>

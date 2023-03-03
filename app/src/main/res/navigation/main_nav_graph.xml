@@ -21,32 +21,29 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_edtProfileFragment"
-            app:destination="@id/edtProfileFragment" />
+            android:id="@+id/action_profileFragment_to_pengAkunFragment"
+            app:destination="@id/pengAkunFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_detailPribadiFragment"
+            app:destination="@id/detailPribadiFragment" />
     </fragment>
     <fragment
-        android:id="@+id/edtProfileFragment"
-        android:name="com.kurnivan_ny.foodit.EditProfileFragment"
-        android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" >
+        android:id="@+id/detailPribadiFragment"
+        android:name="com.kurnivan_ny.foodit.DetailPribadiFragment"
+        android:label="DetailPribadiFragment"
+        tools:layout="@layout/fragment_detail_pribadi">
         <action
-            android:id="@+id/action_edtProfileFragment_to_profileFragment"
+            android:id="@+id/action_detailPribadiFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_edtProfileFragment_to_edtAkunFragment"
-            app:destination="@id/edtAkunFragment" />
     </fragment>
     <fragment
-        android:id="@+id/edtAkunFragment"
-        android:name="com.kurnivan_ny.foodit.EdtAkunFragment"
-        android:label="fragment_pengaturan_akun"
-        tools:layout="@layout/fragment_edt_akun">
+        android:id="@+id/pengAkunFragment"
+        android:name="com.kurnivan_ny.foodit.PengAkunFragment"
+        android:label="PengAkunFragment"
+        tools:layout="@layout/fragment_peng_akun">
         <action
-            android:id="@+id/action_pengaturanAkunFragment_to_profileFragment"
+            android:id="@+id/action_pengAkunFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_edtAkunFragment_to_edtProfileFragment"
-            app:destination="@id/edtProfileFragment" />
     </fragment>
-    
+
 </navigation>
