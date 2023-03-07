@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".ui.main.fragment.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
@@ -111,7 +111,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:text="Keluar"
             android:textAllCaps="false"
-            android:textColor="@color/inchworm"
+            android:textColor="@color/green_apple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_peng_akun" />

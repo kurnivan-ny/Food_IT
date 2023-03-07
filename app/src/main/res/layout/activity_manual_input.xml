@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManualInputActivity">
+    tools:context=".ui.main.manualinput.ManualInputActivity">
 
     <TextView
         android:id="@+id/tv_waktu_makan"
@@ -47,7 +47,7 @@
             android:gravity="start"
             android:hint="Makanan"
             android:inputType="date|text"
-            android:textColorHint="@color/slate_gray"
+            android:textColorHint="@color/hint"
             android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +65,7 @@
         app:layout_constraintHorizontal_bias="0.916"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_makanan"
-        app:strokeColor="@color/inchworm"
+        app:strokeColor="@color/tea_green"
         app:strokeWidth="2dp">
 
         <TextView
@@ -106,21 +106,22 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="start|center"
-            android:text="Apakah Anda ingin mengisi secara otomatis?"
+            android:text="Apakah Anda ingin mengisi\nsecara otomatis?"
             android:textColor="@color/slate_gray"
             android:textSize="11sp"
             android:drawableStart="@drawable/ic_tanda_tanya"
-            android:drawablePadding="4dp"
+            android:drawablePadding="8dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/ic_camera"
             app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -129,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_semibold"
-            android:text="Jika tidak, mohon list makanan di atas secara manual."
+            android:text="Jika tidak, mohon list makanan di atas \nsecara manual."
             android:textColor="@color/slate_gray"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"

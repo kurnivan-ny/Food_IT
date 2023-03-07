@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchMakananActivity">
+    tools:context=".ui.main.manualinput.SearchMakananActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_makanan"
@@ -14,26 +14,28 @@
         android:layout_marginTop="24dp"
         android:layout_marginHorizontal="21dp"
         app:boxStrokeWidth="0dp"
+        app:hintEnabled="false"
         app:boxStrokeWidthFocused="0dp"
         android:background="@drawable/ic_form_line_tea_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sv_makanan"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/montserrat_semibold"
-        android:paddingTop="10dp"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="10dp"
-        android:gravity="start"
-        android:hint="Makanan"
-        android:inputType="date|text"
-        android:textColorHint="@color/slate_gray"
-        android:textSize="16sp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sv_makanan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/montserrat_semibold"
+            android:paddingTop="10dp"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:gravity="start"
+            android:hint="Makanan"
+            android:inputType="date|text"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView

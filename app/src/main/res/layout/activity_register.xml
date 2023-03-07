@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
-    tools:context=".RegisterActivity">
+    tools:context=".ui.sign.RegisterActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -45,7 +45,8 @@
             android:maxLength="24"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="@color/slate_gray"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,6 +58,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
+        android:textColorHint="@color/hint"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +75,9 @@
             android:inputType="none"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="Masukan Jenis Kelamin"
-            android:textColor="@color/slate_gray"
+            android:hint="Masukan Jenis Kelamin"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -106,7 +109,8 @@
             android:inputType="number"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="@color/slate_gray"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -138,7 +142,8 @@
             android:inputType="number"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="@color/slate_gray"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -170,7 +175,8 @@
             android:inputType="number"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="@color/slate_gray"
+            android:textColorHint="@color/hint"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
     </com.google.android.material.textfield.TextInputLayout>

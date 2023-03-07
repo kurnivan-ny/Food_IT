@@ -21,4 +21,5 @@
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
+    <color name="hint">#808080</color>
 </resources>
