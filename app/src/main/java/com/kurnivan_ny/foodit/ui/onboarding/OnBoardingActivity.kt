@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.kurnivan_ny.foodit.ui.adapter.ImageSlideAdapter
-import com.kurnivan_ny.foodit.data.model.onboarding.ImageSlideData
+import com.kurnivan_ny.foodit.data.model.onboarding.ImageSlideModel
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.databinding.ActivityOnBoardingBinding
 import com.kurnivan_ny.foodit.ui.sign.LoginActivity
@@ -24,7 +24,7 @@ class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
 
     private lateinit var adapter: ImageSlideAdapter
-    private val list = ArrayList<ImageSlideData>()
+    private val list = ArrayList<ImageSlideModel>()
     private lateinit var dots: ArrayList<TextView>
 
     private lateinit var handler: Handler
@@ -51,15 +51,15 @@ class OnBoardingActivity : AppCompatActivity() {
         }
 
         list.add(
-            ImageSlideData(R.drawable.karbohidrat, "Memantau Asupan Kadar Karbohidrat")
+            ImageSlideModel(R.drawable.karbohidrat, "Memantau Asupan Kadar Karbohidrat")
         )
 
         list.add(
-            ImageSlideData(R.drawable.lemak, "Memantau Asupan Kadar Protein")
+            ImageSlideModel(R.drawable.lemak, "Memantau Asupan Kadar Protein")
         )
 
         list.add(
-            ImageSlideData(R.drawable.protein, "Memantau Asupan Kadar Lemak")
+            ImageSlideModel(R.drawable.protein, "Memantau Asupan Kadar Lemak")
         )
 
         adapter = ImageSlideAdapter(list)

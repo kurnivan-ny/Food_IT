@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kurnivan_ny.foodit.data.model.manualinput.SearchData
+import com.kurnivan_ny.foodit.data.model.manualinput.SearchModel
 import com.kurnivan_ny.foodit.databinding.ActivitySearchMakananBinding
 import com.kurnivan_ny.foodit.ui.adapter.SearchAdapter
 import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
@@ -22,7 +20,7 @@ class SearchMakananActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
-    private var searchList: List<SearchData> = ArrayList()
+    private var searchList: List<SearchModel> = ArrayList()
     private val searchListAdapter = SearchAdapter(searchList)
 
     private lateinit var db: FirebaseFirestore
@@ -110,7 +108,7 @@ class SearchMakananActivity : AppCompatActivity() {
 //                        }
 //                    }
 
-                    searchList = it.result!!.toObjects(SearchData::class.java)
+                    searchList = it.result!!.toObjects(SearchModel::class.java)
 //                    searchListAdapter.searchList = doc
                     searchListAdapter.searchList = searchList
                     searchListAdapter.notifyDataSetChanged()

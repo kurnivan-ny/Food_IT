@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/kurang">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Karbohidrat"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_berat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="10 gr"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_info"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_berat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp">
+
+        <TextView
+            android:id="@+id/tv_makan_pagi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Makan Pagi"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="16sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="18dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_hasil_makan_pagi"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="18dp" />
+
+        <TextView
+            android:id="@+id/tv_makan_siang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Makan Siang"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="16sp"
+            android:layout_marginTop="150dp"
+            android:layout_marginStart="18dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_hasil_makan_siang"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="175dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp" />
+
+        <TextView
+            android:id="@+id/tv_makan_malam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Makan Malam"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="16sp"
+            android:layout_marginTop="275dp"
+            android:layout_marginStart="18dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_hasil_makan_malam"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="300dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

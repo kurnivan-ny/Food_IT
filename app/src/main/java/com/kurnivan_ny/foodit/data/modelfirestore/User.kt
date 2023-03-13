@@ -19,6 +19,8 @@ class Konsumsi {
     var bulan_makan:String? = null
     var tanggal_makan:String? = null
 
+    var totalenergikal:Float?= null
+
     var total_konsumsi_karbohidrat:Float?= null
     var total_konsumsi_protein:Float?= null
     var total_konsumsi_lemak:Float?= null

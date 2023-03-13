@@ -3,14 +3,12 @@ package com.kurnivan_ny.foodit.ui.main.manualinput
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.*
-import com.kurnivan_ny.foodit.R
-import com.kurnivan_ny.foodit.data.model.manualinput.ListManualData
+import com.kurnivan_ny.foodit.data.model.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityManualInputBinding
 import com.kurnivan_ny.foodit.ui.adapter.ListManualAdapter
 import com.kurnivan_ny.foodit.ui.adapter.OnItemClickListener
@@ -26,7 +24,7 @@ class ManualInputActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var db: FirebaseFirestore
 
-    private var manualList: ArrayList<ListManualData> = arrayListOf()
+    private var manualList: ArrayList<ListManualModel> = arrayListOf()
     private var manualListAdapter: ListManualAdapter = ListManualAdapter(manualList)
 
     private lateinit var viewModel: ManualViewModel
@@ -101,7 +99,6 @@ class ManualInputActivity : AppCompatActivity() {
                 intent.putExtra("nama_makanan", nama_makanan)
                 startActivity(intent)
                 manualListAdapter.notifyDataSetChanged()
-                finishAffinity()
             }
         })
     }
@@ -128,7 +125,7 @@ class ManualInputActivity : AppCompatActivity() {
                         Log.e("Firestore Error", error.message.toString())
                     }
 
-                    val doc = arrayListOf<ListManualData>()
+                    val doc = arrayListOf<ListManualModel>()
 //                    for (dc in value?.documentChanges!!){
 //                        if (dc.type == DocumentChange.Type.ADDED){
 ////                            manualList.add(dc.document.toObject(ListManualModel::class.java))
@@ -144,7 +141,7 @@ class ManualInputActivity : AppCompatActivity() {
 //                    }
                     if (value != null){
                         for(dc in value.documents){
-                            val data = dc.toObject(ListManualData::class.java)
+                            val data = dc.toObject(ListManualModel::class.java)
                             if (data != null) {
                                 doc.add(data)
                             }

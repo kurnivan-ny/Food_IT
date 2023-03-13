@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kurnivan_ny.foodit.R
-import com.kurnivan_ny.foodit.data.model.history.ListHistoryData
+import com.kurnivan_ny.foodit.data.model.history.ListHistoryModel
 import com.kurnivan_ny.foodit.databinding.ListHistoryBinding
 
 interface OnItemClickListener {
     fun onItemClick(position: Int, string: String)
 }
 
-class ListHistoryAdapter(var historyList: ArrayList<ListHistoryData>):
+class ListHistoryAdapter(var historyList: ArrayList<ListHistoryModel>):
     RecyclerView.Adapter<ListHistoryAdapter.ListHistoryViewModel>() {
 
 
@@ -23,7 +23,7 @@ class ListHistoryAdapter(var historyList: ArrayList<ListHistoryData>):
 
     inner class ListHistoryViewModel(private val itemBinding: ListHistoryBinding):
         RecyclerView.ViewHolder(itemBinding.root){
-        fun bind(listHistoryModel: ListHistoryData){
+        fun bind(listHistoryModel: ListHistoryModel){
 
             itemBinding.tvTitle.text = listHistoryModel.tanggal_makan
 
@@ -64,7 +64,7 @@ class ListHistoryAdapter(var historyList: ArrayList<ListHistoryData>):
     }
 
     override fun onBindViewHolder(holder: ListHistoryViewModel, position: Int) {
-        val history: ListHistoryData = historyList[position]
+        val history: ListHistoryModel = historyList[position]
         holder.bind(history)
     }
 

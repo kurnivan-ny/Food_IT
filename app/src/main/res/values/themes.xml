@@ -16,8 +16,8 @@
 
     <style name="MyAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorPrimary">@color/green_apple</item>
-        <item name="colorAccent">@color/slate_gray</item>
-        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="colorAccent">@color/hint</item>
+        <item name="fontFamily">@font/montserrat_semibold</item>
         <item name="android:windowBackground">@drawable/ic_form_white</item>
     </style>
 

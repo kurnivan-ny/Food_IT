@@ -3,15 +3,15 @@ package com.kurnivan_ny.foodit.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kurnivan_ny.foodit.data.model.manualinput.SearchData
+import com.kurnivan_ny.foodit.data.model.manualinput.SearchModel
 import com.kurnivan_ny.foodit.databinding.SearchItemBinding
 
-class SearchAdapter(var searchList: List<SearchData>): RecyclerView.Adapter<SearchAdapter.SearchListViewHolder>() {
+class SearchAdapter(var searchList: List<SearchModel>): RecyclerView.Adapter<SearchAdapter.SearchListViewHolder>() {
 
-    var onItemClick: ((SearchData) -> Unit)? = null
+    var onItemClick: ((SearchModel) -> Unit)? = null
 
     class SearchListViewHolder(private val itemBinding: SearchItemBinding): RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(searchModel: SearchData){
+        fun bind(searchModel: SearchModel){
             itemBinding.singleItemFood.text = searchModel.nama_makanan
         }
     }

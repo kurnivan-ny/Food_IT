@@ -81,4 +81,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
 
     implementation 'jp.wasabeef:recyclerview-animators:4.0.2' // animation recyclerview
+
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0" // pie chart
 }

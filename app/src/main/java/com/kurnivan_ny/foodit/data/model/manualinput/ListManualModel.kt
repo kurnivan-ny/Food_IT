@@ -1,6 +1,6 @@
 package com.kurnivan_ny.foodit.data.model.manualinput
 
-data class ListManualData (
+data class ListManualModel (
     var nama_makanan: String = "",
     var berat_makanan: Int = 0,
     var satuan_makanan: String="",

@@ -1,5 +1,6 @@
 package com.kurnivan_ny.foodit.ui.main.fragment.home
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
@@ -26,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.ui.adapter.ImageHomeAdapter
-import com.kurnivan_ny.foodit.data.model.home.ImageHomeData
+import com.kurnivan_ny.foodit.data.model.home.ImageHomeModel
 import com.kurnivan_ny.foodit.data.modelfirestore.Konsumsi
 import com.kurnivan_ny.foodit.databinding.FragmentHomeBinding
 import com.kurnivan_ny.foodit.ui.main.manualinput.ManualInputActivity
@@ -34,6 +35,7 @@ import com.kurnivan_ny.foodit.viewmodel.HomeViewModel
 import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
 import java.lang.Math.abs
 import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
 
@@ -96,27 +98,27 @@ class HomeFragment : Fragment() {
         }
 
         if (binding.dateEditText.text.toString().equals("")){
-            val docs = arrayListOf<ImageHomeData>()
+            val docs = arrayListOf<ImageHomeModel>()
             docs.add(
-                ImageHomeData("","","",
+                ImageHomeModel("","","",
                 "","",0.0f,0.0f,
-                0.0f)
+                0.0f, 0.0f)
             )
             docs.add(
-                ImageHomeData("","","",
+                ImageHomeModel("","","",
                 "","",0.0f,0.0f,
-                0.0f)
+                0.0f, 0.0f)
             )
             docs.add(
-                ImageHomeData("","","",
+                ImageHomeModel("","","",
                 "","",0.0f,0.0f,
-                0.0f)
+                0.0f, 0.0f)
             )
             viewModel.homedata.value = docs
         }
 
         viewModel.homedata.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
-            binding.vpImage.adapter = ImageHomeAdapter(it, binding.vpImage)
+            binding.vpImage.adapter = ImageHomeAdapter(it)
         })
 
         handler = Handler(Looper.getMainLooper())
@@ -189,7 +191,6 @@ class HomeFragment : Fragment() {
                 searchMakanan()
             }
         }
-
     }
 
     private fun setIndicator() {
@@ -267,6 +268,7 @@ class HomeFragment : Fragment() {
         konsumsi.status_konsumsi_karbohidrat = "Kurang"
         konsumsi.status_konsumsi_protein = "Kurang"
         konsumsi.status_konsumsi_lemak = "Kurang"
+        konsumsi.totalenergikal = sharedPreferences.getValuesFloat("totalenergikal")
 
         return konsumsi
     }
@@ -295,11 +297,14 @@ class HomeFragment : Fragment() {
                     sharedPreferences.setValuesString("status_konsumsi_protein", document.get("status_konsumsi_protein").toString())
                     sharedPreferences.setValuesString("status_konsumsi_lemak", document.get("status_konsumsi_lemak").toString())
 
+                    sharedPreferences.setValuesFloat("totalenergikal", (document.get("totalenergikal")
+                        .toString().replace(",",".")+"F").toFloat())
+
                     // viewModel
-                    val doc = arrayListOf<ImageHomeData>()
-                    doc.add(document.toObject(ImageHomeData::class.java)!!)
-                    doc.add(document.toObject(ImageHomeData::class.java)!!)
-                    doc.add(document.toObject(ImageHomeData::class.java)!!)
+                    val doc = arrayListOf<ImageHomeModel>()
+                    doc.add(document.toObject(ImageHomeModel::class.java)!!)
+                    doc.add(document.toObject(ImageHomeModel::class.java)!!)
+                    doc.add(document.toObject(ImageHomeModel::class.java)!!)
                     viewModel.homedata.value = doc
 
                     // viewModel
@@ -333,16 +338,19 @@ class HomeFragment : Fragment() {
         sharedPreferences.setValuesString("status_konsumsi_protein", data.status_konsumsi_protein.toString())
         sharedPreferences.setValuesString("status_konsumsi_lemak", data.status_konsumsi_lemak.toString())
 
+        sharedPreferences.setValuesFloat("total_konsumsi_lemak", (data.totalenergikal
+            .toString().replace(",",".")+"F").toFloat())
+
 //      viewmodel
 
         db.collection("users").document(sUsername)
             .collection(data.bulan_makan!!).document(data.tanggal_makan!!)
             .get().addOnSuccessListener { document ->
                 // viewModel
-                val doc = arrayListOf<ImageHomeData>()
-                doc.add(document.toObject(ImageHomeData::class.java)!!)
-                doc.add(document.toObject(ImageHomeData::class.java)!!)
-                doc.add(document.toObject(ImageHomeData::class.java)!!)
+                val doc = arrayListOf<ImageHomeModel>()
+                doc.add(document.toObject(ImageHomeModel::class.java)!!)
+                doc.add(document.toObject(ImageHomeModel::class.java)!!)
+                doc.add(document.toObject(ImageHomeModel::class.java)!!)
                 viewModel.homedata.value = doc
             }
 
@@ -367,6 +375,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun karbohidrat(totalenergikal: Float) {
+
         // karbohidrat = energi/4 gram
         val batas_bawah_karbohidrat = totalenergikal/4 *0.55
         val batas_atas_karbohidrat = totalenergikal/4 *0.75
@@ -383,26 +392,22 @@ class HomeFragment : Fragment() {
             } else if (it > batas_atas_karbohidrat) {
                 status_konsumsi_karbohidrat = "Lebih"
                 updateKarbohidrattoFirestore(status_konsumsi_karbohidrat)
-//                alertLebihKarbohidrat()
+                alertLebihKarbohidrat()
             }
         })
     }
 
-//    private fun alertLebihKarbohidrat() {
-//        val view = View.inflate(requireContext(), R.layout.over_dialog, null)
-//        val tv_title = view.findViewById<TextView>(R.id.tv_title)
-//        val img_over = view.findViewById<ImageView>(R.id.iv_over)
-//        val tv_message = view.findViewById<TextView>(R.id.tv_message)
-//
-//        tv_title.setText("Anda Kelebihan Karbohidrat")
-//        img_over.setImageResource(R.drawable.pantau_kolesterol)
-//        tv_message.setText("Penyakit yang mungkin")
-//
-//        AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
-//            .setView(view)
-//            .show()
-//
-//    }
+    private fun alertLebihKarbohidrat() {
+        val view = View.inflate(requireContext(), R.layout.alert_over_dialog, null)
+        val tv_desc = view.findViewById<TextView>(R.id.tv_desc)
+
+        tv_desc.setText("Konsumsi gizi karbohidrat\ntelah melebihi batas!")
+
+        AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+            .setView(view)
+            .show()
+
+    }
 
     private fun updateKarbohidrattoFirestore(status_konsumsi_karbohidrat: String) {
         db.collection("users").document(sUsername)
@@ -417,8 +422,8 @@ class HomeFragment : Fragment() {
 
 
     private fun protein(totalenergikal: Float) {
-        // protein = energi/4 gram
 
+        // protein = energi/4 gram
         val batas_bawah_protein = totalenergikal/4 *0.07
         val batas_atas_protein = totalenergikal/4 *0.2
 
@@ -434,9 +439,20 @@ class HomeFragment : Fragment() {
             } else if (it > batas_atas_protein) {
                 status_konsumsi_protein = "Lebih"
                 updateProteintoFirestore(status_konsumsi_protein)
-//                alertLebihProtein()
+                alertLebihProtein()
             }
         })
+    }
+
+    private fun alertLebihProtein() {
+        val view = View.inflate(requireContext(), R.layout.alert_over_dialog, null)
+        val tv_desc = view.findViewById<TextView>(R.id.tv_desc)
+
+        tv_desc.setText("Konsumsi gizi protein\ntelah melebihi batas!")
+
+        AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+            .setView(view)
+            .show()
     }
 
     private fun updateProteintoFirestore(status_konsumsi_protein: String) {
@@ -451,8 +467,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun lemak(totalenergikal: Float) {
-        // lemak = energi/9 gram
 
+        // lemak = energi/9 gram
         val batas_bawah_lemak = totalenergikal/9 *0.15
         val batas_atas_lemak = totalenergikal/9 *0.25
 
@@ -468,9 +484,20 @@ class HomeFragment : Fragment() {
             } else if (it > batas_atas_lemak) {
                 status_konsumsi_lemak = "Lebih"
                 updateLemaktoFirestore(status_konsumsi_lemak)
-//                alertLebihLemak()
+                alertLebihLemak()
             }
         })
+    }
+
+    private fun alertLebihLemak() {
+        val view = View.inflate(requireContext(), R.layout.alert_over_dialog, null)
+        val tv_desc = view.findViewById<TextView>(R.id.tv_desc)
+
+        tv_desc.setText("Konsumsi gizi lemak\ntelah melebihi batas!")
+
+        AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+            .setView(view)
+            .show()
     }
 
     private fun updateLemaktoFirestore(status_konsumsi_lemak: String) {

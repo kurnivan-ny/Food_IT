@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kurnivan_ny.foodit.data.model.manualinput.ListManualData
+import com.kurnivan_ny.foodit.data.model.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ListItemManualBinding
 
-class ListManualAdapter(var manualList: ArrayList<ListManualData>):
+class ListManualAdapter(var manualList: ArrayList<ListManualModel>):
     RecyclerView.Adapter<ListManualAdapter.ListManualViewHolder>() {
 
     var username: String = ""
@@ -22,7 +22,7 @@ class ListManualAdapter(var manualList: ArrayList<ListManualData>):
 
     inner class ListManualViewHolder(private val itemBinding: ListItemManualBinding):
         RecyclerView.ViewHolder(itemBinding.root){
-        fun bind(listManualModel: ListManualData, position: Int){
+        fun bind(listManualModel: ListManualModel, position: Int){
 
             itemBinding.tvTitle.text = listManualModel.nama_makanan
             itemBinding.tvDescription.text = listManualModel.berat_makanan.toString()+ " " + listManualModel.satuan_makanan
@@ -53,7 +53,7 @@ class ListManualAdapter(var manualList: ArrayList<ListManualData>):
     }
 
     override fun onBindViewHolder(holder: ListManualViewHolder, position: Int) {
-        val makanan:ListManualData = manualList[position]
+        val makanan:ListManualModel = manualList[position]
         holder.bind(makanan, position)
     }
 
@@ -68,7 +68,7 @@ class ListManualAdapter(var manualList: ArrayList<ListManualData>):
         notifyDataSetChanged()
     }
 
-    fun deleteFirestore(listManualModel: ListManualData) {
+    fun deleteFirestore(listManualModel: ListManualModel) {
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 

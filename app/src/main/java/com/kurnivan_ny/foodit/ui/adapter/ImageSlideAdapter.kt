@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kurnivan_ny.foodit.data.model.onboarding.ImageSlideData
+import com.kurnivan_ny.foodit.data.model.onboarding.ImageSlideModel
 import com.kurnivan_ny.foodit.databinding.ImageSlideOnboardingBinding
 
-class ImageSlideAdapter(private val items: List<ImageSlideData>): RecyclerView.Adapter<ImageSlideAdapter.ImageViewHolder>() {
+class ImageSlideAdapter(private val items: List<ImageSlideModel>): RecyclerView.Adapter<ImageSlideAdapter.ImageViewHolder>() {
     inner class ImageViewHolder(itemView: ImageSlideOnboardingBinding) :
         RecyclerView.ViewHolder(itemView.root) {
         private val binding = itemView
-        fun bind(data: ImageSlideData) {
+        fun bind(data: ImageSlideModel) {
             with(binding){
                 Glide.with(itemView)
                     .load(data.image)
