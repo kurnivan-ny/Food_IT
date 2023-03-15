@@ -68,7 +68,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kekurangan\nKarbohidrat:")
+                            tv_penyakit.setText("Penyakit akibat kekurangan Karbohidrat:")
                             list_penyakit.setText("1. Hiploglikemia\n2. Gangguan pencernaan\n3. Kelelahan dan lemas")
                         } else if (data.status_konsumsi_karbohidrat.equals("Normal")) {
                             background.setBackgroundColor(
@@ -106,7 +106,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kelebihan\nKarbohidrat:")
+                            tv_penyakit.setText("Penyakit akibat kelebihan Karbohidrat:")
                             list_penyakit.setText("1. Diabetes melitus tipe 2\n2. Obesitas\n3. Penyakit jantung")
                         }
 
@@ -142,7 +142,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kekurangan\nProtein:")
+                            tv_penyakit.setText("Penyakit akibat kekurangan Protein:")
                             list_penyakit.setText("1. Kwashiorkor\n2. Kerontokan rambut\n3. Infeksi")
                         } else if (data.status_konsumsi_protein.equals("Normal")) {
                             background.setBackgroundColor(
@@ -180,7 +180,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kelebihan\nProtein:")
+                            tv_penyakit.setText("Penyakit akibat kelebihan Protein:")
                             list_penyakit.setText("1. Gangguan fungsi ginjal\n2. Osteoporosis\n3. Penyakit hati")
                         }
                         AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)
@@ -215,7 +215,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kekurangan\nLemak:")
+                            tv_penyakit.setText("Penyakit akibat kekurangan Lemak:")
                             list_penyakit.setText("1. Gangguan sistem saraf\n2. Gangguan kulit\n3. Masalah reproduksi")
                         } else if (data.status_konsumsi_lemak.equals("Normal")) {
                             background.setBackgroundColor(
@@ -253,7 +253,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kelebihan\nLemak:")
+                            tv_penyakit.setText("Penyakit akibat kelebihan Lemak:")
                             list_penyakit.setText("1. Obesitas\n2. Penyakit Jantung\n3. Kanker")
                         }
 

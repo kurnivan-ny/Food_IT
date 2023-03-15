@@ -10,11 +10,16 @@
         android:name="com.kurnivan_ny.foodit.ui.main.fragment.home.HomeFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.kurnivan_ny.foodit.ui.main.fragment.history.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_detailHistoryFragment"
+            app:destination="@id/detailHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.kurnivan_ny.foodit.ui.main.fragment.profile.ProfileFragment"
@@ -44,6 +49,15 @@
         <action
             android:id="@+id/action_pengAkunFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailHistoryFragment"
+        android:name="com.kurnivan_ny.foodit.ui.main.fragment.history.DetailHistoryFragment"
+        android:label="fragment_detail_history"
+        tools:layout="@layout/fragment_detail_history" >
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
 
 </navigation>

@@ -36,7 +36,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_info"
-        android:layout_width="260dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="fill"
         android:layout_marginHorizontal="32dp"
