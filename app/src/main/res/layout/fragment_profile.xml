@@ -7,15 +7,19 @@
     tools:context=".ui.main.fragment.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ic_top_bar">
 
         <TextView
             android:id="@+id/header_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="90px"
             android:text="PROFIL"
             android:fontFamily="@font/montserrat_semibold"
             android:textSize="22sp"
@@ -31,7 +35,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="100dp">
 
         <ImageView
             android:id="@+id/iv_profile"

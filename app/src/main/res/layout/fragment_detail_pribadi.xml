@@ -8,15 +8,19 @@
     tools:context=".ui.main.fragment.profile.DetailPribadiFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ic_top_bar">
 
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="80px"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="80px"
             android:fontFamily="@font/montserrat_semibold"
             android:text="DETAIL PRIBADI"
             android:textColor="@color/dark_cyan"
@@ -41,7 +45,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="100dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scrollable"
@@ -150,7 +154,7 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:hint="Masukan Jenis Kelamin"
-                    android:textColorHint="@color/slate_gray"
+                    android:textColorHint="@color/hint"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
 

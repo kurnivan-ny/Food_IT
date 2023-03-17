@@ -2,9 +2,11 @@ package com.kurnivan_ny.foodit.ui.main
 
 import android.content.Context
 import android.graphics.Rect
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.navigation.findNavController
