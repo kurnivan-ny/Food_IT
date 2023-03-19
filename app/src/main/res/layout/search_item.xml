@@ -18,7 +18,7 @@
             android:layout_marginBottom="8dp"
             android:text="Nama Makanan"
             android:textSize="16dp"
-            android:fontFamily="@font/montserrat_semibold"
+            android:fontFamily="@font/nunito_bold"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

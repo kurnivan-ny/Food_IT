@@ -3,24 +3,29 @@ package com.kurnivan_ny.foodit.ui.main.fragment.profile
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.FragmentDetailPribadiBinding
+import com.kurnivan_ny.foodit.ui.main.odinput.InputODActivity
 import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
 import java.nio.FloatBuffer
 import java.util.*
@@ -43,9 +48,9 @@ class DetailPribadiFragment : Fragment() {
     private lateinit var sTinggi:String
     private lateinit var sBerat:String
 
-    val imagefile = UUID.randomUUID().toString()
+    private val imagefile = UUID.randomUUID().toString()
 
-    lateinit var filePath: Uri
+    private lateinit var filePath: Uri
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,9 +70,7 @@ class DetailPribadiFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         sharedPreferences = SharedPreferences(requireContext())
-
         storage = FirebaseStorage.getInstance()
-
         db = FirebaseFirestore.getInstance()
 
         setUpFrom()
@@ -79,25 +82,28 @@ class DetailPribadiFragment : Fragment() {
 
     private fun edtFotoProfile() {
         binding.ivProfile.setOnClickListener {
-//            ImagePicker.with(this)
-//                .cameraOnly()
-//                .start()
             startGallery()
         }
     }
 
     private fun startGallery() {
-        val intent = Intent()
-        intent.action = Intent.ACTION_PICK
-        intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Pilih Gambar")
-        launcherIntentGallery.launch(chooser)
+//        val intent = Intent()
+//        intent.action = Intent.ACTION_PICK
+//        intent.type = "image/*"
+//        val chooser = Intent.createChooser(intent, "Pilih Gambar")
+//        launcherIntentGallery.launch(chooser)
+        ImagePicker.with(this)
+            .crop()
+            .createIntent {  intent ->
+                ImageResult.launch(intent)
+            }
     }
 
-    private val launcherIntentGallery = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ){ result ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK){
+    private val ImageResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result->
+
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            //Image Uri will not be null for RESULT_OK
             val selectedImg: Uri = result.data?.data as Uri
             filePath = selectedImg
 
@@ -106,6 +112,10 @@ class DetailPribadiFragment : Fragment() {
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.ivProfile)
 
+        } else if (result.resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(activity, ImagePicker.getError(result.data), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(activity, "Gagal", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -149,13 +159,36 @@ class DetailPribadiFragment : Fragment() {
 
 
     private fun addImagetoCloudStorage(filePath: Uri, imagefile:String, sUsername: String) {
+        val progressDialog = ProgressDialog(activity)
+        progressDialog.show()
         storage.reference.child("image_profile/$imagefile")
             .putFile(filePath)
+            .addOnSuccessListener { taskSnapshot ->
+                progressDialog.dismiss()
+
+                val loading = ProgressDialog(activity)
+                loading.setMessage("Menunggu...")
+                loading.show()
+                val handler = Handler()
+                handler.postDelayed(object: Runnable{
+                    override fun run() {
+                        loading.dismiss()
+                    }
+                }, 15000)
+
+                Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
+            }.addOnFailureListener { e ->
+                progressDialog.dismiss()
+                Toast.makeText(activity, "Gagal" + e.message, Toast.LENGTH_SHORT).show()
+            }.addOnProgressListener {taskSnapshot ->
+                val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")
+            }
 
         db.collection("users").document(sUsername)
             .get().addOnSuccessListener {
                 val urls = it.get("url").toString()
-                if (urls.equals("default.png")){
+                if (urls.equals("default.png")) {
                     db.collection("users").document(sUsername)
                         .update(
                             "url", imagefile,
@@ -169,64 +202,8 @@ class DetailPribadiFragment : Fragment() {
                         )
                 }
             }
-
-//        db.collection("users").document(sUsername!!)
-//            .update(
-//                "url", imagefile,
-//            )
-
         sharedPreferences.setValuesString("url", imagefile)
     }
-//                .addOnSuccessListener {
-//                    Toast.makeText(activity, "Uploaded", Toast.LENGTH_LONG).show()
-//                }
-//                .addOnFailureListener { e ->
-//                    Toast.makeText(activity, "Failed" + e.message, Toast.LENGTH_LONG).show()
-//                }
-
-
-//    private fun uploadImage() {
-//        if (filePath != null){
-//            val ref = storageReference.child("image_profile/" + imagefile)
-//            ref.putFile(filePath)
-//                .addOnSuccessListener {
-//                    Toast.makeText(activity, "Uploaded", Toast.LENGTH_LONG).show()
-//                }
-//                .addOnFailureListener { e ->
-//                    Toast.makeText(activity, "Failed" + e.message, Toast.LENGTH_LONG).show()
-//                }
-////                .addOnProgressListener { taskSnapshot ->
-////                    val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
-////
-////                }
-//        }
-//    }
-
-//    private fun saveUrl(user: User) {
-//        if (filePath != null){
-//            val progressDialog = ProgressDialog(activity)
-//            progressDialog.setTitle("Uploading...")
-//            progressDialog.show()
-//
-//            val ref = storageReference.child("images_profile/" + UUID.randomUUID().toString())
-//            ref.putFile(filePath)
-//                .addOnSuccessListener {
-//                    progressDialog.dismiss()
-//                    Toast.makeText(activity,"Uploaded", Toast.LENGTH_LONG).show()
-//                    ref.downloadUrl.addOnSuccessListener {
-//                        saveToFirebase(it.toString(), user)
-//                    }
-//                }
-//                .addOnFailureListener { e ->
-//                    progressDialog.dismiss()
-//                    Toast.makeText(activity, "Failed " + e.message, Toast.LENGTH_SHORT).show()
-//                }
-//                .addOnProgressListener { taskSnapshot ->
-//                    val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
-//                    progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-//                }
-//        }
-//    }
 
     private fun setUpFrom() {
         val jeniskelamin = resources.getStringArray(R.array.jenis_kelamin)

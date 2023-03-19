@@ -1,5 +1,7 @@
 package com.kurnivan_ny.foodit.ui.main.fragment.history
 
+import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import com.kurnivan_ny.foodit.viewmodel.HistoryViewModel
 import com.kurnivan_ny.foodit.ui.adapter.ListHistoryAdapter
 import com.kurnivan_ny.foodit.data.model.history.ListHistoryModel
@@ -20,6 +23,8 @@ import com.kurnivan_ny.foodit.databinding.FragmentHistoryBinding
 import com.kurnivan_ny.foodit.ui.adapter.OnItemClickListener
 import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HistoryFragment : Fragment() {
 
@@ -28,6 +33,8 @@ class HistoryFragment : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var db: FirebaseFirestore
+
+    private lateinit var calendar: Calendar
 
     private var historyList: ArrayList<ListHistoryModel> = arrayListOf()
     private var historyListAdapter: ListHistoryAdapter = ListHistoryAdapter(historyList)
@@ -55,11 +62,8 @@ class HistoryFragment : Fragment() {
         sharedPreferences = SharedPreferences(requireContext())
         db = FirebaseFirestore.getInstance()
 
+        calendar = Calendar.getInstance()
         viewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
-
-        val bulan = resources.getStringArray(R.array.bulan)
-        val arrayAdapterBulan = ArrayAdapter(requireContext(), R.layout.dropdown_item, bulan)
-        binding.edtBulan.setAdapter(arrayAdapterBulan)
 
         binding.rvHistory.setHasFixedSize(true)
         binding.rvHistory.layoutManager = LinearLayoutManager(requireContext())
@@ -73,28 +77,30 @@ class HistoryFragment : Fragment() {
 
         binding.rvHistory.itemAnimator = SlideInUpAnimator()
 
-        binding.edtBulan.setOnItemClickListener { parent, _, position, _ ->
-            val selectedItem = parent.getItemAtPosition(position) as String
+        binding.edtBulan.isFocusable = false
+        binding.edtBulan.setOnClickListener{
+            val months = resources.getStringArray(R.array.bulan)
+            val builder = AlertDialog.Builder(activity)
+            builder.setTitle("Pilih Bulan")
+            builder.setItems(months) { dialog, position ->
+                val selectedMonth = months[position]
 
-            getHistory(selectedItem)
+                binding.edtBulan.setText(selectedMonth)
+                getHistory(selectedMonth)
+                dialog.dismiss()
 
-            historyListAdapter.setOnItemClickListener(object : OnItemClickListener {
-                override fun onItemClick(position: Int, tanggal_makan: String) {
-//                    val intent = Intent(activity, DetailHistoryActivity::class.java)
-//                    intent.putExtra("tanggal_makan", tanggal_makan)
-//                    intent.putExtra("bulan_makan", selectedItem)
-//                    startActivity(intent)
-//                    val bundle = Bundle()
-//                    bundle.putString("tanggal_makan", tanggal_makan)
-//                    bundle.putString("bulan_makan", selectedItem)
+                historyListAdapter.setOnItemClickListener(object : OnItemClickListener {
+                    override fun onItemClick(position: Int, tanggal_makan: String) {
+                        sharedPreferences.setValuesString("tanggal_makan_sekarang", tanggal_makan)
+                        sharedPreferences.setValuesString("bulan_makan_sekarang", selectedMonth)
 
-                    sharedPreferences.setValuesString("tanggal_makan_sekarang", tanggal_makan)
-                    sharedPreferences.setValuesString("bulan_makan_sekarang", selectedItem)
-                    val toDetailHistoryFragment = HistoryFragmentDirections.actionHistoryFragmentToDetailHistoryFragment()
-                    binding.root.findNavController().navigate(toDetailHistoryFragment)
-                    historyListAdapter.notifyDataSetChanged()
-                }
-            })
+                        val toDetailHistoryFragment = HistoryFragmentDirections.actionHistoryFragmentToDetailHistoryFragment()
+                        binding.root.findNavController().navigate(toDetailHistoryFragment)
+                        historyListAdapter.notifyDataSetChanged()
+                    }
+                })
+            }
+            builder.show()
         }
     }
 

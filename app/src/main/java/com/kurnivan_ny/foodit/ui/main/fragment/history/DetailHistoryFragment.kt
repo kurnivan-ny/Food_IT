@@ -1,9 +1,12 @@
 package com.kurnivan_ny.foodit.ui.main.fragment.history
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,6 +32,7 @@ import com.kurnivan_ny.foodit.databinding.FragmentDetailHistoryBinding
 import com.kurnivan_ny.foodit.ui.adapter.ListDetailKarbohidratHistoryAdapter
 import com.kurnivan_ny.foodit.ui.adapter.ListDetailLemakHistoryAdapter
 import com.kurnivan_ny.foodit.ui.adapter.ListDetailProteinHistoryAdapter
+import com.kurnivan_ny.foodit.ui.main.odinput.InputODActivity
 import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
@@ -90,15 +94,20 @@ class DetailHistoryFragment : Fragment() {
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan =  sharedPreferences.getValuesString("tanggal_makan_sekarang")
         val bulan_makan =  sharedPreferences.getValuesString("bulan_makan_sekarang")
-//        val tanggal_makan = intent.getStringExtra("tanggal_makan").toString()
-//        val bulan_makan = intent.getStringExtra("bulan_makan").toString()
 
         binding.tvTitle.setText(tanggal_makan)
 
+        val loading = ProgressDialog(activity)
+        loading.setMessage("Menunggu...")
+        loading.show()
+        val handler = Handler()
+        handler.postDelayed(object: Runnable{
+            override fun run() {
+                loading.dismiss()
+            }
+        }, 10000)
+
         binding.ivBack.setOnClickListener {
-//            val intent = Intent(this@DetailHistoryActivity, HomeActivity::class.java)
-//            startActivity(intent)
-//            finishAffinity()
 
             val toHistoryFragment = DetailHistoryFragmentDirections.actionDetailHistoryFragmentToHistoryFragment()
             binding.root.findNavController().navigate(toHistoryFragment)
@@ -111,9 +120,6 @@ class DetailHistoryFragment : Fragment() {
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .delete()
 
-//            val intent = Intent(this@DetailHistoryActivity, HomeActivity::class.java)
-//            startActivity(intent)
-//            finishAffinity()
             val toHistoryFragment = DetailHistoryFragmentDirections.actionDetailHistoryFragmentToHistoryFragment()
             binding.root.findNavController().navigate(toHistoryFragment)
         }
@@ -219,7 +225,9 @@ class DetailHistoryFragment : Fragment() {
                     }
             }
 
-        binding.cvKarbohidrat.setOnClickListener {
+        // alert karbohidrat
+
+        binding.tvKarbohidrat.setOnClickListener {
             val view = View.inflate(requireContext(), R.layout.alert_history_dialog, null)
             val background = view.findViewById<ConstraintLayout>(R.id.cl_background)
             val tv_title = view.findViewById<TextView>(R.id.tv_title)
@@ -358,6 +366,144 @@ class DetailHistoryFragment : Fragment() {
 
         }
 
+        binding.cvKarbohidrat.setOnClickListener {
+            val view = View.inflate(requireContext(), R.layout.alert_history_dialog, null)
+            val background = view.findViewById<ConstraintLayout>(R.id.cl_background)
+            val tv_title = view.findViewById<TextView>(R.id.tv_title)
+            val tv_dikonsumsi = view.findViewById<TextView>(R.id.tv_berat)
+            val rv_makan_pagi = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_pagi)
+            val rv_makan_siang = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_siang)
+            val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
+
+            tv_title.setText("Karbohidrat")
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .get().addOnSuccessListener {
+                    if (it != null){
+                        val karbohidrat_dikonsumsi = (it.get("total_konsumsi_karbohidrat").toString() + "F").toFloat()
+                        tv_dikonsumsi.setText("${String.format("%.2f", karbohidrat_dikonsumsi)} gr")
+
+                        val status_karbohidrat = it.get("status_konsumsi_karbohidrat").toString()
+                        if (status_karbohidrat.equals("Kurang")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.kurang))
+                        } else if (status_karbohidrat.equals("Normal")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.normal))
+                        } else if (status_karbohidrat.equals("Lebih")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.lebih))
+                        }
+                    } else {
+                        tv_dikonsumsi.setText("0,00 gr")
+                        background.setBackgroundColor(ContextCompat
+                            .getColor(requireContext(), R.color.white))
+                    }
+                }
+
+            // makan pagi
+            rv_makan_pagi.setHasFixedSize(true)
+            rv_makan_pagi.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_pagi.adapter = detailhistorykarbohidratpagiListAdapter
+            rv_makan_pagi.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan pagi")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+
+                        detailhistorykarbohidratpagiListAdapter.detailhistoryList = doc
+                        detailhistorykarbohidratpagiListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            // makan siang
+            rv_makan_siang.setHasFixedSize(true)
+            rv_makan_siang.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_siang.adapter = detailhistorykarbohidratsiangListAdapter
+            rv_makan_siang.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan siang")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+                        detailhistorykarbohidratsiangListAdapter.detailhistoryList = doc
+                        detailhistorykarbohidratsiangListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            // makan malam
+            rv_makan_malam.setHasFixedSize(true)
+            rv_makan_malam.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_malam.adapter = detailhistorykarbohidratmalamListAdapter
+            rv_makan_malam.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan malam")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+                        detailhistorykarbohidratmalamListAdapter.detailhistoryList = doc
+                        detailhistorykarbohidratmalamListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+                .setView(view)
+                .show()
+        }
+
         // pie chart protein
         pieChartProtein = binding.pieProtein
 
@@ -460,6 +606,145 @@ class DetailHistoryFragment : Fragment() {
             }
 
         //  alert protein
+        binding.tvProtein.setOnClickListener {
+            val view = View.inflate(requireContext(), R.layout.alert_history_dialog, null)
+            val background = view.findViewById<ConstraintLayout>(R.id.cl_background)
+            val tv_title = view.findViewById<TextView>(R.id.tv_title)
+            val tv_dikonsumsi = view.findViewById<TextView>(R.id.tv_berat)
+            val rv_makan_pagi = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_pagi)
+            val rv_makan_siang = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_siang)
+            val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
+
+            tv_title.setText("Protein")
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .get().addOnSuccessListener {
+                    if (it != null){
+                        val protein_dikonsumsi = (it.get("total_konsumsi_protein").toString() + "F").toFloat()
+                        tv_dikonsumsi.setText("${String.format("%.2f", protein_dikonsumsi)} gr")
+
+                        val status_protein = it.get("status_konsumsi_protein").toString()
+                        if (status_protein.equals("Kurang")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.kurang))
+                        } else if (status_protein.equals("Normal")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.normal))
+                        } else if (status_protein.equals("Lebih")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.lebih))
+                        }
+                    } else {
+                        tv_dikonsumsi.setText("0,00 gr")
+                        background.setBackgroundColor(ContextCompat
+                            .getColor(requireContext(), R.color.white))
+                    }
+                }
+
+            // makan pagi
+            rv_makan_pagi.setHasFixedSize(true)
+            rv_makan_pagi.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_pagi.adapter = detailhistoryproteinpagiListAdapter
+            rv_makan_pagi.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan pagi")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+
+                        detailhistoryproteinpagiListAdapter.detailhistoryList = doc
+                        detailhistoryproteinpagiListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            // makan siang
+            rv_makan_siang.setHasFixedSize(true)
+            rv_makan_siang.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_siang.adapter = detailhistoryproteinsiangListAdapter
+            rv_makan_siang.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan siang")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+                        detailhistoryproteinsiangListAdapter.detailhistoryList = doc
+                        detailhistoryproteinsiangListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            // makan malam
+            rv_makan_malam.setHasFixedSize(true)
+            rv_makan_malam.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_malam.adapter = detailhistoryproteinmalamListAdapter
+            rv_makan_malam.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan malam")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+                        detailhistoryproteinmalamListAdapter.detailhistoryList = doc
+                        detailhistoryproteinmalamListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+                .setView(view)
+                .show()
+
+        }
+
         binding.cvProtein.setOnClickListener {
             val view = View.inflate(requireContext(), R.layout.alert_history_dialog, null)
             val background = view.findViewById<ConstraintLayout>(R.id.cl_background)
@@ -700,8 +985,8 @@ class DetailHistoryFragment : Fragment() {
                     }
             }
 
-        //  alert protein
-        binding.cvLemak.setOnClickListener {
+        //  alert lemak
+        binding.tvLemak.setOnClickListener {
             val view = View.inflate(requireContext(), R.layout.alert_history_dialog, null)
             val background = view.findViewById<ConstraintLayout>(R.id.cl_background)
             val tv_title = view.findViewById<TextView>(R.id.tv_title)
@@ -838,6 +1123,145 @@ class DetailHistoryFragment : Fragment() {
                 .setView(view)
                 .show()
 
+        }
+
+
+        binding.cvLemak.setOnClickListener {
+            val view = View.inflate(requireContext(), R.layout.alert_history_dialog, null)
+            val background = view.findViewById<ConstraintLayout>(R.id.cl_background)
+            val tv_title = view.findViewById<TextView>(R.id.tv_title)
+            val tv_dikonsumsi = view.findViewById<TextView>(R.id.tv_berat)
+            val rv_makan_pagi = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_pagi)
+            val rv_makan_siang = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_siang)
+            val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
+
+            tv_title.setText("Lemak")
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .get().addOnSuccessListener {
+                    if (it != null){
+                        val lemak_dikonsumsi = (it.get("total_konsumsi_lemak").toString() + "F").toFloat()
+                        tv_dikonsumsi.setText("${String.format("%.2f", lemak_dikonsumsi)} gr")
+
+                        val status_lemak = it.get("status_konsumsi_lemak").toString()
+                        if (status_lemak.equals("Kurang")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.kurang))
+                        } else if (status_lemak.equals("Normal")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.normal))
+                        } else if (status_lemak.equals("Lebih")){
+                            background.setBackgroundColor(ContextCompat
+                                .getColor(requireContext(), R.color.lebih))
+                        }
+                    } else {
+                        tv_dikonsumsi.setText("0,00 gr")
+                        background.setBackgroundColor(ContextCompat
+                            .getColor(requireContext(), R.color.white))
+                    }
+                }
+
+            // makan pagi
+            rv_makan_pagi.setHasFixedSize(true)
+            rv_makan_pagi.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_pagi.adapter = detailhistorylemakpagiListAdapter
+            rv_makan_pagi.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan pagi")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+
+                        detailhistorylemakpagiListAdapter.detailhistoryList = doc
+                        detailhistorylemakpagiListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            // makan siang
+            rv_makan_siang.setHasFixedSize(true)
+            rv_makan_siang.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_siang.adapter = detailhistorylemaksiangListAdapter
+            rv_makan_siang.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan siang")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+                        detailhistorylemaksiangListAdapter.detailhistoryList = doc
+                        detailhistorylemaksiangListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            // makan malam
+            rv_makan_malam.setHasFixedSize(true)
+            rv_makan_malam.layoutManager = LinearLayoutManager(requireContext())
+            rv_makan_malam.adapter = detailhistorylemakmalamListAdapter
+            rv_makan_malam.itemAnimator = SlideInUpAnimator()
+
+            db.collection("users").document(username!!)
+                .collection(bulan_makan!!).document(tanggal_makan!!)
+                .collection("makan malam")
+                .orderBy("nama_makanan", Query.Direction.ASCENDING)
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?
+                    ) {
+                        if (error != null){
+                            Log.e("Firestore Error", error.message.toString())
+                        }
+                        val doc = arrayListOf<ListDetailHistoryModel>()
+                        if(value != null){
+                            for (dc in value.documents){
+                                val data = dc.toObject(ListDetailHistoryModel::class.java)
+                                if (data != null){
+                                    doc.add(data)
+                                }
+                            }
+                        }
+                        detailhistorylemakmalamListAdapter.detailhistoryList = doc
+                        detailhistorylemakmalamListAdapter.notifyDataSetChanged()
+                    }
+                })
+
+            AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+                .setView(view)
+                .show()
         }
 
     }

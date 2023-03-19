@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/error_image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:contentDescription="@string/error_400"
-        android:src="@drawable/ic_profile_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_home_dialog"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,9 +20,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:fontFamily="@font/nunito_bold"
-        android:text="Apakah Anda yakin ingin keluar?"
+        android:text="Anda akan mencatat makanan Anda,\napakah Anda ingin mengisinya\nsecara otomatis dengan\nmemindai makanan Anda?"
+        android:gravity="center_horizontal"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:layout_marginHorizontal="4dp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/error_image"/>
 

@@ -19,7 +19,7 @@
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80px"
+            android:layout_marginTop="39dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_arrow_left"
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="80px"
-            android:fontFamily="@font/montserrat_semibold"
+            android:layout_marginTop="42dp"
+            android:fontFamily="@font/nunito_extrabold"
             android:text="22 April 2023"
             android:textColor="@color/dark_cyan"
             android:textSize="22sp"
@@ -45,7 +45,7 @@
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80px"
+            android:layout_marginTop="38dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +127,6 @@
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/keterangan"
@@ -136,8 +135,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_karbohidrat"
-                    android:layout_width="225dp"
-                    android:layout_height="225dp"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_gravity="center"/>
@@ -151,7 +150,7 @@
                     android:gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat_semibold"
+                    android:fontFamily="@font/nunito_bold"
                     android:textSize="16sp"
                     />
 
@@ -165,7 +164,6 @@
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="22dp"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_karbohidrat"
@@ -174,8 +172,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_protein"
-                    android:layout_width="225dp"
-                    android:layout_height="225dp"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_gravity="center"/>
@@ -189,7 +187,7 @@
                     android:gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat_semibold"
+                    android:fontFamily="@font/nunito_bold"
                     android:textSize="16sp"/>
 
             </com.google.android.material.card.MaterialCardView>
@@ -203,7 +201,6 @@
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_protein"
@@ -213,8 +210,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_lemak"
-                    android:layout_width="225dp"
-                    android:layout_height="225dp"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_gravity="center"/>
@@ -228,7 +225,7 @@
                     android:gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat_semibold"
+                    android:fontFamily="@font/nunito_bold"
                     android:textSize="16sp"/>
 
             </com.google.android.material.card.MaterialCardView>

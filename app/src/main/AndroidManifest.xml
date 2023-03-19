@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kurnivan_ny.foodit">
 
+<!--PERMISSION USED-->
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,10 +21,10 @@
         android:theme="@style/AppTheme.MaterialComponents.noActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".ui.main.DetailHistoryActivity"
+            android:name=".ui.main.odinput.EditODActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.main.odinput.InputODActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.manualinput.EditDetailMakananActivity"

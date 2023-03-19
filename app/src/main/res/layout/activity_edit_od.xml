@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.manualinput.ManualInputActivity">
+    tools:context=".ui.main.odinput.EditODActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_bar"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
             android:layout_marginStart="16dp"
-            android:text="Makan Pagi"
+            android:text="Makanan"
             android:fontFamily="@font/nunito_extrabold"
             android:textSize="32sp"
             android:textColor="@color/white"
@@ -77,7 +77,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_makanan"
             android:layout_width="match_parent"
-            android:layout_height="420dp"
+            android:layout_height="470dp"
             android:layout_gravity="fill"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="60dp"
@@ -89,7 +89,7 @@
                 android:id="@+id/tv_listmakanan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hasil"
+                android:text="Hasil Pemindaian"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito_bold"
@@ -111,47 +111,12 @@
             android:id="@+id/info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="495dp"
+            android:layout_marginTop="530dp"
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cv_makanan">
-
-            <TextView
-                android:id="@+id/tv_info_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_regular"
-                android:gravity="start|center"
-                android:text="Apakah Anda ingin mengisi\nsecara otomatis?"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                android:drawableStart="@drawable/ic_tanda_tanya"
-                android:drawablePadding="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_camera"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:scaleType="fitCenter"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_info_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_regular"
-                android:text="Jika tidak, mohon list makanan\ndi atas secara manual."
-                android:textColor="@color/black"
-                android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info_title"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_kirim"
@@ -168,7 +133,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_info_desc"/>
+                app:layout_constraintTop_toTopOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

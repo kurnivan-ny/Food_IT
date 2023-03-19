@@ -77,6 +77,7 @@ class OnBoardingActivity : AppCompatActivity() {
         handler.post(runnable)
 
         preferences = SharedPreferences(this)
+
         if (preferences.getValuesString("onboarding").equals("1")){
             preferences.setValuesString("onboarding", "1")
 

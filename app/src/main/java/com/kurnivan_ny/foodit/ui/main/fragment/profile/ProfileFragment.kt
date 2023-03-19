@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -97,7 +98,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private fun alertLogout() {
         val view = View.inflate(requireContext(), R.layout.profile_logout_dialog, null)
 
-        AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+        val builder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
             .setView(view)
             .setCancelable(false)
             .setNegativeButton("Tidak"){ p0, _ ->
@@ -106,7 +107,27 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             .setPositiveButton("Ya"){_, _ ->
                 progressBar(true)
                 observerLogout()
-            }.show()
+            }
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button_negative = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+            button_negative.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_apple
+                ))
+
+            val button_positive = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+            button_positive.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_apple
+                ))
+        }
+
+        dialog.show()
     }
 
     private fun observerLogout() {

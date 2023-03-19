@@ -40,7 +40,6 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                 val tv_batas_bawah = view.findViewById<TextView>(R.id.tv_batas_bawah)
                 val tv_batas_atas = view.findViewById<TextView>(R.id.tv_batas_atas)
                 val tv_penyakit = view.findViewById<TextView>(R.id.tv_penyakit)
-                val list_penyakit = view.findViewById<TextView>(R.id.list_penyakit)
 
                 if (position.equals(0)) {
                     if (data.status_konsumsi_karbohidrat.equals("")) {
@@ -68,8 +67,10 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kekurangan Karbohidrat:")
-                            list_penyakit.setText("1. Hiploglikemia\n2. Gangguan pencernaan\n3. Kelelahan dan lemas")
+                            tv_penyakit.setText("Penyakit Akibat Kekurangan\nKarbohidrat:\n" +
+                                    "1. Hiploglikemia\n" +
+                                    "2. Gangguan Pencernaan\n" +
+                                    "3. Kelelahan dan Lemas")
                         } else if (data.status_konsumsi_karbohidrat.equals("Normal")) {
                             background.setBackgroundColor(
                                 ContextCompat.getColor(
@@ -87,6 +88,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                             tv_batas_atas.setText(
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
+                            tv_penyakit.setText("Kandungan Karbohidrat Anda Normal")
 
                         } else if (data.status_konsumsi_karbohidrat.equals("Lebih")) {
                             background.setBackgroundColor(
@@ -106,8 +108,10 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kelebihan Karbohidrat:")
-                            list_penyakit.setText("1. Diabetes melitus tipe 2\n2. Obesitas\n3. Penyakit jantung")
+                            tv_penyakit.setText("Penyakit Akibat Kelebihan\nKarbohidrat:\n" +
+                                    "1. Diabetes Melitus Tipe 2\n" +
+                                    "2. Obesitas\n" +
+                                    "3. Penyakit jantung")
                         }
 
                         AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)
@@ -142,8 +146,10 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kekurangan Protein:")
-                            list_penyakit.setText("1. Kwashiorkor\n2. Kerontokan rambut\n3. Infeksi")
+                            tv_penyakit.setText("Penyakit akibat kekurangan\nProtein:\n" +
+                                    "1. Kwashiorkor\n" +
+                                    "2. Kerontokan rambut\n" +
+                                    "3. Infeksi")
                         } else if (data.status_konsumsi_protein.equals("Normal")) {
                             background.setBackgroundColor(
                                 ContextCompat.getColor(
@@ -161,6 +167,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                             tv_batas_atas.setText(
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
+                            tv_penyakit.setText("Kandungan Protein Anda Normal")
 
                         } else if (data.status_konsumsi_protein.equals("Lebih")) {
                             background.setBackgroundColor(
@@ -180,8 +187,10 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kelebihan Protein:")
-                            list_penyakit.setText("1. Gangguan fungsi ginjal\n2. Osteoporosis\n3. Penyakit hati")
+                            tv_penyakit.setText("Penyakit Akibat Kelebihan\nProtein:\n" +
+                                    "1. Gangguan Fungsi Ginjal\n" +
+                                    "2. Osteoporosis\n" +
+                                    "3. Penyakit Hati")
                         }
                         AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)
                             .setView(view)
@@ -215,8 +224,11 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kekurangan Lemak:")
-                            list_penyakit.setText("1. Gangguan sistem saraf\n2. Gangguan kulit\n3. Masalah reproduksi")
+                            tv_penyakit.setText("Penyakit Akibat Kekurangan\nLemak:\n" +
+                                    "1. Gangguan Sistem Saraf\n" +
+                                    "2. Gangguan Kulit\n" +
+                                    "3. Masalah Reproduksi")
+
                         } else if (data.status_konsumsi_lemak.equals("Normal")) {
                             background.setBackgroundColor(
                                 ContextCompat.getColor(
@@ -224,7 +236,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                     R.color.normal
                                 )
                             )
-                            tv_title.setText("Protein")
+                            tv_title.setText("Lemak")
                             tv_dikonsumsi.setText(
                                 "${String.format("%.2f", data.total_konsumsi_karbohidrat)}gr"
                             )
@@ -234,6 +246,7 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                             tv_batas_atas.setText(
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
+                            tv_penyakit.setText("Kandungan Lemak Anda Normal")
 
                         } else if (data.status_konsumsi_lemak.equals("Lebih")) {
                             background.setBackgroundColor(
@@ -253,8 +266,10 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                                 "${ String.format("%.2f", data.totalenergikal / 4 * 0.75)} gr"
                             )
 
-                            tv_penyakit.setText("Penyakit akibat kelebihan Lemak:")
-                            list_penyakit.setText("1. Obesitas\n2. Penyakit Jantung\n3. Kanker")
+                            tv_penyakit.setText("Penyakit Akibat Kelebihan\nLemak:\n" +
+                                    "1. Obesitas\n" +
+                                    "2. Penyakit Jantung\n" +
+                                    "3. Kanker")
                         }
 
                         AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)

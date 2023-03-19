@@ -2,11 +2,10 @@ package com.kurnivan_ny.foodit.ui.main.fragment.home
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.content.Intent
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.net.Uri
+import android.os.*
 import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
@@ -31,6 +33,7 @@ import com.kurnivan_ny.foodit.data.model.home.ImageHomeModel
 import com.kurnivan_ny.foodit.data.modelfirestore.Konsumsi
 import com.kurnivan_ny.foodit.databinding.FragmentHomeBinding
 import com.kurnivan_ny.foodit.ui.main.manualinput.ManualInputActivity
+import com.kurnivan_ny.foodit.ui.main.odinput.InputODActivity
 import com.kurnivan_ny.foodit.viewmodel.HomeViewModel
 import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
 import java.lang.Math.abs
@@ -59,6 +62,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var sUsername:String
     private lateinit var sUrl: String
+
+    private lateinit var filePath: Uri
 
     private lateinit var viewModel: HomeViewModel
 
@@ -119,6 +124,17 @@ class HomeFragment : Fragment() {
 
         viewModel.homedata.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
             binding.vpImage.adapter = ImageHomeAdapter(it)
+            progressBar(false)
+
+            val loading = ProgressDialog(activity)
+            loading.setMessage("Menunggu...")
+            loading.show()
+            val handler = Handler()
+            handler.postDelayed(object: Runnable{
+                override fun run() {
+                    loading.dismiss()
+                }
+            }, 5000)
         })
 
         handler = Handler(Looper.getMainLooper())
@@ -242,8 +258,6 @@ class HomeFragment : Fragment() {
 
                     sBulanMakan = arrayMonth[monthOfYear]
 
-//                    loadingDialog()
-
                     viewModel.tanggal_makan.value = sTanggalMakan
 
                     val konsumsi = updateKonsumsi(sTanggalMakan, sBulanMakan)
@@ -252,6 +266,8 @@ class HomeFragment : Fragment() {
                 }, year, month, day
             )
             datePickerDialog.show()
+
+            progressBar(true)
         }
     }
 
@@ -363,6 +379,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUI() {
+
         val totalenergikal:Float = sharedPreferences.getValuesFloat("totalenergikal")
 
         viewModel.tanggal_makan.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
@@ -512,15 +529,131 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun getPicture() {
+        ImagePicker.with(this)
+            .crop()
+            .createIntent {  intent ->
+                ImageResult.launch(intent)
+            }
+    }
+
+    private val ImageResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result->
+
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val selectedImg: Uri = result.data?.data as Uri
+                filePath = selectedImg
+
+                addImagetoCloudStorage(filePath)
+
+            } else if (result.resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(activity, ImagePicker.getError(result.data), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity, "Gagal", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun addImagetoCloudStorage(filePath: Uri) {
+        val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
+        val imageFile = "$sUsername-$sTanggalMakan-$waktu_makan"
+
+        val progressDialog = ProgressDialog(activity)
+        progressDialog.show()
+
+        storage.reference.child("image_makanan/$imageFile")
+            .putFile(filePath)
+            .addOnSuccessListener { taskSnapshot ->
+                progressDialog.dismiss()
+
+                val loading = ProgressDialog(activity)
+                loading.setMessage("Menunggu...")
+                loading.show()
+                val handler = Handler()
+                handler.postDelayed(object: Runnable{
+                    override fun run() {
+                        loading.dismiss()
+                        val intent = Intent(activity, InputODActivity::class.java)
+                        intent.putExtra("imageFile", "$imageFile")
+                        startActivity(intent)
+                    }
+                }, 20000)
+
+                Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
+            }.addOnFailureListener { e ->
+                progressDialog.dismiss()
+                Toast.makeText(activity, "Gagal" + e.message, Toast.LENGTH_SHORT).show()
+            }.addOnProgressListener {taskSnapshot ->
+                val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")
+            }
+
+//        db.collection("users").document(sUsername)
+//            .get().addOnSuccessListener {
+//                val urls = it.get("url").toString()
+//                if (urls.equals("default.png")) {
+//                    db.collection("users").document(sUsername)
+//                        .update(
+//                            "url", imageFile,
+//                        )
+//                } else {
+//                    storage.reference.child("image_profile/$urls")
+//                        .delete()
+//                    db.collection("users").document(sUsername)
+//                        .update(
+//                            "url", imageFile,
+//                        )
+//                }
+//            }
+    }
+
     private fun searchMakanan() {
-        val intent = Intent(activity, ManualInputActivity::class.java)
-        startActivity(intent)
+
+        val view =View.inflate(requireContext(), R.layout.home_food_dialog, null)
+
+        val builder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+            .setView(view)
+            .setNegativeButton("TIDAK, MENGISI SECARA MANUAL"){_,_ ->
+                val intent = Intent(activity, ManualInputActivity::class.java)
+                startActivity(intent)
+            }
+            .setPositiveButton("Ya"){_,_ ->
+                getPicture()
+            }
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button_negative = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+            button_negative.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_apple
+                ))
+
+            val button_positive = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+            button_positive.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_apple
+                ))
+        }
+
+        dialog.show()
     }
 
     override fun onStop() {
         super.onStop()
 
         handler.removeCallbacks(runnable)
+    }
+
+    private fun progressBar(isLoading: Boolean) = with(binding){
+        if (isLoading) {
+            this.progressBar.visibility = View.VISIBLE
+        } else {
+            this.progressBar.visibility = View.GONE
+        }
     }
 
 }

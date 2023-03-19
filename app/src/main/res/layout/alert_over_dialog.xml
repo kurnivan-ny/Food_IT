@@ -23,7 +23,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="@font/montserrat_semibold"
+        android:fontFamily="@font/nunito_extrabold"
         android:text="Konsumsi gizi karbohidrat\ntelah melebihi batas!"
         android:gravity="center"
         android:textColor="@color/black"
