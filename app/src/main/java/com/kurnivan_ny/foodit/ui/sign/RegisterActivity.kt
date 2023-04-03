@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.databinding.ActivityRegisterBinding
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 
 class RegisterActivity : AppCompatActivity() {
 

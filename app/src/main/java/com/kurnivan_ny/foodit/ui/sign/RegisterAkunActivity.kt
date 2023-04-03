@@ -12,7 +12,7 @@ import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.ActivityRegisterAkunBinding
 import com.kurnivan_ny.foodit.ui.main.HomeActivity
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 import java.nio.FloatBuffer
 
 class RegisterAkunActivity : AppCompatActivity() {

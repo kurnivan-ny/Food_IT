@@ -22,7 +22,7 @@
             android:layout_marginTop="39dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_arrow_left"
+            android:src="@drawable/ic_arrow_left_black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +35,7 @@
             android:layout_marginTop="42dp"
             android:fontFamily="@font/nunito_extrabold"
             android:text="22 April 2023"
-            android:textColor="@color/dark_cyan"
+            android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/iv_back"

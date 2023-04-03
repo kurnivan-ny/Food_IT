@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.databinding.ActivityLoginBinding
 import com.kurnivan_ny.foodit.ui.main.HomeActivity
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 
 class LoginActivity : AppCompatActivity() {
 

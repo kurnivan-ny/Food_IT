@@ -1,8 +1,10 @@
 package com.kurnivan_ny.foodit.ui.main.manualinput
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -14,7 +16,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.modelfirestore.Makan
 import com.kurnivan_ny.foodit.databinding.ActivityDetailMakananBinding
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 
 class DetailMakananActivity : AppCompatActivity() {
 
@@ -34,6 +36,17 @@ class DetailMakananActivity : AppCompatActivity() {
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
+
+        val loading = ProgressDialog(this)
+        loading.setMessage("Menunggu...")
+        loading.setCancelable(false)
+        loading.show()
+        val handler = Handler()
+        handler.postDelayed(object: Runnable{
+            override fun run() {
+                loading.dismiss()
+            }
+        }, 4000)
 
         val nama_makanan = intent.getStringExtra("nama_makanan").toString()
 
@@ -65,10 +78,10 @@ class DetailMakananActivity : AppCompatActivity() {
 
     private fun setUpForm(namaMakanan: String, imgUrl: String, beratPorsi: Float, karbohidrat: Float, protein: Float, lemak: Float) {
         binding.tvTitle.text = namaMakanan
-        storage.reference.child("image_profile/$imgUrl").downloadUrl.addOnSuccessListener { Uri ->
+        storage.reference.child("$imgUrl").downloadUrl.addOnSuccessListener { Uri ->
             Glide.with(this)
                 .load(Uri)
-                .apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.centerCropTransform())
                 .into(binding.ivMakanan)
         }
 

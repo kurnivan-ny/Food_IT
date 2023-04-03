@@ -6,21 +6,27 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
+import com.kurnivan_ny.foodit.data.model.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityInputOdBinding
-import com.kurnivan_ny.foodit.ui.adapter.ImageHomeAdapter
+import com.kurnivan_ny.foodit.ui.adapter.ListManualAdapter
+import com.kurnivan_ny.foodit.ui.adapter.OnItemClickListener
 import com.kurnivan_ny.foodit.ui.main.HomeActivity
+import com.kurnivan_ny.foodit.ui.main.manualinput.EditDetailMakananActivity
 import com.kurnivan_ny.foodit.viewmodel.InputODViewModel
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class InputODActivity : AppCompatActivity() {
 
@@ -29,6 +35,9 @@ class InputODActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var storage: FirebaseStorage
     lateinit var db: FirebaseFirestore
+
+    private var manualList: ArrayList<ListManualModel> = arrayListOf()
+    private var manualListAdapter: ListManualAdapter = ListManualAdapter(manualList)
 
     private lateinit var filePath: Uri
 
@@ -50,6 +59,7 @@ class InputODActivity : AppCompatActivity() {
         viewModel.imageFileURL.value = intent.getStringExtra("imageFile")
 
         viewModel.imageFileURL.observe(this, androidx.lifecycle.Observer{
+
             storage.reference.child("image_makanan/$it").downloadUrl
                 .addOnSuccessListener { Uri ->
                     Glide.with(this)
@@ -72,6 +82,29 @@ class InputODActivity : AppCompatActivity() {
         binding.ivUlang.setOnClickListener {
             getPicture()
         }
+
+        binding.rvHasil.setHasFixedSize(true)
+        binding.rvHasil.layoutManager = LinearLayoutManager(this)
+
+        getDataFirestore()
+
+        viewModel.listmakanan.observe(this, Observer {
+            manualListAdapter.manualList = it
+            manualListAdapter.notifyDataSetChanged()
+        })
+
+        binding.rvHasil.adapter = manualListAdapter
+
+        binding.rvHasil.itemAnimator = SlideInUpAnimator()
+
+        manualListAdapter.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(position: Int, nama_makanan: String) {
+                val intent = Intent(this@InputODActivity, EditDetailMakananActivity::class.java)
+                intent.putExtra("nama_makanan", nama_makanan)
+                startActivity(intent)
+                manualListAdapter.notifyDataSetChanged()
+            }
+        })
 
         binding.btnKirim.setOnClickListener {
             val username = sharedPreferences.getValuesString("username")
@@ -106,6 +139,7 @@ class InputODActivity : AppCompatActivity() {
     private fun getPicture() {
         ImagePicker.with(this)
             .crop()
+            .compress(1024)
             .createIntent {  intent ->
                 ImageResult.launch(intent)
             }
@@ -132,6 +166,7 @@ class InputODActivity : AppCompatActivity() {
         val imageFile = intent.getStringExtra("imageFile")
 
         val progressDialog = ProgressDialog(this)
+        progressDialog.setCancelable(false)
         progressDialog.show()
         storage.reference.child("image_makanan/$imageFile")
             .putFile(filePath)
@@ -140,6 +175,7 @@ class InputODActivity : AppCompatActivity() {
 
                 val loading = ProgressDialog(this)
                 loading.setMessage("Menunggu...")
+                loading.setCancelable(false)
                 loading.show()
                 val handler = Handler()
                 handler.postDelayed(object: Runnable{
@@ -149,7 +185,7 @@ class InputODActivity : AppCompatActivity() {
                         intent.putExtra("imageFile", "$imageFile")
                         startActivity(intent)
                     }
-                }, 20000)
+                }, 12000)
 
                 Toast.makeText(this,"Berhasil", Toast.LENGTH_LONG).show()
             }.addOnFailureListener { e ->
@@ -177,6 +213,42 @@ class InputODActivity : AppCompatActivity() {
 //                        )
 //                }
 //            }
+    }
+
+    private fun getDataFirestore() {
+        val username = sharedPreferences.getValuesString("username")
+        val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
+        val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
+        val bulan_makan = sharedPreferences.getValuesString("bulan_makan")
+
+        db.collection("users").document(username!!)
+            .collection(bulan_makan!!).document(tanggal_makan!!)
+            .collection(waktu_makan!!).orderBy("nama_makanan", Query.Direction.ASCENDING)
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                override fun onEvent(
+                    value: QuerySnapshot?,
+                    error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.e("Firestore Error", error.message.toString())
+                    }
+
+                    val doc = arrayListOf<ListManualModel>()
+                    if (value != null){
+                        for(dc in value.documents){
+                            val data = dc.toObject(ListManualModel::class.java)
+                            if (data != null) {
+                                doc.add(data)
+                            }
+                        }
+                    }
+                    viewModel.listmakanan.value = doc
+                    manualListAdapter.notifyDataSetChanged()
+                }
+            })
+
+        manualListAdapter.username = username
+        manualListAdapter.tanggal_makan = tanggal_makan
+        manualListAdapter.bulan_makan = bulan_makan
     }
 
     private fun progressBar(isLoading: Boolean) = with(binding){

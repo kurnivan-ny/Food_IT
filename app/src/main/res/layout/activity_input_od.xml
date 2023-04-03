@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_extrabold"
             android:layout_marginTop="22dp"
+            android:textColor="@color/black"
             android:layout_gravity="center_horizontal"
             android:text="Hasil Pemindaian"
             android:textSize="24dp"/>

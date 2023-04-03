@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.data.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.FragmentPengAkunBinding
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 
 class PengAkunFragment : Fragment() {
 
@@ -132,7 +132,11 @@ class PengAkunFragment : Fragment() {
                 "email", data.email.toString(),
                 "username", data.username.toString(),
                 "password", data.password.toString()
-            )
+            ).addOnSuccessListener {
+                Toast.makeText(requireContext(), "Berhasil", Toast.LENGTH_LONG).show()
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), "Gagal", Toast.LENGTH_LONG).show()
+            }
         sharedPreferences.setValuesString("email", data.email.toString())
         sharedPreferences.setValuesString("username", data.username.toString())
         sharedPreferences.setValuesString("password", data.password.toString())

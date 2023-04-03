@@ -34,7 +34,7 @@
         app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
         app:itemTextAppearanceInactive="@style/BottomNavigationViewTextStyle"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
         android:paddingBottom="10dp"
         app:menu="@menu/bottom_nav"
         app:layout_constraintBottom_toBottomOf="parent"

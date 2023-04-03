@@ -17,7 +17,7 @@ import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.databinding.ActivityOnBoardingBinding
 import com.kurnivan_ny.foodit.ui.sign.LoginActivity
 import com.kurnivan_ny.foodit.ui.sign.RegisterActivity
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 
 class OnBoardingActivity : AppCompatActivity() {
 

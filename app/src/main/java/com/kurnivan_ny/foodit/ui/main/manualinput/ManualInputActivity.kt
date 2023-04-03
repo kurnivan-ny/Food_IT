@@ -14,7 +14,7 @@ import com.kurnivan_ny.foodit.ui.adapter.ListManualAdapter
 import com.kurnivan_ny.foodit.ui.adapter.OnItemClickListener
 import com.kurnivan_ny.foodit.ui.main.HomeActivity
 import com.kurnivan_ny.foodit.viewmodel.ManualViewModel
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ManualInputActivity : AppCompatActivity() {
@@ -156,15 +156,4 @@ class ManualInputActivity : AppCompatActivity() {
         manualListAdapter.tanggal_makan = tanggal_makan
         manualListAdapter.bulan_makan = bulan_makan
     }
-
-//    private fun loadingDialog() {
-//        val loading = LoadingDialog(this)
-//        loading.startLoading()
-//        val handler = Handler()
-//        handler.postDelayed(object: Runnable{
-//            override fun run() {
-//                loading.isDismiss()
-//            }
-//        }, 2000)
-//    }
 }

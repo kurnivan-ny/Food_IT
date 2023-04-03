@@ -2,7 +2,6 @@ package com.kurnivan_ny.foodit.ui.main.fragment.history
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -13,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
@@ -32,8 +32,7 @@ import com.kurnivan_ny.foodit.databinding.FragmentDetailHistoryBinding
 import com.kurnivan_ny.foodit.ui.adapter.ListDetailKarbohidratHistoryAdapter
 import com.kurnivan_ny.foodit.ui.adapter.ListDetailLemakHistoryAdapter
 import com.kurnivan_ny.foodit.ui.adapter.ListDetailProteinHistoryAdapter
-import com.kurnivan_ny.foodit.ui.main.odinput.InputODActivity
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class DetailHistoryFragment : Fragment() {
@@ -99,13 +98,14 @@ class DetailHistoryFragment : Fragment() {
 
         val loading = ProgressDialog(activity)
         loading.setMessage("Menunggu...")
+        loading.setCancelable(false)
         loading.show()
         val handler = Handler()
         handler.postDelayed(object: Runnable{
             override fun run() {
                 loading.dismiss()
             }
-        }, 10000)
+        }, 5000)
 
         binding.ivBack.setOnClickListener {
 
@@ -115,10 +115,21 @@ class DetailHistoryFragment : Fragment() {
 
         binding.ivDelete.setOnClickListener {
 
+            val progressDialog = ProgressDialog(activity)
+            progressDialog.setMessage("Menghapus ${tanggal_makan}")
+            progressDialog.show()
+
             // delete data
             db.collection("users").document(username!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .delete()
+                .addOnSuccessListener {
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Data Berhasil Dihapus", Toast.LENGTH_LONG).show()
+                }.addOnFailureListener {
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "Gagal", Toast.LENGTH_SHORT).show()
+                }
 
             val toHistoryFragment = DetailHistoryFragmentDirections.actionDetailHistoryFragmentToHistoryFragment()
             binding.root.findNavController().navigate(toHistoryFragment)

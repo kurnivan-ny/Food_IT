@@ -35,7 +35,7 @@ import com.kurnivan_ny.foodit.databinding.FragmentHomeBinding
 import com.kurnivan_ny.foodit.ui.main.manualinput.ManualInputActivity
 import com.kurnivan_ny.foodit.ui.main.odinput.InputODActivity
 import com.kurnivan_ny.foodit.viewmodel.HomeViewModel
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 import java.lang.Math.abs
 import java.util.*
 import kotlin.collections.ArrayList
@@ -102,7 +102,8 @@ class HomeFragment : Fragment() {
                 .into(binding.ivProfile)
         }
 
-        if (binding.dateEditText.text.toString().equals("")){
+        if (binding.dateEditText.text.toString().equals("") or binding.dateEditText.text.toString().equals("Pilih Tanggal")){
+            viewModel.tanggal_makan.value = "Pilih Tanggal"
             val docs = arrayListOf<ImageHomeModel>()
             docs.add(
                 ImageHomeModel("","","",
@@ -134,7 +135,7 @@ class HomeFragment : Fragment() {
                 override fun run() {
                     loading.dismiss()
                 }
-            }, 5000)
+            }, 4000)
         })
 
         handler = Handler(Looper.getMainLooper())
@@ -181,7 +182,7 @@ class HomeFragment : Fragment() {
         updateUI()
 
         binding.btnPagi.setOnClickListener {
-            if (binding.dateEditText.text.toString().equals("")){
+            if (binding.dateEditText.text.toString().equals("") or binding.dateEditText.text.toString().equals("Pilih Tanggal")){
                 Toast.makeText(requireContext(), "Silakan Pilih Tanggal Makan", Toast.LENGTH_LONG).show()
                 binding.dateEditText.requestFocus()
             } else {
@@ -190,7 +191,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.btnSiang.setOnClickListener {
-            if (binding.dateEditText.text.toString().equals("")){
+            if (binding.dateEditText.text.toString().equals("") or binding.dateEditText.text.toString().equals("Pilih Tanggal")){
                 Toast.makeText(requireContext(), "Silakan Pilih Tanggal Makan", Toast.LENGTH_LONG).show()
                 binding.dateEditText.requestFocus()
             } else {
@@ -199,7 +200,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.btnMalam.setOnClickListener {
-            if (binding.dateEditText.text.toString().equals("")){
+            if (binding.dateEditText.text.toString().equals("") or binding.dateEditText.text.toString().equals("Pilih Tanggal")){
                 Toast.makeText(requireContext(), "Silakan Pilih Tanggal Makan", Toast.LENGTH_LONG).show()
                 binding.dateEditText.requestFocus()
             } else {
@@ -532,6 +533,7 @@ class HomeFragment : Fragment() {
     private fun getPicture() {
         ImagePicker.with(this)
             .crop()
+            .compress(1024)
             .createIntent {  intent ->
                 ImageResult.launch(intent)
             }
@@ -559,15 +561,17 @@ class HomeFragment : Fragment() {
         val imageFile = "$sUsername-$sTanggalMakan-$waktu_makan"
 
         val progressDialog = ProgressDialog(activity)
+        progressDialog.setCancelable(false)
         progressDialog.show()
 
         storage.reference.child("image_makanan/$imageFile")
             .putFile(filePath)
-            .addOnSuccessListener { taskSnapshot ->
+            .addOnSuccessListener {
                 progressDialog.dismiss()
 
                 val loading = ProgressDialog(activity)
                 loading.setMessage("Menunggu...")
+                loading.setCancelable(false)
                 loading.show()
                 val handler = Handler()
                 handler.postDelayed(object: Runnable{
@@ -577,12 +581,12 @@ class HomeFragment : Fragment() {
                         intent.putExtra("imageFile", "$imageFile")
                         startActivity(intent)
                     }
-                }, 20000)
+                }, 12000)
 
                 Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
             }.addOnFailureListener { e ->
                 progressDialog.dismiss()
-                Toast.makeText(activity, "Gagal" + e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Gagal", Toast.LENGTH_SHORT).show()
             }.addOnProgressListener {taskSnapshot ->
                 val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
                 progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")

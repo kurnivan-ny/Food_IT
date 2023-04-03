@@ -1,8 +1,10 @@
 package com.kurnivan_ny.foodit.ui.main.manualinput
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -13,9 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.modelfirestore.Makan
-import com.kurnivan_ny.foodit.databinding.ActivityDetailMakananBinding
 import com.kurnivan_ny.foodit.databinding.ActivityEditDetailMakananBinding
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 
 class EditDetailMakananActivity : AppCompatActivity() {
 
@@ -36,6 +37,17 @@ class EditDetailMakananActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
+        val loading = ProgressDialog(this)
+        loading.setMessage("Menunggu...")
+        loading.setCancelable(false)
+        loading.show()
+        val handler = Handler()
+        handler.postDelayed(object: Runnable{
+            override fun run() {
+                loading.dismiss()
+            }
+        }, 4000)
+
         val nama_makanan = intent.getStringExtra("nama_makanan").toString()
 
         updateDataFirestore(nama_makanan)
@@ -45,51 +57,7 @@ class EditDetailMakananActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        binding.ivDelete.setOnClickListener{
-//            deleteFirestore(nama_makanan)
-//            val intent = Intent(this@EditDetailMakananActivity, ManualInputActivity::class.java)
-//            startActivity(intent)
-//        }
-
     }
-
-//    private fun deleteFirestore(namaMakanan: String) {
-//        val username = sharedPreferences.getValuesString("username")
-//        val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
-//        val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
-//
-//        db.collection("users").document(username!!)
-//            .collection("makan").document(tanggal_makan!!)
-//            .collection(waktu_makan!!).document(namaMakanan)
-//            .get().addOnSuccessListener { iFood ->
-//
-//                db.collection("users").document(username!!)
-//                    .collection("makan").document(tanggal_makan!!)
-//                    .collection(waktu_makan!!).document(namaMakanan)
-//                    .delete().addOnSuccessListener {
-//
-//                        db.collection("users").document(username!!)
-//                            .collection("makan").document(tanggal_makan!!)
-//                            .get().addOnSuccessListener { Food ->
-//                                var total_konsumsi_karbohidrat:Float = (Food.get("total_konsumsi_karbohidrat").toString()+"F").toFloat()
-//                                total_konsumsi_karbohidrat = total_konsumsi_karbohidrat - (iFood.get("karbohidrat").toString()+"F").toFloat()
-//
-//                                var total_konsumsi_protein:Float = (Food.get("total_konsumsi_protein").toString()+"F").toFloat()
-//                                total_konsumsi_protein = total_konsumsi_protein - (iFood.get("protein").toString()+"F").toFloat()
-//
-//                                var total_konsumsi_lemak:Float = (Food.get("total_konsumsi_lemak").toString()+"F").toFloat()
-//                                total_konsumsi_lemak = total_konsumsi_lemak - (iFood.get("lemak").toString()+"F").toFloat()
-//
-//                                db.collection("users").document(username)
-//                                    .collection("makan").document(tanggal_makan)
-//                                    .update("total_konsumsi_karbohidrat",total_konsumsi_karbohidrat,
-//                                        "total_konsumsi_protein", total_konsumsi_protein,
-//                                        "total_konsumsi_lemak", total_konsumsi_lemak)
-//
-//                        }
-//                }
-//        }
-//    }
 
     private fun updateDataFirestore(namaMakanan: String) {
         db.collection("food").document(namaMakanan).get().addOnSuccessListener { document ->
@@ -117,10 +85,10 @@ class EditDetailMakananActivity : AppCompatActivity() {
 
         binding.tvTitle.text = namaMakanan
 
-        storage.reference.child("image_profile/$imgUrl").downloadUrl.addOnSuccessListener { Uri ->
+        storage.reference.child("$imgUrl").downloadUrl.addOnSuccessListener { Uri ->
             Glide.with(this)
                 .load(Uri)
-                .apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.centerCropTransform())
                 .into(binding.ivMakanan)
         }
 

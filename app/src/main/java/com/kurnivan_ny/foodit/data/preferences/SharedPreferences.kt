@@ -1,4 +1,4 @@
-package com.kurnivan_ny.foodit.viewmodel.preferences
+package com.kurnivan_ny.foodit.data.preferences
 
 import android.content.Context
 import android.content.SharedPreferences

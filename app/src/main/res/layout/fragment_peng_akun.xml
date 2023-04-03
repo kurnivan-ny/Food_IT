@@ -23,7 +23,7 @@
             android:layout_marginTop="39dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_arrow_left"
+            android:src="@drawable/ic_arrow_left_black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

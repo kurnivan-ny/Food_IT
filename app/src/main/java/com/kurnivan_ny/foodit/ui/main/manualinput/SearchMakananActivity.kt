@@ -11,7 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.data.model.manualinput.SearchModel
 import com.kurnivan_ny.foodit.databinding.ActivitySearchMakananBinding
 import com.kurnivan_ny.foodit.ui.adapter.SearchAdapter
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class SearchMakananActivity : AppCompatActivity() {
@@ -44,6 +44,11 @@ class SearchMakananActivity : AppCompatActivity() {
         binding.rvSearchlist.adapter = searchListAdapter
 
         binding.rvSearchlist.itemAnimator  = SlideInUpAnimator()
+
+        binding.ivBack.setOnClickListener {
+            val intent = Intent(this@SearchMakananActivity, ManualInputActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.svMakanan.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

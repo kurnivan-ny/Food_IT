@@ -4,10 +4,8 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import android.app.ProgressDialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.FragmentDetailPribadiBinding
-import com.kurnivan_ny.foodit.ui.main.odinput.InputODActivity
-import com.kurnivan_ny.foodit.viewmodel.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.data.preferences.SharedPreferences
 import java.nio.FloatBuffer
 import java.util.*
 
@@ -94,6 +91,7 @@ class DetailPribadiFragment : Fragment() {
 //        launcherIntentGallery.launch(chooser)
         ImagePicker.with(this)
             .crop()
+            .compress(1024)
             .createIntent {  intent ->
                 ImageResult.launch(intent)
             }
@@ -165,17 +163,6 @@ class DetailPribadiFragment : Fragment() {
             .putFile(filePath)
             .addOnSuccessListener { taskSnapshot ->
                 progressDialog.dismiss()
-
-                val loading = ProgressDialog(activity)
-                loading.setMessage("Menunggu...")
-                loading.show()
-                val handler = Handler()
-                handler.postDelayed(object: Runnable{
-                    override fun run() {
-                        loading.dismiss()
-                    }
-                }, 15000)
-
                 Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
             }.addOnFailureListener { e ->
                 progressDialog.dismiss()

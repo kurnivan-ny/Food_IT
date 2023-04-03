@@ -6,12 +6,27 @@
         <item name="colorPrimaryVariant">@color/teal_green</item>
         <item name="colorOnPrimary">@color/green_apple</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/yellow_green</item>
+        <item name="colorSecondary">@color/green_apple</item>
         <item name="colorSecondaryVariant">@color/lime_green</item>
         <item name="colorOnSecondary">@color/light_lime</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
-        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+        <!-- Set status bar color to transparent -->
+        <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="MyAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/green_apple</item>
+        <item name="colorAccent">@color/green_apple</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:windowBackground">@drawable/ic_form_white</item>
+    </style>
+
+    <style name="BottomNavigationViewTextStyle">
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
+        <item name="android:keyTextSize">14sp</item>
     </style>
 </resources>
