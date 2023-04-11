@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.kurnivan_ny.foodit.ui.main.fragment.home.HomeFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.home.HomeFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.kurnivan_ny.foodit.ui.main.fragment.history.HistoryFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.history.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.kurnivan_ny.foodit.ui.main.fragment.profile.ProfileFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailPribadiFragment"
-        android:name="com.kurnivan_ny.foodit.ui.main.fragment.profile.DetailPribadiFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.profile.DetailPribadiFragment"
         android:label="DetailPribadiFragment"
         tools:layout="@layout/fragment_detail_pribadi">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/pengAkunFragment"
-        android:name="com.kurnivan_ny.foodit.ui.main.fragment.profile.PengAkunFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.profile.PengAkunFragment"
         android:label="PengAkunFragment"
         tools:layout="@layout/fragment_peng_akun">
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailHistoryFragment"
-        android:name="com.kurnivan_ny.foodit.ui.main.fragment.history.DetailHistoryFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.history.DetailHistoryFragment"
         android:label="fragment_detail_history"
         tools:layout="@layout/fragment_detail_history" >
         <action

@@ -2,7 +2,9 @@ package com.kurnivan_ny.foodit.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kurnivan_ny.foodit.data.model.home.ImageHomeModel
+import com.kurnivan_ny.foodit.data.api.RetrofitInstance
+import com.kurnivan_ny.foodit.data.model.modelui.home.ImageHomeModel
+import java.util.HashMap
 
 class HomeViewModel: ViewModel(){
     val tanggal_makan: MutableLiveData<String> by lazy {
@@ -22,4 +24,5 @@ class HomeViewModel: ViewModel(){
     }
 
     val homedata = MutableLiveData<ArrayList<ImageHomeModel>>(arrayListOf())
+
 }

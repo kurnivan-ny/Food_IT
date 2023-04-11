@@ -5,7 +5,7 @@
     android:id="@+id/pengAkunFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.fragment.profile.PengAkunFragment">
+    tools:context=".view.main.fragment.profile.PengAkunFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_bar"
