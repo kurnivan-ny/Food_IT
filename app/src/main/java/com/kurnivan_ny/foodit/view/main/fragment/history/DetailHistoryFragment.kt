@@ -107,17 +107,6 @@ class DetailHistoryFragment : Fragment() {
 
         binding.tvTitle.setText(tanggal_makan)
 
-//        val loading = ProgressDialog(activity)
-//        loading.setMessage("Menunggu...")
-//        loading.setCancelable(false)
-//        loading.show()
-//        val handler = Handler()
-//        handler.postDelayed(object: Runnable{
-//            override fun run() {
-//                loading.dismiss()
-//            }
-//        }, 5000)
-
         binding.ivBack.setOnClickListener {
 
             val toHistoryFragment = DetailHistoryFragmentDirections.actionDetailHistoryFragmentToHistoryFragment()
