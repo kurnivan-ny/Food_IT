@@ -12,7 +12,7 @@ import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityEditOdBinding
 import com.kurnivan_ny.foodit.view.adapter.ListManualAdapter
 import com.kurnivan_ny.foodit.view.adapter.OnItemClickListener
-import com.kurnivan_ny.foodit.view.main.HomeActivity
+import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
 import com.kurnivan_ny.foodit.view.main.manualinput.EditDetailMakananActivity
 import com.kurnivan_ny.foodit.view.main.manualinput.SearchMakananActivity
 import com.kurnivan_ny.foodit.viewmodel.ManualViewModel

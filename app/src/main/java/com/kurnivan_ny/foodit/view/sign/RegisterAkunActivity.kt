@@ -6,12 +6,15 @@ import ai.onnxruntime.OrtSession
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isInvisible
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.model.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.ActivityRegisterAkunBinding
-import com.kurnivan_ny.foodit.view.main.HomeActivity
+import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 import java.nio.FloatBuffer
 
@@ -42,6 +45,24 @@ class RegisterAkunActivity : AppCompatActivity() {
 
         sharedPreferences.setValuesString("onboarding", "1")
 
+        binding.ctvPrivacypolicy.setOnClickListener {
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_policy_privacy, null)
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setView(dialogView)
+                .setPositiveButton("Ya"){_,_ ->
+                    binding.ctvPrivacypolicy.isChecked = true
+                }
+                .setNegativeButton("Tidak"){p0, _ ->
+                    binding.ctvPrivacypolicy.isChecked = false
+                    p0.dismiss()
+                }
+
+            val alertDialog = dialogBuilder.create()
+            alertDialog.show()
+
+        }
+
         binding.btnMasuk.setOnClickListener {
             finishAffinity()
 
@@ -59,14 +80,17 @@ class RegisterAkunActivity : AppCompatActivity() {
                 binding.edtUsername.error = "Silakan isi Username"
                 binding.edtUsername.requestFocus()
             } else if (sEmail.equals("")){
-                binding.edtEmail.error = "Silakan isi Email"
+                binding.edtEmail.error = "Silakan Isi Email"
                 binding.edtPassword.requestFocus()
             } else if (sPassword.equals("")){
-                binding.edtPassword.error = "Silakan isi Password"
+                binding.edtPassword.error = "Silakan Isi Password"
                 binding.edtPassword.requestFocus()
             } else if (sPassword.length < 6){
-                binding.edtPassword.error = "Password Anda masih kurang dari 6 karakter"
+                binding.edtPassword.error = "Password Anda Masih Kurang Dari 6 Karakter"
                 binding.edtPassword.requestFocus()
+            } else if (binding.ctvPrivacypolicy.isChecked.equals(false)){
+                Toast.makeText(this, "Silakan Menyetujui Kebijakan Privasi", Toast.LENGTH_LONG).show()
+                binding.ctvPrivacypolicy.requestFocus()
             } else{
 
                 val tanda_baca = arrayOf("&", "=", "_", "\'", "-", "+", ",","<", ">", ".", "/", "\"", "\\")
@@ -90,7 +114,6 @@ class RegisterAkunActivity : AppCompatActivity() {
                 }
             }
         }
-
 
     }
 

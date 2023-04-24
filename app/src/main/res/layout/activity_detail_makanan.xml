@@ -10,7 +10,7 @@
         android:id="@+id/iv_makanan"
         android:layout_width="match_parent"
         android:layout_height="370dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@color/efek_shimmer"
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="*1 porsi = 300 gram"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito_bold"
@@ -193,5 +193,68 @@
             android:textColor="@color/white" />
 
     </com.google.android.material.card.MaterialCardView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_makanan_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="370dp"
+                android:src="@color/efek_shimmer"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/bg_efek_shimmer"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_info_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                app:cardCornerRadius="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/bg_efek_shimmer">
+
+                <TextView
+                    android:id="@+id/tv_title_shimmer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:layout_marginTop="22dp"
+                    android:textColor="#00000000"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Rendang"
+                    android:textSize="30dp"
+                    android:background="@color/bg_efek_shimmer"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/cv_makanan_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="145dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:background="@color/bg_efek_shimmer">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

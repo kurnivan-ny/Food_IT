@@ -18,6 +18,7 @@ import com.kurnivan_ny.foodit.databinding.ActivityOnBoardingBinding
 import com.kurnivan_ny.foodit.view.sign.LoginActivity
 import com.kurnivan_ny.foodit.view.sign.RegisterActivity
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
 
 class OnBoardingActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class OnBoardingActivity : AppCompatActivity() {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
 
-    private lateinit var preferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,17 +77,17 @@ class OnBoardingActivity : AppCompatActivity() {
 
         handler.post(runnable)
 
-        preferences = SharedPreferences(this)
+        sharedPreferences = SharedPreferences(this)
 
-        if (preferences.getValuesString("onboarding").equals("1")){
-            preferences.setValuesString("onboarding", "1")
+        if (sharedPreferences.getValuesString("onboarding").equals("1")){
+            sharedPreferences.setValuesString("onboarding", "1")
 
             val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
             startActivity(intent)
         }
 
         binding.btnMasuk.setOnClickListener {
-            preferences.setValuesString("onboarding", "1")
+            sharedPreferences.setValuesString("onboarding", "1")
             finishAffinity()
 
             val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
@@ -94,7 +95,7 @@ class OnBoardingActivity : AppCompatActivity() {
         }
 
         binding.btnDaftar.setOnClickListener {
-            preferences.setValuesString("onboarding", "1")
+            sharedPreferences.setValuesString("onboarding", "1")
             finishAffinity()
 
             val intent = Intent(this@OnBoardingActivity, RegisterActivity::class.java)

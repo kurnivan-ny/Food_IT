@@ -12,7 +12,7 @@ import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityManualInputBinding
 import com.kurnivan_ny.foodit.view.adapter.ListManualAdapter
 import com.kurnivan_ny.foodit.view.adapter.OnItemClickListener
-import com.kurnivan_ny.foodit.view.main.HomeActivity
+import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
 import com.kurnivan_ny.foodit.viewmodel.ManualViewModel
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator

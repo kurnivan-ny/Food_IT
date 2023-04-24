@@ -13,6 +13,10 @@
     <color name="tea_green">#D2FCB8</color>
     <color name="inchworm">#B1FF63</color>
 
+<!--efek shimmer-->
+    <color name="efek_shimmer">#DDDDDD</color>
+    <color name="bg_efek_shimmer">#7F000000</color>
+
 <!--alert-->
     <color name="kurang">#FDFF96</color>
     <color name="normal">#BAFF99</color>

@@ -131,15 +131,15 @@ class HomeFragment : Fragment() {
             binding.vpImage.adapter = ImageHomeAdapter(it)
             progressBar(false)
 
-            val loading = ProgressDialog(activity)
-            loading.setMessage("Menunggu...")
-            loading.show()
-            val handler = Handler()
-            handler.postDelayed(object: Runnable{
-                override fun run() {
-                    loading.dismiss()
-                }
-            }, 4000)
+//            val loading = ProgressDialog(activity)
+//            loading.setMessage("Menunggu...")
+//            loading.show()
+//            val handler = Handler()
+//            handler.postDelayed(object: Runnable{
+//                override fun run() {
+//                    loading.dismiss()
+//                }
+//            }, 4000)
         })
 
         handler = Handler(Looper.getMainLooper())
@@ -573,19 +573,23 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener {
                 progressDialog.dismiss()
 
-                val loading = ProgressDialog(activity)
-                loading.setMessage("Menunggu...")
-                loading.setCancelable(false)
-                loading.show()
-                val handler = Handler()
-                handler.postDelayed(object: Runnable{
-                    override fun run() {
-                        loading.dismiss()
-                        val intent = Intent(activity, InputODActivity::class.java)
-                        intent.putExtra("imageFile", "$imageFile")
-                        startActivity(intent)
-                    }
-                }, 12000)
+                val intent = Intent(activity, InputODActivity::class.java)
+                intent.putExtra("imageFile", "$imageFile")
+                startActivity(intent)
+
+//                val loading = ProgressDialog(activity)
+//                loading.setMessage("Menunggu...")
+//                loading.setCancelable(false)
+//                loading.show()
+//                val handler = Handler()
+//                handler.postDelayed(object: Runnable{
+//                    override fun run() {
+//                        loading.dismiss()
+//                        val intent = Intent(activity, InputODActivity::class.java)
+//                        intent.putExtra("imageFile", "$imageFile")
+//                        startActivity(intent)
+//                    }
+//                }, 12000)
 
                 Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
             }.addOnFailureListener { e ->
@@ -604,15 +608,15 @@ class HomeFragment : Fragment() {
             "waktu_makan" to waktu_makan
         )
 
-        observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI)
+//        observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI)
 
     }
 
     private fun observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI: HashMap<String, String>) {
-        val returnValue = MutableLiveData<Resources<UpdatedODResponse>>()
+//        val returnValue = MutableLiveData<Resources<UpdatedODResponse>>()
         val response = RetrofitInstance.API_OBJECT.postODResult(dataToBeSendToAPI)
         if (response.isSuccessful){
-            returnValue.value = Resources.Success
+//            returnValue.value = Resources.Success
         }
     }
 
@@ -653,7 +657,6 @@ class HomeFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-
         handler.removeCallbacks(runnable)
     }
 

@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/nunito_extrabold"
-        android:text="10 gr"
+        android:text="0 gr"
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="20sp"

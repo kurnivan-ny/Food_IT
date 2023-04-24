@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:layout_gravity="center|bottom"
-            android:text="10 gr"
+            android:text="0 gr"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito_bold"
             android:textSize="16sp"

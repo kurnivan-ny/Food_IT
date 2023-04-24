@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-const val BASE_URL = ""
+const val BASE_URL = "" // URL GCP Cloud Run
 const val TIME_OUT = 120L
 
 class RetrofitInstance {

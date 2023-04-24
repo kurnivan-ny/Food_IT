@@ -15,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ import com.kurnivan_ny.foodit.view.adapter.ListDetailLemakHistoryAdapter
 import com.kurnivan_ny.foodit.view.adapter.ListDetailProteinHistoryAdapter
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import kotlinx.coroutines.*
 
 class DetailHistoryFragment : Fragment() {
 
@@ -87,6 +89,15 @@ class DetailHistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressBar(true)
+
+        val handler = Handler()
+        handler.postDelayed(object: Runnable{
+            override fun run() {
+                progressBar(false)
+            }
+        }, 2000)
+
         sharedPreferences = SharedPreferences(requireContext())
         db = FirebaseFirestore.getInstance()
 
@@ -96,16 +107,16 @@ class DetailHistoryFragment : Fragment() {
 
         binding.tvTitle.setText(tanggal_makan)
 
-        val loading = ProgressDialog(activity)
-        loading.setMessage("Menunggu...")
-        loading.setCancelable(false)
-        loading.show()
-        val handler = Handler()
-        handler.postDelayed(object: Runnable{
-            override fun run() {
-                loading.dismiss()
-            }
-        }, 5000)
+//        val loading = ProgressDialog(activity)
+//        loading.setMessage("Menunggu...")
+//        loading.setCancelable(false)
+//        loading.show()
+//        val handler = Handler()
+//        handler.postDelayed(object: Runnable{
+//            override fun run() {
+//                loading.dismiss()
+//            }
+//        }, 5000)
 
         binding.ivBack.setOnClickListener {
 
@@ -1275,5 +1286,13 @@ class DetailHistoryFragment : Fragment() {
                 .show()
         }
 
+    }
+
+    private fun progressBar(isLoading: Boolean) = with(binding){
+        if (isLoading) {
+            this.progressBar.visibility = View.VISIBLE
+        } else {
+            this.progressBar.visibility = View.GONE
+        }
     }
 }

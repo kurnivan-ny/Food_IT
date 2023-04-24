@@ -1,4 +1,4 @@
-package com.kurnivan_ny.foodit.view.main
+package com.kurnivan_ny.foodit.view.main.activity
 
 import android.content.Context
 import android.graphics.Rect

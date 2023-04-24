@@ -22,7 +22,7 @@ import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityInputOdBinding
 import com.kurnivan_ny.foodit.view.adapter.ListManualAdapter
 import com.kurnivan_ny.foodit.view.adapter.OnItemClickListener
-import com.kurnivan_ny.foodit.view.main.HomeActivity
+import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
 import com.kurnivan_ny.foodit.view.main.manualinput.EditDetailMakananActivity
 import com.kurnivan_ny.foodit.viewmodel.InputODViewModel
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
@@ -47,6 +47,13 @@ class InputODActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInputOdBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val handler = Handler()
+        handler.postDelayed(object: Runnable{
+            override fun run() {
+                progressBar(false)
+            }
+        }, 2000)
 
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()

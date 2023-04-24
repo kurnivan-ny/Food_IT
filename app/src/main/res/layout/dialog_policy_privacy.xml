@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_form_white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:fontFamily="@font/nunito_extrabold"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:text="Kebijakan Privasi untuk FoodIT\noleh IMV Laboratory"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_p1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="18sp"
+            android:text="Di Aplikasi FoodIT, kami sangat menjaga privasi dan keamanan informasi pribadi pengguna kami. Kebijakan privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi pengguna kami."
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_t2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_p1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="20sp"
+            android:text="Informasi yang Kami Kumpulkan"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_p2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_t2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="18sp"
+            android:text="Kami mengumpulkan informasi pribadi dari pengguna yang mendaftar dan menggunakan aplikasi FoodIT kami, termasuk:
+            \n- Nama/nama pengguna
+            \n- Alamat email
+            \n- Kata sandi
+            \n- Jenis kelamin
+            \n- Usia
+            \n- Berat dan tinggi badan"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_t3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_p2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="20sp"
+            android:text="Bagaimana Kami Menggunakan Informasi Anda"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_p3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_t3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="18sp"
+            android:text="Kami menggunakan informasi yang kami kumpulkan dari pengguna untuk menyediakan dan meningkatkan aplikasi FoodIT kami, termasuk:
+            \n- Untuk mempersonalisasi pengalaman Anda dan memberikan konten dan rekomendasi yang disesuaikan berdasarkan preferensi dan riwayat penggunaan Anda.
+            \n- Untuk berkomunikasi dengan Anda mengenai pembaruan, fitur baru, dan pemberitahuan penting terkait aplikasi kami.
+            \n- Untuk memastikan keamanan dan integritas aplikasi kami dan melindungi terhadap penipuan, akses tidak sah, atau kegiatan ilegal lainnya.
+            \n- Untuk memenuhi persyaratan hukum, seperti menanggapi permintaan yang sah dari pihak berwenang pemerintah.
+            \nKami tidak membagikan atau menjual informasi pribadi Anda kepada pihak ketiga untuk tujuan periklanan."
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_t4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_p3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="20sp"
+            android:text="Login dan Akses"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_p4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_t4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="18sp"
+            android:textAlignment="viewStart"
+            android:text="Untuk mengakses aplikasi FoodIT kami, pengguna harus masuk menggunakan nama pengguna dan kata sandi mereka. Kami merekomendasikan agar pengguna memilih kata sandi yang kuat dan unik serta tidak membagikan kredensial login mereka kepada siapa pun."
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_t5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_p4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="20sp"
+            android:text="Pembatasan Usia"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_p5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_t5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="18sp"
+            android:text="Aplikasi FoodIT kami dimaksudkan untuk digunakan oleh pengguna dari segala usia. Namun, kami tidak secara sengaja mengumpulkan informasi pribadi dari anak di bawah usia 13 tahun tanpa persetujuan orang tua yang dapat diverifikasi. Jika kami mengetahui bahwa kami telah mengumpulkan informasi pribadi dari anak di bawah usia 13 tahun tanpa persetujuan orang tua, kami akan segera menghapus informasi tersebut."
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_t6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_p5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="20sp"
+            android:textAlignment="viewStart"
+            android:text="Hubungi Kami"
+            android:textColor="@color/black"/>
+    
+        <TextView
+            android:id="@+id/tv_p6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_t6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="18sp"
+            android:text="Jika Anda memiliki pertanyaan atau kekhawatiran mengenai kebijakan privasi kami atau informasi yang kami kumpulkan dari pengguna, silakan hubungi kami di cpfoodit@gmail.com."
+            android:textColor="@color/black"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

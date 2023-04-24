@@ -10,7 +10,6 @@ import retrofit2.http.POST
 const val OD_ENDPOINT = "predict"
 
 interface ApiService {
-
     // POST OD RESULT
     @POST(OD_ENDPOINT)
     fun postODResult(

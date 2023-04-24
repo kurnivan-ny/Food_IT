@@ -33,20 +33,31 @@ class DetailMakananActivity : AppCompatActivity() {
         binding = ActivityDetailMakananBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        progressBar(true)
+
+        val handler = Handler()
+        handler.postDelayed(object: Runnable{
+            override fun run() {
+                progressBar(false)
+            }
+        }, 2000)
+
+        binding.tvTitle.setText("")
+
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        val loading = ProgressDialog(this)
-        loading.setMessage("Menunggu...")
-        loading.setCancelable(false)
-        loading.show()
-        val handler = Handler()
-        handler.postDelayed(object: Runnable{
-            override fun run() {
-                loading.dismiss()
-            }
-        }, 4000)
+//        val loading = ProgressDialog(this)
+//        loading.setMessage("Menunggu...")
+//        loading.setCancelable(false)
+//        loading.show()
+//        val handler = Handler()
+//        handler.postDelayed(object: Runnable{
+//            override fun run() {
+//                loading.dismiss()
+//            }
+//        }, 4000)
 
         val nama_makanan = intent.getStringExtra("nama_makanan").toString()
 
@@ -103,8 +114,8 @@ class DetailMakananActivity : AppCompatActivity() {
                 if (berat_makanan.equals("") or berat_makanan.equals("0")){
 
                     binding.tvKarbohidrat.text = "Karbohidrat:\t 0.00 gr"
-                    binding.tvProtein.text = "Protein:\t\t\t\t\t\t 0.00 gr"
-                    binding.tvLemak.text = "Lemak:\t\t\t\t\t\t\t 0.00 gr"
+                    binding.tvProtein.text = "Protein:\t 0.00 gr"
+                    binding.tvLemak.text = "Lemak:\t 0.00 gr"
 
                     binding.btnTambah.isEnabled = false
                     binding.btnTambah.visibility = View.INVISIBLE
@@ -211,8 +222,8 @@ class DetailMakananActivity : AppCompatActivity() {
             total_lemak = lemak/100 * beratPorsi * beratMakanan
 
             binding.tvKarbohidrat.text = "Karbohidrat:\t ${String.format("%.2f",total_karbohidrat)} gr"
-            binding.tvProtein.text = "Protein:\t\t\t\t\t\t\t ${String.format("%.2f",total_protein)} gr"
-            binding.tvLemak.text = "Lemak:\t\t\t\t\t\t\t ${String.format("%.2f",total_lemak)} gr"
+            binding.tvProtein.text = "Protein:\t ${String.format("%.2f",total_protein)} gr"
+            binding.tvLemak.text = "Lemak:\t ${String.format("%.2f",total_lemak)} gr"
 
             binding.tvKeteranganPorsi.text = "* 1 porsi = ${String.format("%.2f",beratPorsi)} gram"
         }
@@ -223,8 +234,8 @@ class DetailMakananActivity : AppCompatActivity() {
             total_lemak = lemak/100 * beratMakanan
 
             binding.tvKarbohidrat.text = "Karbohidrat:\t ${String.format("%.2f",total_karbohidrat)} gr"
-            binding.tvProtein.text = "Protein:\t\t\t\t\t\t\t ${String.format("%.2f",total_protein)} gr"
-            binding.tvLemak.text = "Lemak:\t\t\t\t\t\t\t ${String.format("%.2f",total_lemak)} gr"
+            binding.tvProtein.text = "Protein:\t ${String.format("%.2f",total_protein)} gr"
+            binding.tvLemak.text = "Lemak:\t ${String.format("%.2f",total_lemak)} gr"
 
             binding.tvKeteranganPorsi.text = "* 1 porsi = ${String.format("%.2f",beratPorsi)} gram"
         }
@@ -232,5 +243,13 @@ class DetailMakananActivity : AppCompatActivity() {
         val arrayTotal = floatArrayOf(total_karbohidrat!!,total_protein!!,total_lemak!!)
 
         return arrayTotal
+    }
+
+    private fun progressBar(isLoading: Boolean) = with(binding){
+        if (isLoading) {
+            this.progressBar.visibility = View.VISIBLE
+        } else {
+            this.progressBar.visibility = View.GONE
+        }
     }
 }
