@@ -1,9 +1,14 @@
 package com.kurnivan_ny.foodit.view.sign
 
+import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
+import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.databinding.ActivityLoginBinding
 import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
@@ -13,9 +18,10 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
-    private lateinit var iUsername: String
+    private lateinit var iEmail: String
     private lateinit var iPassword: String
 
+    private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -24,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         sharedPreferences = SharedPreferences(this)
 
@@ -41,57 +48,100 @@ class LoginActivity : AppCompatActivity() {
             startActivity(goHome)
         }
 
+        binding.tvLupaPass.setOnClickListener {
+            val intent = Intent(this@LoginActivity, LupaPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.btnMasuk.setOnClickListener {
-            iUsername = binding.etUsername.text.toString()
+            iEmail = binding.etEmail.text.toString()
             iPassword = binding.etPassword.text.toString()
 
-            if (iUsername.equals("")){
-                binding.etUsername.error = "Silakan Isi Username Anda"
-                binding.etUsername.requestFocus()
+            if (iEmail.equals("")){
+                binding.etEmail.error = "Silakan Isi Email Anda"
+                binding.etEmail.requestFocus()
             } else if (iPassword.equals("")){
                 binding.etPassword.error = "Silakan Isi Password Anda"
                 binding.etPassword.requestFocus()
             } else {
-                pushLogin(iUsername, iPassword)
+                pushLogin(iEmail, iPassword)
             }
         }
     }
 
-    private fun pushLogin(iUsername: String, iPassword: String) {
+    private fun pushLogin(iEmail: String, iPassword: String) {
+       auth.signInWithEmailAndPassword(iEmail, iPassword)
+           .addOnCompleteListener {
+               if (it.isSuccessful){
 
-        db.collection("users").document(iUsername).get()
-            .addOnSuccessListener { document ->
-                if (document.get("username") == null){
-                    Toast.makeText(this@LoginActivity, "Username Tidak Ditemukan",
-                        Toast.LENGTH_LONG).show()
-                } else {
-                    if (document.get("password")!!.equals(iPassword)){
+                   val user_uid = auth.currentUser?.uid
 
-                        sharedPreferences.setValuesString("email", document.get("email").toString())
-                        sharedPreferences.setValuesString("username", document.get("username").toString())
-                        sharedPreferences.setValuesString("password", document.get("password").toString())
-                        sharedPreferences.setValuesString("url", document.get("url").toString())
-                        sharedPreferences.setValuesString("nama", document.get("nama").toString())
-                        sharedPreferences.setValuesString("jenis_kelamin", document.get("jenis_kelamin").toString())
+                   if (user_uid != null) {
 
-                        sharedPreferences.setValuesInt("umur", document.get("umur").toString().toInt())
-                        sharedPreferences.setValuesInt("tinggi", document.get("tinggi").toString().toInt())
-                        sharedPreferences.setValuesInt("berat", document.get("berat").toString().toInt())
+                       db.collection("users").document(user_uid).get()
+                           .addOnSuccessListener { document ->
 
-                        sharedPreferences.setValuesFloat("totalenergikal", (document.get("totalenergikal")
-                            .toString().replace(",",".") +"F").toFloat())
+                               if (iPassword.equals(document.get("password"))){
+                                   sharedPreferences.setValuesString("email", document.get("email").toString())
+                                   sharedPreferences.setValuesString("username", document.get("username").toString())
+                                   sharedPreferences.setValuesString("password", document.get("password").toString())
+                                   sharedPreferences.setValuesString("url", document.get("url").toString())
+                                   sharedPreferences.setValuesString("nama", document.get("nama").toString())
+                                   sharedPreferences.setValuesString("jenis_kelamin", document.get("jenis_kelamin").toString())
 
-                        sharedPreferences.setValuesString("status", "1")
+                                   sharedPreferences.setValuesInt("umur", document.get("umur").toString().toInt())
+                                   sharedPreferences.setValuesInt("tinggi", document.get("tinggi").toString().toInt())
+                                   sharedPreferences.setValuesInt("berat", document.get("berat").toString().toInt())
 
-                        finishAffinity()
+                                   sharedPreferences.setValuesFloat("totalenergikal", (document.get("totalenergikal")
+                                       .toString().replace(",",".") +"F").toFloat())
 
-                        var intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this@LoginActivity, "Password Anda Salah", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
+                                   sharedPreferences.setValuesString("user_uid", user_uid)
+
+                                   sharedPreferences.setValuesString("status", "1")
+
+                                   finishAffinity()
+
+                                   var intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                   startActivity(intent)
+                               } else {
+                                   db.collection("users").document(user_uid)
+                                       .update(
+                                           "password", iPassword
+                                       ).addOnSuccessListener {
+                                           db.collection("users").document(user_uid).get()
+                                               .addOnSuccessListener { document ->
+                                                   sharedPreferences.setValuesString("email", document.get("email").toString())
+                                                   sharedPreferences.setValuesString("username", document.get("username").toString())
+                                                   sharedPreferences.setValuesString("password", document.get("password").toString())
+                                                   sharedPreferences.setValuesString("url", document.get("url").toString())
+                                                   sharedPreferences.setValuesString("nama", document.get("nama").toString())
+                                                   sharedPreferences.setValuesString("jenis_kelamin", document.get("jenis_kelamin").toString())
+
+                                                   sharedPreferences.setValuesInt("umur", document.get("umur").toString().toInt())
+                                                   sharedPreferences.setValuesInt("tinggi", document.get("tinggi").toString().toInt())
+                                                   sharedPreferences.setValuesInt("berat", document.get("berat").toString().toInt())
+
+                                                   sharedPreferences.setValuesFloat("totalenergikal", (document.get("totalenergikal")
+                                                       .toString().replace(",",".") +"F").toFloat())
+
+                                                   sharedPreferences.setValuesString("user_uid", user_uid)
+
+                                                   sharedPreferences.setValuesString("status", "1")
+
+                                                   finishAffinity()
+
+                                                   var intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                                   startActivity(intent)
+                                               }
+                                       }
+                               }
+                           }
+                   }
+               } else {
+                   Toast.makeText(this@LoginActivity, "Login Gagal Dilakukan", Toast.LENGTH_LONG).show()
+               }
+           }
 
     }
 }

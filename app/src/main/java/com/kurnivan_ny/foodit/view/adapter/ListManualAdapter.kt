@@ -10,7 +10,7 @@ import com.kurnivan_ny.foodit.databinding.ListItemManualBinding
 class ListManualAdapter(var manualList: ArrayList<ListManualModel>):
     RecyclerView.Adapter<ListManualAdapter.ListManualViewHolder>() {
 
-    var username: String = ""
+    var useruid: String = ""
     var tanggal_makan: String = ""
     var bulan_makan: String = ""
 
@@ -72,12 +72,12 @@ class ListManualAdapter(var manualList: ArrayList<ListManualModel>):
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-        db.collection("users").document(username)
+        db.collection("users").document(useruid)
             .collection(bulan_makan).document(tanggal_makan)
             .collection(listManualModel.waktu_makan).document(listManualModel.nama_makanan)
             .delete().addOnSuccessListener {
 
-                db.collection("users").document(username)
+                db.collection("users").document(useruid)
                     .collection(bulan_makan).document(tanggal_makan)
                     .get().addOnSuccessListener {
                         val total_konsumsi_karbohidrat:Float = (it.get("total_konsumsi_karbohidrat").toString()+"F").toFloat()
@@ -89,7 +89,7 @@ class ListManualAdapter(var manualList: ArrayList<ListManualModel>):
                         val total_konsumsi_lemak:Float = (it.get("total_konsumsi_lemak").toString()+"F").toFloat()
                         val total_lemak = total_konsumsi_lemak - listManualModel.lemak
 
-                        db.collection("users").document(username)
+                        db.collection("users").document(useruid)
                             .collection(bulan_makan).document(tanggal_makan)
                             .update("total_konsumsi_karbohidrat",total_karbohidrat,
                                 "total_konsumsi_protein", total_protein,

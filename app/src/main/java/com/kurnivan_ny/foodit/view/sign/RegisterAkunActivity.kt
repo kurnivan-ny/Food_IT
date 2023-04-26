@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.model.modelfirestore.User
@@ -33,6 +34,7 @@ class RegisterAkunActivity : AppCompatActivity() {
     private lateinit var sPassword: String
 
     private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class RegisterAkunActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
         sharedPreferences = SharedPreferences(this)
 
         sharedPreferences.setValuesString("onboarding", "1")
@@ -209,7 +212,33 @@ class RegisterAkunActivity : AppCompatActivity() {
 
         user.totalenergikal = TotalEnergi
 
-        checkingUsername(sUsername, user)
+        authFirebase(sEmail, sPassword, user)
+
+//        checkingUsername(sUsername, user)
+    }
+
+    private fun authFirebase(sEmail: String, sPassword: String, data: User) {
+
+        auth.fetchSignInMethodsForEmail(sEmail)
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    val signInMethods = it.result?.signInMethods
+                    if (signInMethods.isNullOrEmpty()){
+                        auth.createUserWithEmailAndPassword(sEmail, sPassword)
+                            .addOnCompleteListener {
+                                if (it.isSuccessful){
+                                    Toast.makeText(this,"Akun Berhasil Terdaftar",Toast.LENGTH_LONG).show()
+                                    savetoFirestore(data)
+                                    finishAffinity()
+                                    val intent = Intent(this@RegisterAkunActivity, HomeActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }
+                    } else {
+                        Toast.makeText(this, "Email Sudah Digunakan", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
     }
 
     private fun checkingUsername(sUsername: String, data: User) {
@@ -230,9 +259,14 @@ class RegisterAkunActivity : AppCompatActivity() {
     }
 
     private fun savetoFirestore(data: User) {
-        db.collection("users")
-            .document(sUsername)
-            .set(data)
+
+        val userID = auth.currentUser?.uid
+
+        if (userID != null) {
+            db.collection("users")
+                .document(userID)
+                .set(data)
+        }
 
         sharedPreferences.setValuesString("email", data.email.toString())
         sharedPreferences.setValuesString("username", data.username.toString())
@@ -247,6 +281,7 @@ class RegisterAkunActivity : AppCompatActivity() {
         sharedPreferences.setValuesInt("berat", data.berat.toString().toInt())
         sharedPreferences.setValuesFloat("totalenergikal", data.totalenergikal.toString().toFloat())
 
+        sharedPreferences.setValuesString("user_uid", userID)
         sharedPreferences.setValuesString("status", "1")
     }
 }

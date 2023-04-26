@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.auth.User
 import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityEditOdBinding
 import com.kurnivan_ny.foodit.view.adapter.ListManualAdapter
@@ -68,11 +69,14 @@ class EditODActivity : AppCompatActivity() {
         }
 
         binding.btnKirim.setOnClickListener {
+
+            val UserUID = sharedPreferences.getValuesString("user_uid")
+
             val username = sharedPreferences.getValuesString("username")
             val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
             val bulan_makan = sharedPreferences.getValuesString("bulan_makan")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(UserUID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     var total_karbohidrat: Float =
@@ -111,12 +115,15 @@ class EditODActivity : AppCompatActivity() {
     }
 
     private fun getDataFirestore() {
+
+        val UserUID = sharedPreferences.getValuesString("user_uid")
+
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
         val bulan_makan = sharedPreferences.getValuesString("bulan_makan")
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(UserUID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection(waktu_makan!!).orderBy("nama_makanan", Query.Direction.ASCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
@@ -154,7 +161,7 @@ class EditODActivity : AppCompatActivity() {
                 }
             })
 
-        manualListAdapter.username = username
+        manualListAdapter.useruid = UserUID
         manualListAdapter.tanggal_makan = tanggal_makan
         manualListAdapter.bulan_makan = bulan_makan
     }

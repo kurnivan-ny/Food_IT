@@ -114,11 +114,14 @@ class InputODActivity : AppCompatActivity() {
         })
 
         binding.btnKirim.setOnClickListener {
+
+            val UserUID = sharedPreferences.getValuesString("user_uid")
+
             val username = sharedPreferences.getValuesString("username")
             val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
             val bulan_makan = sharedPreferences.getValuesString("bulan_makan")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(UserUID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     var total_karbohidrat: Float =
@@ -202,33 +205,18 @@ class InputODActivity : AppCompatActivity() {
                 val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
                 progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")
             }
-
-//        db.collection("users").document(sUsername)
-//            .get().addOnSuccessListener {
-//                val urls = it.get("url").toString()
-//                if (urls.equals("default.png")) {
-//                    db.collection("users").document(sUsername)
-//                        .update(
-//                            "url", imageFile,
-//                        )
-//                } else {
-//                    storage.reference.child("image_profile/$urls")
-//                        .delete()
-//                    db.collection("users").document(sUsername)
-//                        .update(
-//                            "url", imageFile,
-//                        )
-//                }
-//            }
     }
 
     private fun getDataFirestore() {
+
+        val UserUID = sharedPreferences.getValuesString("user_uid")
+
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
         val bulan_makan = sharedPreferences.getValuesString("bulan_makan")
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(UserUID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection(waktu_makan!!).orderBy("nama_makanan", Query.Direction.ASCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
@@ -253,7 +241,7 @@ class InputODActivity : AppCompatActivity() {
                 }
             })
 
-        manualListAdapter.username = username
+        manualListAdapter.useruid = UserUID
         manualListAdapter.tanggal_makan = tanggal_makan
         manualListAdapter.bulan_makan = bulan_makan
     }

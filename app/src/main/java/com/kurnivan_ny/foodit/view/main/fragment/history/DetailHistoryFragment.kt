@@ -86,8 +86,8 @@ class DetailHistoryFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
         progressBar(true)
 
@@ -98,8 +98,15 @@ class DetailHistoryFragment : Fragment() {
             }
         }, 2000)
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         sharedPreferences = SharedPreferences(requireContext())
         db = FirebaseFirestore.getInstance()
+        
+        val userID = sharedPreferences.getValuesString("user_uid")
 
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan =  sharedPreferences.getValuesString("tanggal_makan_sekarang")
@@ -120,7 +127,7 @@ class DetailHistoryFragment : Fragment() {
             progressDialog.show()
 
             // delete data
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .delete()
                 .addOnSuccessListener {
@@ -166,7 +173,7 @@ class DetailHistoryFragment : Fragment() {
         pieChartKarbohidrat.setEntryLabelTextSize(12f)
 
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(userID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection("makan pagi")
             .get().addOnSuccessListener { querySnapshot ->
@@ -175,7 +182,7 @@ class DetailHistoryFragment : Fragment() {
                     val data = (document.get("karbohidrat").toString() + "F").toFloat()
                     karbohidrat_makan_pagi += data
                 }
-                db.collection("users").document(username!!)
+                db.collection("users").document(userID!!)
                     .collection(bulan_makan!!).document(tanggal_makan!!)
                     .collection("makan siang")
                     .get().addOnSuccessListener { querySnapshot ->
@@ -184,7 +191,7 @@ class DetailHistoryFragment : Fragment() {
                             val data = (document.get("karbohidrat").toString() + "F").toFloat()
                             karbohidrat_makan_siang += data
                         }
-                        db.collection("users").document(username!!)
+                        db.collection("users").document(userID!!)
                             .collection(bulan_makan!!).document(tanggal_makan!!)
                             .collection("makan malam")
                             .get().addOnSuccessListener { querySnapshot ->
@@ -249,7 +256,7 @@ class DetailHistoryFragment : Fragment() {
 
             tv_title.setText("Karbohidrat")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     if (it != null){
@@ -280,7 +287,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_pagi.adapter = detailhistorykarbohidratpagiListAdapter
             rv_makan_pagi.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan pagi")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -313,7 +320,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_siang.adapter = detailhistorykarbohidratsiangListAdapter
             rv_makan_siang.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan siang")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -345,7 +352,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_malam.adapter = detailhistorykarbohidratmalamListAdapter
             rv_makan_malam.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan malam")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -388,7 +395,7 @@ class DetailHistoryFragment : Fragment() {
 
             tv_title.setText("Karbohidrat")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     if (it != null){
@@ -419,7 +426,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_pagi.adapter = detailhistorykarbohidratpagiListAdapter
             rv_makan_pagi.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan pagi")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -452,7 +459,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_siang.adapter = detailhistorykarbohidratsiangListAdapter
             rv_makan_siang.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan siang")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -484,7 +491,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_malam.adapter = detailhistorykarbohidratmalamListAdapter
             rv_makan_malam.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan malam")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -546,7 +553,7 @@ class DetailHistoryFragment : Fragment() {
         pieChartProtein.setEntryLabelTextSize(12f)
 
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(userID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection("makan pagi")
             .get().addOnSuccessListener { querySnapshot ->
@@ -555,7 +562,7 @@ class DetailHistoryFragment : Fragment() {
                     val data = (document.get("protein").toString() + "F").toFloat()
                     protein_makan_pagi += data
                 }
-                db.collection("users").document(username!!)
+                db.collection("users").document(userID!!)
                     .collection(bulan_makan!!).document(tanggal_makan!!)
                     .collection("makan siang")
                     .get().addOnSuccessListener { querySnapshot ->
@@ -564,7 +571,7 @@ class DetailHistoryFragment : Fragment() {
                             val data = (document.get("protein").toString() + "F").toFloat()
                             protein_makan_siang += data
                         }
-                        db.collection("users").document(username!!)
+                        db.collection("users").document(userID!!)
                             .collection(bulan_makan!!).document(tanggal_makan!!)
                             .collection("makan malam")
                             .get().addOnSuccessListener { querySnapshot ->
@@ -628,7 +635,7 @@ class DetailHistoryFragment : Fragment() {
 
             tv_title.setText("Protein")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     if (it != null){
@@ -659,7 +666,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_pagi.adapter = detailhistoryproteinpagiListAdapter
             rv_makan_pagi.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan pagi")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -692,7 +699,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_siang.adapter = detailhistoryproteinsiangListAdapter
             rv_makan_siang.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan siang")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -724,7 +731,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_malam.adapter = detailhistoryproteinmalamListAdapter
             rv_makan_malam.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan malam")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -767,7 +774,7 @@ class DetailHistoryFragment : Fragment() {
 
             tv_title.setText("Protein")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     if (it != null){
@@ -798,7 +805,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_pagi.adapter = detailhistoryproteinpagiListAdapter
             rv_makan_pagi.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan pagi")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -831,7 +838,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_siang.adapter = detailhistoryproteinsiangListAdapter
             rv_makan_siang.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan siang")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -863,7 +870,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_malam.adapter = detailhistoryproteinmalamListAdapter
             rv_makan_malam.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan malam")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -926,7 +933,7 @@ class DetailHistoryFragment : Fragment() {
         pieChartLemak.setEntryLabelTextSize(12f)
 
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(userID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection("makan pagi")
             .get().addOnSuccessListener { querySnapshot ->
@@ -935,7 +942,7 @@ class DetailHistoryFragment : Fragment() {
                     val data = (document.get("lemak").toString() + "F").toFloat()
                     lemak_makan_pagi += data
                 }
-                db.collection("users").document(username!!)
+                db.collection("users").document(userID!!)
                     .collection(bulan_makan!!).document(tanggal_makan!!)
                     .collection("makan siang")
                     .get().addOnSuccessListener { querySnapshot ->
@@ -944,7 +951,7 @@ class DetailHistoryFragment : Fragment() {
                             val data = (document.get("lemak").toString() + "F").toFloat()
                             lemak_makan_siang += data
                         }
-                        db.collection("users").document(username!!)
+                        db.collection("users").document(userID!!)
                             .collection(bulan_makan!!).document(tanggal_makan!!)
                             .collection("makan malam")
                             .get().addOnSuccessListener { querySnapshot ->
@@ -1008,7 +1015,7 @@ class DetailHistoryFragment : Fragment() {
 
             tv_title.setText("Lemak")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     if (it != null){
@@ -1039,7 +1046,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_pagi.adapter = detailhistorylemakpagiListAdapter
             rv_makan_pagi.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan pagi")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -1072,7 +1079,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_siang.adapter = detailhistorylemaksiangListAdapter
             rv_makan_siang.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan siang")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -1104,7 +1111,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_malam.adapter = detailhistorylemakmalamListAdapter
             rv_makan_malam.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan malam")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -1148,7 +1155,7 @@ class DetailHistoryFragment : Fragment() {
 
             tv_title.setText("Lemak")
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .get().addOnSuccessListener {
                     if (it != null){
@@ -1179,7 +1186,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_pagi.adapter = detailhistorylemakpagiListAdapter
             rv_makan_pagi.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan pagi")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -1212,7 +1219,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_siang.adapter = detailhistorylemaksiangListAdapter
             rv_makan_siang.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan siang")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)
@@ -1244,7 +1251,7 @@ class DetailHistoryFragment : Fragment() {
             rv_makan_malam.adapter = detailhistorylemakmalamListAdapter
             rv_makan_malam.itemAnimator = SlideInUpAnimator()
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection("makan malam")
                 .orderBy("nama_makanan", Query.Direction.ASCENDING)

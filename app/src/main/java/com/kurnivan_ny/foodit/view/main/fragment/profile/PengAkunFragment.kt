@@ -1,5 +1,6 @@
 package com.kurnivan_ny.foodit.view.main.fragment.profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,10 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.data.model.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.FragmentPengAkunBinding
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
+import com.kurnivan_ny.foodit.view.sign.LoginActivity
 
 class PengAkunFragment : Fragment() {
 
@@ -19,13 +27,9 @@ class PengAkunFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
-    lateinit var db: FirebaseFirestore
-
-    private lateinit var sEmail: String
-    private lateinit var sUsername: String
-    private lateinit var sPasswordLama: String
-    private lateinit var sPasswordBaru: String
-    private lateinit var sKonfirmasiPassBaru: String
+    private lateinit var storage: FirebaseStorage
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth : FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +51,8 @@ class PengAkunFragment : Fragment() {
         sharedPreferences = SharedPreferences(requireContext())
 
         db = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         setUpForm()
 
@@ -54,99 +60,73 @@ class PengAkunFragment : Fragment() {
     }
 
     private fun setUpForm() {
-        binding.edtEmail.setText(sharedPreferences.getValuesString("email"))
-        binding.edtUsername.setText(sharedPreferences.getValuesString("username"))
+
+        binding.tvNama.setText(sharedPreferences.getValuesString("nama").toString())
+
+        binding.tvUsername.setText(sharedPreferences.getValuesString("username").toString()
+        + " / " + String.format("%.2f",sharedPreferences.getValuesFloat("totalenergikal"))
+                + " kal")
+
+        val sUrl = sharedPreferences.getValuesString("url").toString()
+
+        storage.reference.child("image_profile/$sUrl").downloadUrl.addOnSuccessListener { Uri ->
+            Glide.with(this)
+                .load(Uri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.ivProfile)
+        }
     }
 
     private fun itemOnClickListener() {
+
+        val UserUID = sharedPreferences.getValuesString("user_uid").toString()
+
         binding.ivBackAkun.isClickable = true
         binding.ivBackAkun.setOnClickListener {
-            val toProfileFragment = PengAkunFragmentDirections.actionPengAkunFragmentToProfileFragment()
+            val toProfileFragment =
+                PengAkunFragmentDirections.actionPengAkunFragmentToProfileFragment()
             binding.root.findNavController().navigate(toProfileFragment)
         }
+        binding.btnDetailPribadi.setOnClickListener {
+            val toDetailPribadiFragment =
+                PengAkunFragmentDirections.actionPengAkunFragmentToDetailPribadiFragment()
+            binding.root.findNavController().navigate(toDetailPribadiFragment)
+        }
+        binding.btnGantiEmail.setOnClickListener {
+            val toGantiEmailFragment =
+                PengAkunFragmentDirections.actionPengAkunFragmentToGantiEmailFragment()
+            binding.root.findNavController().navigate(toGantiEmailFragment)
+        }
+        binding.btnGantiPassword.setOnClickListener {
+            val toGantiPasswordFragment =
+                PengAkunFragmentDirections.actionPengAkunFragmentToGantiPasswordFragment()
+            binding.root.findNavController().navigate(toGantiPasswordFragment)
+        }
+        binding.btnHapus.setOnClickListener {
+            sharedPreferences.clear()
+            val user = auth.currentUser!!
 
-        binding.btnSimpan.setOnClickListener {
+            user.delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
 
-            edtForm()
-            if (sEmail.equals("")){
-                binding.edtEmail.error = "Silakan isi Email"
-                binding.edtEmail.requestFocus()
-            }
-            else if (sUsername.equals("")){
-                binding.edtUsername.error = "Silakan isi Username"
-                binding.edtUsername.requestFocus()
-            }
-            else if (sPasswordLama.equals("")){
-                binding.edtPasswordLama.error = "Silakan isi Password Lama"
-                binding.edtPasswordLama.requestFocus()
-            }
-            else if (sPasswordBaru.equals("")){
-                binding.edtPasswordBaru.error = "Silakan isi Password Baru"
-                binding.edtPasswordBaru.requestFocus()
-            }
-            else if (sKonfirmasiPassBaru.equals("")){
-                binding.edtKonfirmasiPass.error = "Silakan isi Konfirmasi Password Baru"
-            }
-            else {
-                saveUser(sEmail,sUsername,sPasswordLama,sPasswordBaru,sKonfirmasiPassBaru)
+                        db.collection("users").document(UserUID)
+                            .delete()
 
-                val toProfileFragment = PengAkunFragmentDirections.actionPengAkunFragmentToProfileFragment()
-                binding.root.findNavController().navigate(toProfileFragment)
-            }
+                        Toast.makeText(
+                            requireContext(),
+                            "User Akun Sudah Terhapus",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                    }
+                }
+            killActivity()
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
     }
 
-    private fun saveUser(
-        sEmail: String, sUsername: String,
-        sPasswordLama: String, sPasswordBaru: String,
-        sKonfirmasiPassBaru: String) {
-
-        val user = User()
-
-        user.username = sUsername
-        user.email = sEmail
-        user.password = sPasswordBaru
-
-        if (sPasswordBaru.equals(sKonfirmasiPassBaru)){
-            checkingPasswordLama( sPasswordLama, user)
-        }
-        else {
-            Toast.makeText(requireContext(), "Password Baru Tidak Sama Dengan Konfirmasi Password", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun checkingPasswordLama( sPasswordLama: String, data: User) {
-
-        if (sPasswordLama.equals(sharedPreferences.getValuesString("password"))) {
-            savetoFirestore(data)
-        }
-        else {
-            Toast.makeText(requireContext(), "Password Lama Anda Salah", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun savetoFirestore(data: User) {
-
-        db.collection("users").document(data.username!!)
-            .update(
-                "email", data.email.toString(),
-                "username", data.username.toString(),
-                "password", data.password.toString()
-            ).addOnSuccessListener {
-                Toast.makeText(requireContext(), "Berhasil", Toast.LENGTH_LONG).show()
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "Gagal", Toast.LENGTH_LONG).show()
-            }
-        sharedPreferences.setValuesString("email", data.email.toString())
-        sharedPreferences.setValuesString("username", data.username.toString())
-        sharedPreferences.setValuesString("password", data.password.toString())
-    }
-
-    private fun edtForm() {
-        sEmail = binding.edtEmail.text.toString()
-        sUsername = binding.edtUsername.text.toString()
-        sPasswordLama = binding.edtPasswordLama.text.toString()
-        sPasswordBaru = binding.edtPasswordBaru.text.toString()
-        sKonfirmasiPassBaru = binding.edtKonfirmasiPass.text.toString()
+    private fun killActivity() {
+        activity?.finish()
     }
 }

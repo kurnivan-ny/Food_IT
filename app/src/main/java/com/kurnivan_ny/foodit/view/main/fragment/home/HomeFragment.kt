@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
     private lateinit var sBulanMakan: String
 
     private lateinit var sUsername:String
+    private lateinit var sUserUID: String
     private lateinit var sUrl: String
 
     private lateinit var filePath: Uri
@@ -96,6 +97,8 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         sUsername = sharedPreferences.getValuesString("username").toString()
+        sUserUID = sharedPreferences.getValuesString("user_uid").toString()
+
         binding.tvNama.text = "Hallo, "+ sUsername
 
         sUrl = sharedPreferences.getValuesString("url").toString()
@@ -266,7 +269,7 @@ class HomeFragment : Fragment() {
                     viewModel.tanggal_makan.value = sTanggalMakan
 
                     val konsumsi = updateKonsumsi(sTanggalMakan, sBulanMakan)
-                    checkMakan(sUsername, konsumsi)
+                    checkMakan(sUserUID, konsumsi)
 
                 }, year, month, day
             )
@@ -294,12 +297,12 @@ class HomeFragment : Fragment() {
         return konsumsi
     }
 
-    private fun checkMakan(sUsername: String, data: Konsumsi) {
-        db.collection("users").document(sUsername)
+    private fun checkMakan(sUserUID: String, data: Konsumsi) {
+        db.collection("users").document(sUserUID)
             .collection(data.bulan_makan!!).document(data.tanggal_makan!!).get()
             .addOnSuccessListener { document ->
                 if (document.get("tanggal_makan") == null) {
-                    savetoFirestore(sUsername, data)
+                    savetoFirestore(sUserUID, data)
                 }
                 else {
                     // Get Values From Firestore
@@ -340,8 +343,8 @@ class HomeFragment : Fragment() {
             }
     }
 
-    private fun savetoFirestore(sUsername: String, data: Konsumsi) {
-        db.collection("users").document(sUsername)
+    private fun savetoFirestore(sUserUID: String, data: Konsumsi) {
+        db.collection("users").document(sUserUID)
             .collection(data.bulan_makan!!).document(data.tanggal_makan!!)
             .set(data)
 
@@ -364,7 +367,7 @@ class HomeFragment : Fragment() {
 
 //      viewmodel
 
-        db.collection("users").document(sUsername)
+        db.collection("users").document(sUserUID)
             .collection(data.bulan_makan!!).document(data.tanggal_makan!!)
             .get().addOnSuccessListener { document ->
                 // viewModel
@@ -432,7 +435,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateKarbohidrattoFirestore(status_konsumsi_karbohidrat: String) {
-        db.collection("users").document(sUsername)
+        db.collection("users").document(sUserUID)
             .collection(sharedPreferences.getValuesString("bulan_makan")!!)
             .document(sharedPreferences.getValuesString("tanggal_makan")!!)
             .update(
@@ -478,7 +481,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateProteintoFirestore(status_konsumsi_protein: String) {
-        db.collection("users").document(sUsername)
+        db.collection("users").document(sUserUID)
             .collection(sharedPreferences.getValuesString("bulan_makan")!!)
             .document(sharedPreferences.getValuesString("tanggal_makan")!!)
             .update(
@@ -523,7 +526,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateLemaktoFirestore(status_konsumsi_lemak: String) {
-        db.collection("users").document(sUsername)
+        db.collection("users").document(sUserUID)
             .collection(sharedPreferences.getValuesString("bulan_makan")!!)
             .document(sharedPreferences.getValuesString("tanggal_makan")!!)
             .update(
@@ -602,7 +605,7 @@ class HomeFragment : Fragment() {
 
         val dataToBeSendToAPI = hashMapOf(
             "image_url" to imageFile,
-            "username" to sUsername,
+            "user_id" to sUserUID, // CEK
             "bulan_makan" to sBulanMakan,
             "tanggal_makan" to sTanggalMakan,
             "waktu_makan" to waktu_makan

@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.model.modelfirestore.Makan
+import com.kurnivan_ny.foodit.data.model.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.ActivityDetailMakananBinding
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 
@@ -47,17 +48,6 @@ class DetailMakananActivity : AppCompatActivity() {
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
-
-//        val loading = ProgressDialog(this)
-//        loading.setMessage("Menunggu...")
-//        loading.setCancelable(false)
-//        loading.show()
-//        val handler = Handler()
-//        handler.postDelayed(object: Runnable{
-//            override fun run() {
-//                loading.dismiss()
-//            }
-//        }, 4000)
 
         val nama_makanan = intent.getStringExtra("nama_makanan").toString()
 
@@ -146,6 +136,9 @@ class DetailMakananActivity : AppCompatActivity() {
     }
 
     private fun saveMakanantoFirestore(namaMakanan: String, satuan: String, beratMakanan: Int, arrayTotal: FloatArray) {
+
+        val UserUID = sharedPreferences.getValuesString("user_uid")
+
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
@@ -162,13 +155,13 @@ class DetailMakananActivity : AppCompatActivity() {
         makan.protein = arrayTotal[1]
         makan.lemak = arrayTotal[2]
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(UserUID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection(waktu_makan!!).document(namaMakanan).set(makan)
 
         // update value username
 
-        db.collection("users").document(username)
+        db.collection("users").document(UserUID)
             .collection(bulan_makan).document(tanggal_makan)
             .get().addOnSuccessListener {
                 var total_karbohidrat:Float = (it.get("total_konsumsi_karbohidrat").toString()+"F").toFloat()
@@ -179,30 +172,12 @@ class DetailMakananActivity : AppCompatActivity() {
                 total_protein += arrayTotal[1]
                 total_lemak += arrayTotal[2]
 
-                db.collection("users").document(username)
+                db.collection("users").document(UserUID)
                     .collection(bulan_makan).document(tanggal_makan)
                     .update("total_konsumsi_karbohidrat",total_karbohidrat,
                         "total_konsumsi_protein", total_protein,
                         "total_konsumsi_lemak", total_lemak)
             }
-
-//        var total_karbohidrat = sharedPreferences.getValuesFloat("total_konsumsi_karbohidrat")
-//        var total_protein = sharedPreferences.getValuesFloat("total_konsumsi_protein")
-//        var total_lemak = sharedPreferences.getValuesFloat("total_konsumsi_lemak")
-//
-//        total_karbohidrat += arrayTotal[0]
-//        total_protein += arrayTotal[1]
-//        total_lemak += arrayTotal[2]
-//
-//        db.collection("users").document(username!!)
-//            .collection("makan").document(tanggal_makan!!)
-//            .update("total_konsumsi_karbohidrat",total_karbohidrat,
-//            "total_konsumsi_protein", total_protein,
-//            "total_konsumsi_lemak", total_lemak)
-//
-//        sharedPreferences.setValuesFloat("total_konsumsi_karbohidrat", total_karbohidrat)
-//        sharedPreferences.setValuesFloat("total_konsumsi_protein", total_protein)
-//        sharedPreferences.setValuesFloat("total_konsumsi_lemak",total_lemak)
 
     }
 

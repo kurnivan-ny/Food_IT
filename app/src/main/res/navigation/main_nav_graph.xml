@@ -28,9 +28,6 @@
         <action
             android:id="@+id/action_profileFragment_to_pengAkunFragment"
             app:destination="@id/pengAkunFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_detailPribadiFragment"
-            app:destination="@id/detailPribadiFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailPribadiFragment"
@@ -38,8 +35,8 @@
         android:label="DetailPribadiFragment"
         tools:layout="@layout/fragment_detail_pribadi">
         <action
-            android:id="@+id/action_detailPribadiFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/action_detailPribadiFragment_to_pengAkunFragment"
+            app:destination="@id/pengAkunFragment" />
     </fragment>
     <fragment
         android:id="@+id/pengAkunFragment"
@@ -49,6 +46,15 @@
         <action
             android:id="@+id/action_pengAkunFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_pengAkunFragment_to_detailPribadiFragment"
+            app:destination="@id/detailPribadiFragment" />
+        <action
+            android:id="@+id/action_pengAkunFragment_to_gantiEmailFragment"
+            app:destination="@id/gantiEmailFragment" />
+        <action
+            android:id="@+id/action_pengAkunFragment_to_gantiPasswordFragment"
+            app:destination="@id/gantiPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailHistoryFragment"
@@ -58,6 +64,24 @@
         <action
             android:id="@+id/action_detailHistoryFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gantiEmailFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.profile.GantiEmailFragment"
+        android:label="fragment_ganti_email"
+        tools:layout="@layout/fragment_ganti_email" >
+        <action
+            android:id="@+id/action_gantiEmailFragment_to_pengAkunFragment"
+            app:destination="@id/pengAkunFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gantiPasswordFragment"
+        android:name="com.kurnivan_ny.foodit.view.main.fragment.profile.GantiPasswordFragment"
+        android:label="fragment_ganti_password"
+        tools:layout="@layout/fragment_ganti_password" >
+        <action
+            android:id="@+id/action_gantiPasswordFragment_to_pengAkunFragment"
+            app:destination="@id/pengAkunFragment" />
     </fragment>
 
 </navigation>

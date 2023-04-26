@@ -42,12 +42,12 @@
             android:gravity="start|center"
             android:hint="Masukan Nama Lengkap"
             android:inputType="text"
-            android:maxLength="24"
+            android:maxLength="21"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColorHint="@color/hint"
             android:textColor="@color/black"
-            android:textSize="14sp"/>
+            android:textColorHint="@color/hint"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

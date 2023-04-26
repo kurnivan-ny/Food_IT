@@ -17,6 +17,9 @@
         android:theme="@style/AppTheme.MaterialComponents.noActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".view.sign.LupaPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.odinput.EditODActivity"
             android:exported="false" />
         <activity

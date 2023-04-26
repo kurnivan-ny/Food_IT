@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
@@ -24,6 +25,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private val binding get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var auth: FirebaseAuth
     lateinit var storage: FirebaseStorage
     lateinit var db: FirebaseFirestore
 
@@ -46,8 +48,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         sharedPreferences = SharedPreferences(requireContext())
         db = FirebaseFirestore.getInstance()
-
         storage = FirebaseStorage.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         //SETUP
         showDataUser()
@@ -70,18 +72,12 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun itemOnClickListener(){
-        binding.btnDetailPribadi.setOnClickListener(this)
         binding.btnPengAkun.setOnClickListener(this)
         binding.btnKeluar.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_detail_pribadi -> {
-                val toDetailPribadiFragment = ProfileFragmentDirections
-                    .actionProfileFragmentToDetailPribadiFragment()
-                binding.root.findNavController().navigate(toDetailPribadiFragment)
-            }
             R.id.btn_peng_akun -> {
                 val toPengAkunFragment = ProfileFragmentDirections
                     .actionProfileFragmentToPengAkunFragment()
@@ -133,6 +129,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private fun observerLogout() {
         progressBar(false)
         sharedPreferences.clear()
+        auth.signOut()
         killActivity()
         startActivity(Intent(requireContext(), LoginActivity::class.java))
     }

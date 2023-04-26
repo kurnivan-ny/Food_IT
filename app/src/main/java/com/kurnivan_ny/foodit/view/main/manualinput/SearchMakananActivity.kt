@@ -33,6 +33,8 @@ class SearchMakananActivity : AppCompatActivity() {
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()
 
+        val UserUID = sharedPreferences.getValuesString("user_uid")
+
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
@@ -71,7 +73,7 @@ class SearchMakananActivity : AppCompatActivity() {
 
         searchListAdapter.onItemClick = {food ->
 
-            db.collection("users").document(username!!)
+            db.collection("users").document(UserUID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
                 .collection(waktu_makan!!).document(food.nama_makanan)
                 .get().addOnSuccessListener {

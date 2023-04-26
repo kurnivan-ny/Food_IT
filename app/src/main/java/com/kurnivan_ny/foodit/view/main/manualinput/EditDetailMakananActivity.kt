@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.model.modelfirestore.Makan
+import com.kurnivan_ny.foodit.data.model.modelfirestore.User
 import com.kurnivan_ny.foodit.databinding.ActivityEditDetailMakananBinding
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 
@@ -89,6 +90,9 @@ class EditDetailMakananActivity : AppCompatActivity() {
     }
 
     private fun setUpForm(namaMakanan: String, imgUrl: String, beratPorsi:Float, karbohidrat: Float, protein: Float, lemak: Float) {
+
+        val UserUID = sharedPreferences.getValuesString("user_uid")
+
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
@@ -103,7 +107,7 @@ class EditDetailMakananActivity : AppCompatActivity() {
                 .into(binding.ivMakanan)
         }
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(UserUID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection(waktu_makan!!).document(namaMakanan)
             .get().addOnSuccessListener {
@@ -172,6 +176,8 @@ class EditDetailMakananActivity : AppCompatActivity() {
 
     private fun saveMakanantoFirestore(namaMakanan: String, satuan: String, beratMakanan: Int, arrayTotal: FloatArray) {
 
+        val UserUID = sharedPreferences.getValuesString("user_uid")
+
         val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
@@ -192,7 +198,7 @@ class EditDetailMakananActivity : AppCompatActivity() {
 
         // update value username
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(UserUID!!)
             .collection(bulan_makan!!).document(tanggal_makan!!)
             .collection(waktu_makan!!).document(namaMakanan)
             .get().addOnSuccessListener {
@@ -200,7 +206,7 @@ class EditDetailMakananActivity : AppCompatActivity() {
                 val protein: Float = (it.get("protein").toString() + "F").toFloat()
                 val lemak: Float = (it.get("lemak").toString() + "F").toFloat()
 
-                db.collection("users").document(username)
+                db.collection("users").document(UserUID)
                     .collection(bulan_makan).document(tanggal_makan)
                     .get().addOnSuccessListener {
                         var total_karbohidrat: Float =
@@ -214,7 +220,7 @@ class EditDetailMakananActivity : AppCompatActivity() {
                         total_protein = total_protein + arrayTotal[1] - protein
                         total_lemak = total_lemak + arrayTotal[2] - lemak
 
-                        db.collection("users").document(username)
+                        db.collection("users").document(UserUID)
                             .collection(bulan_makan).document(tanggal_makan)
                             .update(
                                 "total_konsumsi_karbohidrat", total_karbohidrat,
@@ -222,30 +228,12 @@ class EditDetailMakananActivity : AppCompatActivity() {
                                 "total_konsumsi_lemak", total_lemak
                             )
 
-                        db.collection("users").document(username)
+                        db.collection("users").document(UserUID)
                             .collection(bulan_makan).document(tanggal_makan)
                             .collection(waktu_makan).document(namaMakanan).set(makan)
                     }
             }
     }
-
-//        var total_karbohidrat = sharedPreferences.getValuesFloat("total_konsumsi_karbohidrat")
-//        var total_protein = sharedPreferences.getValuesFloat("total_konsumsi_protein")
-//        var total_lemak = sharedPreferences.getValuesFloat("total_konsumsi_lemak")
-//
-//        total_karbohidrat += arrayTotal[0]
-//        total_protein += arrayTotal[1]
-//        total_lemak += arrayTotal[2]
-//
-//        db.collection("users").document(username!!)
-//            .collection("makan").document(tanggal_makan!!)
-//            .update("total_konsumsi_karbohidrat",total_karbohidrat,
-//                "total_konsumsi_protein", total_protein,
-//                "total_konsumsi_lemak", total_lemak)
-
-//        sharedPreferences.setValuesFloat("total_konsumsi_karbohidrat", total_karbohidrat)
-//        sharedPreferences.setValuesFloat("total_konsumsi_protein", total_protein)
-//        sharedPreferences.setValuesFloat("total_konsumsi_lemak",total_lemak)
 
 
     private fun hitungKebutuhan(beratMakanan: Int, beratPorsi: Float, karbohidrat: Float, protein: Float, lemak: Float): FloatArray {

@@ -45,8 +45,6 @@ class DetailPribadiFragment : Fragment() {
     private lateinit var sTinggi:String
     private lateinit var sBerat:String
 
-    private val imagefile = UUID.randomUUID().toString()
-
     private lateinit var filePath: Uri
 
     override fun onCreateView(
@@ -118,45 +116,53 @@ class DetailPribadiFragment : Fragment() {
     }
 
     private fun itemOnClickListener() {
+
+        val UserUID = sharedPreferences.getValuesString("user_uid").toString()
+
         binding.ivBack.setOnClickListener {
             val toProfileFragment =
-                DetailPribadiFragmentDirections.actionDetailPribadiFragmentToProfileFragment()
+                DetailPribadiFragmentDirections.actionDetailPribadiFragmentToPengAkunFragment()
             binding.root.findNavController().navigate(toProfileFragment)
         }
 
         binding.btnSimpan.setOnClickListener {
             edtForm()
             if (sNama.equals("")) {
-                binding.edtNama.error = "Silakan isi Nama Lengkap"
+                binding.edtNama.error = "Silakan Isi Nama Lengkap"
                 binding.edtNama.requestFocus()
+            } else if (sUsername.equals("")){
+                binding.edtUsername.error = "Silakan Isi Username"
+                binding.edtUsername.requestFocus()
             } else if (sJenisKelamin.equals("Masukan Jenis Kelamin")) {
-                binding.edtJenisKelamin.error = "Silakan pilih Jenis Kelamin"
+                binding.edtJenisKelamin.error = "Silakan Pilih Jenis Kelamin"
                 binding.edtJenisKelamin.requestFocus()
             } else if (sUmur.equals("")) {
-                binding.edtUmur.error = "Silakan isi Umur"
+                binding.edtUmur.error = "Silakan Isi Umur"
                 binding.edtUmur.requestFocus()
             } else if (sTinggi.equals("")) {
-                binding.edtTinggi.error = "Silakan isi TInggi Badan (cm)"
+                binding.edtTinggi.error = "Silakan Isi TInggi Badan (cm)"
                 binding.edtTinggi.requestFocus()
             } else if (sBerat.equals("")) {
-                binding.edtBeratBadan.error = "Silakan isi Berat Badan (kg)"
+                binding.edtBeratBadan.error = "Silakan Isi Berat Badan (kg)"
                 binding.edtBeratBadan.requestFocus()
             } else {
 //                uploadImage()
+                val imagefile = sharedPreferences.getValuesString("user_uid").toString()
                 if (::filePath.isInitialized) {
-                    addImagetoCloudStorage(filePath, imagefile, sUsername)
+                    addImagetoCloudStorage(filePath, imagefile, UserUID)
                 }
                 val TotalEnergi:Float = predictRegressi(sJenisKelamin, sUmur, sTinggi, sBerat)
-                saveUser(sNama, sJenisKelamin, sUmur, sTinggi, sBerat, sUsername, TotalEnergi)
+                saveUser(sNama, sJenisKelamin, sUmur, sTinggi, sBerat, sUsername, TotalEnergi, UserUID)
                 val toProfileFragment =
-                    DetailPribadiFragmentDirections.actionDetailPribadiFragmentToProfileFragment()
+                    DetailPribadiFragmentDirections.actionDetailPribadiFragmentToPengAkunFragment()
                 binding.root.findNavController().navigate(toProfileFragment)
             }
         }
     }
 
 
-    private fun addImagetoCloudStorage(filePath: Uri, imagefile:String, sUsername: String) {
+    private fun addImagetoCloudStorage(filePath: Uri, imagefile:String, UserUID: String) {
+
         val progressDialog = ProgressDialog(activity)
         progressDialog.show()
         storage.reference.child("image_profile/$imagefile")
@@ -172,18 +178,18 @@ class DetailPribadiFragment : Fragment() {
                 progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")
             }
 
-        db.collection("users").document(sUsername)
+        db.collection("users").document(UserUID)
             .get().addOnSuccessListener {
                 val urls = it.get("url").toString()
                 if (urls.equals("default.png")) {
-                    db.collection("users").document(sUsername)
+                    db.collection("users").document(UserUID)
                         .update(
                             "url", imagefile,
                         )
                 } else {
                     storage.reference.child("image_profile/$urls")
                         .delete()
-                    db.collection("users").document(sUsername)
+                    db.collection("users").document(UserUID)
                         .update(
                             "url", imagefile,
                         )
@@ -206,7 +212,9 @@ class DetailPribadiFragment : Fragment() {
                 .into(binding.ivProfile)
         }
 
-        binding.edtNama.setText(sharedPreferences.getValuesString("nama"))
+        binding.edtUsername.setText(sharedPreferences.getValuesString("username").toString())
+
+        binding.edtNama.setText(sharedPreferences.getValuesString("nama").toString())
         binding.edtJenisKelamin.setText(sharedPreferences.getValuesString("jenis_kelamin"))
         binding.edtJenisKelamin.setAdapter(arrayAdapterJenisKelamin)
 
@@ -216,7 +224,7 @@ class DetailPribadiFragment : Fragment() {
     }
 
     private fun edtForm() {
-        sUsername = sharedPreferences.getValuesString("username").toString()
+        sUsername = binding.edtUsername.text.toString()
 
         sNama = binding.edtNama.text.toString()
         sJenisKelamin = binding.edtJenisKelamin.text.toString()
@@ -228,8 +236,8 @@ class DetailPribadiFragment : Fragment() {
     private fun saveUser(
         sNama: String, sJenisKelamin: String,
         sUmur: String, sTinggi: String,
-        sBerat: String,
-        sUsername: String, TotalEnergi:Float) {
+        sBerat: String, sUsername: String,
+        TotalEnergi:Float, UserUID: String) {
 
         val user = User()
 
@@ -244,12 +252,14 @@ class DetailPribadiFragment : Fragment() {
 
         user.totalenergikal = TotalEnergi
 
-        saveToFirestore(user)
+        saveToFirestore(user, UserUID)
     }
 
-    private fun saveToFirestore(data: User) {
-        db.collection("users").document(data.username!!)
+    private fun saveToFirestore(data: User, UserUID: String) {
+        db.collection("users").document(UserUID)
             .update(
+                "username", data.username.toString(),
+
                 "nama", data.nama.toString(),
                 "jenis_kelamin", data.jenis_kelamin.toString(),
 
@@ -259,6 +269,9 @@ class DetailPribadiFragment : Fragment() {
 
                 "totalenergikal", (data.totalenergikal.toString()+"F").toFloat()
             )
+
+        sharedPreferences.setValuesString("username", data.username.toString())
+
         sharedPreferences.setValuesString("nama", data.nama.toString())
         sharedPreferences.setValuesString("jenis_kelamin", data.jenis_kelamin.toString())
 
@@ -323,7 +336,6 @@ class DetailPribadiFragment : Fragment() {
         val ortSession = createORTSession(ortEnvironment)
         val output = runPrediction(floatBufferInputs, ortSession, ortEnvironment)
 
-//        val TotalEnergi:Float = (String.format("%.2f", output).replace(",",".") + "F").toFloat()
         val TotalEnergi:Float = (output.toString() + "F").replace(",",".").toFloat()
         return TotalEnergi
 

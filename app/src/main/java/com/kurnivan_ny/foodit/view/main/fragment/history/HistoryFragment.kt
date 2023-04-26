@@ -103,9 +103,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun getHistory(selectedItem: String) {
+        val userID = sharedPreferences.getValuesString("user_uid")
         val username = sharedPreferences.getValuesString("username")
 
-        db.collection("users").document(username!!)
+        db.collection("users").document(userID!!)
             .collection(selectedItem).orderBy("tanggal_makan", Query.Direction.DESCENDING)
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(

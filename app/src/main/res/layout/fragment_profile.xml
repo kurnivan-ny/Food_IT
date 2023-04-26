@@ -67,31 +67,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_detail_pribadi"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/ic_button"
-            android:fontFamily="@font/nunito_extrabold"
-            android:gravity="center"
-            android:text="Detail Pribadi"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nama" />
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_peng_akun"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="48dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/ic_button"
             android:fontFamily="@font/nunito_extrabold"
@@ -102,7 +84,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_detail_pribadi" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_nama" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_keluar"

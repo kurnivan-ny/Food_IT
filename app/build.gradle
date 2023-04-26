@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.4.0' // firestore
     implementation 'com.google.firebase:firebase-storage:20.1.0' // cloud storage
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0' // cloud storage
+    implementation 'com.google.firebase:firebase-auth:19.3.2' // auth
+    implementation 'com.google.firebase:firebase-auth-ktx:19.3.2' // aunt
 
     //  android navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
