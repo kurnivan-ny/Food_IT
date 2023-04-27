@@ -103,16 +103,13 @@ class PengAkunFragment : Fragment() {
             binding.root.findNavController().navigate(toGantiPasswordFragment)
         }
         binding.btnHapus.setOnClickListener {
-            sharedPreferences.clear()
             val user = auth.currentUser!!
 
+            db.collection("users").document(UserUID)
+                .delete()
             user.delete()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-
-                        db.collection("users").document(UserUID)
-                            .delete()
-
                         Toast.makeText(
                             requireContext(),
                             "User Akun Sudah Terhapus",
@@ -121,7 +118,8 @@ class PengAkunFragment : Fragment() {
 
                     }
                 }
-            killActivity()
+            sharedPreferences.clear()
+
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
     }

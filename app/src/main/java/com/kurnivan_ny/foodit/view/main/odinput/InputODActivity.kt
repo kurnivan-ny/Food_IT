@@ -92,7 +92,6 @@ class InputODActivity : AppCompatActivity() {
 
         binding.rvHasil.setHasFixedSize(true)
         binding.rvHasil.layoutManager = LinearLayoutManager(this)
-
         getDataFirestore()
 
         viewModel.listmakanan.observe(this, Observer {

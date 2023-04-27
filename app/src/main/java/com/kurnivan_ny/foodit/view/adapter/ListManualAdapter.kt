@@ -84,10 +84,16 @@ class ListManualAdapter(var manualList: ArrayList<ListManualModel>):
                         var total_karbohidrat = total_konsumsi_karbohidrat - listManualModel.karbohidrat
 
                         val total_konsumsi_protein:Float = (it.get("total_konsumsi_protein").toString()+"F").toFloat()
-                        val total_protein = total_konsumsi_protein - listManualModel.protein
+                        var total_protein = total_konsumsi_protein - listManualModel.protein
 
                         val total_konsumsi_lemak:Float = (it.get("total_konsumsi_lemak").toString()+"F").toFloat()
-                        val total_lemak = total_konsumsi_lemak - listManualModel.lemak
+                        var total_lemak = total_konsumsi_lemak - listManualModel.lemak
+
+                        if (total_karbohidrat<0.00F || total_protein<0.00F || total_lemak<0.00F){
+                            total_karbohidrat = 0.00F
+                            total_protein = 0.00F
+                            total_lemak = 0.00F
+                        }
 
                         db.collection("users").document(useruid)
                             .collection(bulan_makan).document(tanggal_makan)

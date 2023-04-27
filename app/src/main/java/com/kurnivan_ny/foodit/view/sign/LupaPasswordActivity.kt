@@ -28,6 +28,7 @@ class LupaPasswordActivity : AppCompatActivity() {
         }
 
         binding.btnKirim.setOnClickListener {
+
             sEmail = binding.etEmail.text.toString()
 
             if (sEmail.equals("")){

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.R
@@ -53,6 +54,11 @@ class GantiPasswordFragment : Fragment() {
             toPengAkun()
         }
 
+        binding.tvLupaPassword.setOnClickListener {
+            val toLupaPasswordFragment = GantiPasswordFragmentDirections.actionGantiPasswordFragmentToProfileLupaPasswordFragment()
+            binding.root.findNavController().navigate(toLupaPasswordFragment)
+        }
+
         binding.btnSimpan.setOnClickListener {
 
             sPasswordLama = binding.edtPasswordLama.text.toString()
@@ -74,34 +80,44 @@ class GantiPasswordFragment : Fragment() {
                 binding.edtKonfirmasiPass.error = "Silakan Isi Konfirmasi Password"
                 binding.edtKonfirmasiPass.requestFocus()
             } else {
-                if (sPasswordLama.equals(sharedPreferences.getValuesString("password"))){
-                    if (sKonfirmasiPassword.equals(sPasswordBaru)){
-                        val user = auth.currentUser
-                        user?.updatePassword(sKonfirmasiPassword)
-                            ?.addOnCompleteListener {
-                                if (it.isSuccessful){
 
-                                    db.collection("users").document(UserUID!!)
-                                        .update(
-                                            "password", sKonfirmasiPassword
-                                        )
+                val email = sharedPreferences.getValuesString("email")
+                val user = auth.currentUser
 
-                                    sharedPreferences.setValuesString("password", sKonfirmasiPassword)
+                val credential = EmailAuthProvider.getCredential(email!!, sPasswordLama)
 
-                                    Toast.makeText(requireContext(), "Password Berhasil Diubah", Toast.LENGTH_LONG).show()
+                if (user != null) {
+                    user.reauthenticate(credential)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful){
+                                if (sKonfirmasiPassword.equals(sPasswordBaru)){
+                                    user.updatePassword(sKonfirmasiPassword)
+                                        .addOnCompleteListener {
+                                            if (it.isSuccessful){
 
-                                    toPengAkun()
+                                                db.collection("users").document(UserUID!!)
+                                                    .update(
+                                                        "password", sKonfirmasiPassword
+                                                    )
+
+                                                sharedPreferences.setValuesString("password", sKonfirmasiPassword)
+
+                                                Toast.makeText(requireContext(), "Password Berhasil Diubah", Toast.LENGTH_LONG).show()
+
+                                                toPengAkun()
+                                            } else {
+                                                Toast.makeText(requireContext(), "Password Tidak Berhasil Diubah", Toast.LENGTH_LONG).show()
+                                            }
+                                        }
                                 } else {
-                                    Toast.makeText(requireContext(), "Password Tidak Berhasil Diubah", Toast.LENGTH_LONG).show()
+                                    binding.edtKonfirmasiPass.error = "Konfirmasi Password Tidak Sama Dengan Password Baru"
+                                    binding.edtKonfirmasiPass.requestFocus()
                                 }
+                            } else {
+                                binding.edtPasswordLama.error = "Password Lama Salah"
+                                binding.edtPasswordLama.requestFocus()
                             }
-                    } else {
-                        binding.edtKonfirmasiPass.error = "Konfirmasi Password Tidak Sama Dengan Password Baru"
-                        binding.edtKonfirmasiPass.requestFocus()
-                    }
-                } else {
-                    binding.edtPasswordLama.error = "Password Lama Salah"
-                    binding.edtPasswordLama.requestFocus()
+                        }
                 }
             }
 

@@ -565,7 +565,8 @@ class HomeFragment : Fragment() {
 
     private fun addImagetoCloudStorage(filePath: Uri) {
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan").toString()
-        val imageFile = "$sUsername-$sTanggalMakan-$waktu_makan"
+        val UserUID = sharedPreferences.getValuesString("user_uid").toString()
+        val imageFile = "$UserUID-$sTanggalMakan-$waktu_makan"
 
         val progressDialog = ProgressDialog(activity)
         progressDialog.setCancelable(false)
