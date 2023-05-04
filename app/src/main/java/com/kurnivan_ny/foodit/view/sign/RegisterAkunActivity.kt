@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -62,6 +63,23 @@ class RegisterAkunActivity : AppCompatActivity() {
                 }
 
             val alertDialog = dialogBuilder.create()
+
+            alertDialog.setOnShowListener {
+                val button_negative = (alertDialog as AlertDialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+                button_negative.setTextColor(
+                    ContextCompat.getColor(
+                        this, R.color.black
+                    )
+                )
+
+                val button_positive = (alertDialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                button_positive.setTextColor(
+                    ContextCompat.getColor(
+                        this, R.color.black
+                    )
+                )
+            }
+
             alertDialog.show()
 
         }

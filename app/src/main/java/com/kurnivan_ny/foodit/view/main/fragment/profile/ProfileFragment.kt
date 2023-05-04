@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
@@ -72,23 +73,101 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun itemOnClickListener(){
-        binding.btnPengAkun.setOnClickListener(this)
+        binding.btnDetailPribadi.setOnClickListener(this)
+        binding.btnGantiEmail.setOnClickListener(this)
+        binding.btnGantiPassword.setOnClickListener(this)
+
+        binding.btnHapus.setOnClickListener(this)
         binding.btnKeluar.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_peng_akun -> {
-                val toPengAkunFragment = ProfileFragmentDirections
-                    .actionProfileFragmentToPengAkunFragment()
-                binding.root.findNavController().navigate(toPengAkunFragment)
+            R.id.btn_detail_pribadi -> {
+                val toDetailPribadiFragment = ProfileFragmentDirections
+                    .actionProfileFragmentToDetailPribadiFragment()
+                binding.root.findNavController().navigate(toDetailPribadiFragment)
             }
-            R.id.btn_keluar -> {
+            R.id.btn_ganti_email -> {
+                val toGantiEmailFragment = ProfileFragmentDirections
+                    .actionProfileFragmentToGantiEmailFragment()
+                binding.root.findNavController().navigate(toGantiEmailFragment)
+            }
+            R.id.btn_ganti_password -> {
+                val toGantiPasswordFragment = ProfileFragmentDirections
+                    .actionProfileFragmentToGantiPasswordFragment()
+                binding.root.findNavController().navigate(toGantiPasswordFragment)
+            }
 
-                //logout, go to login activity
+            R.id.btn_hapus -> {
+                alertHapus()
+            }
+
+            R.id.btn_keluar -> {
                 alertLogout()
             }
         }
+    }
+
+    private fun alertHapus() {
+        val view = View.inflate(requireContext(), R.layout.profile_delete_account_dialog, null)
+
+        val builder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+            .setView(view)
+            .setCancelable(false)
+            .setNegativeButton("Tidak"){ p0, _ ->
+                p0.dismiss()
+            }
+            .setPositiveButton("Ya"){_, _ ->
+                progressBar(true)
+                hapusAkun()
+            }
+
+        val dialog = builder.create()
+
+        dialog.setOnShowListener {
+            val button_negative = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+            button_negative.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_apple
+                ))
+
+            val button_positive = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+            button_positive.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_apple
+                ))
+        }
+
+        dialog.show()
+    }
+
+    private fun hapusAkun() {
+        val UserUID = sharedPreferences.getValuesString("user_uid").toString()
+
+        val user = auth.currentUser!!
+
+        db.collection("users").document(UserUID)
+            .delete()
+
+        user.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        "User Akun Sudah Terhapus",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+            }
+        sharedPreferences.clear()
+
+        killActivity()
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
+
     }
 
     private fun alertLogout() {
@@ -128,8 +207,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
     private fun observerLogout() {
         progressBar(false)
-        sharedPreferences.clear()
         auth.signOut()
+        sharedPreferences.clear()
         killActivity()
         startActivity(Intent(requireContext(), LoginActivity::class.java))
     }

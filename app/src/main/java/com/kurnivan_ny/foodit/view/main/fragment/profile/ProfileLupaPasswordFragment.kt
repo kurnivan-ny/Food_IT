@@ -42,7 +42,9 @@ class ProfileLupaPasswordFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.ivBackAkun.setOnClickListener {
-            toPengAkun()
+            val toGantiPasswordFragment = ProfileLupaPasswordFragmentDirections
+                .actionProfileLupaPasswordFragmentToGantiPasswordFragment()
+            binding.root.findNavController().navigate(toGantiPasswordFragment)
         }
 
         binding.btnKirim.setOnClickListener {
@@ -66,16 +68,16 @@ class ProfileLupaPasswordFragment : Fragment() {
                             ).show()
                         }
                     }
-                toPengAkun()
+                toProfileFragment()
             }
 
         }
 
     }
 
-    private fun toPengAkun() {
-        val toPengAkunFragment = ProfileLupaPasswordFragmentDirections.actionProfileLupaPasswordFragmentToPengAkunFragment()
-        binding.root.findNavController().navigate(toPengAkunFragment)
+    private fun toProfileFragment() {
+        val toProfileFragment = ProfileLupaPasswordFragmentDirections.actionProfileLupaPasswordFragmentToProfileFragment()
+        binding.root.findNavController().navigate(toProfileFragment)
     }
 
 }

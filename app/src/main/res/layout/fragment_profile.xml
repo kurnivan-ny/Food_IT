@@ -68,54 +68,141 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btn_peng_akun"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="50dp"-->
+<!--            android:layout_marginTop="48dp"-->
+<!--            android:layout_marginEnd="50dp"-->
+<!--            android:background="@drawable/ic_button"-->
+<!--            android:fontFamily="@font/nunito_extrabold"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Pengaturan Akun"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="1.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tv_nama" />-->
+
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btn_keluar"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="50dp"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:layout_marginEnd="50dp"-->
+<!--            android:background="@drawable/ic_button_linegreen"-->
+<!--            android:fontFamily="@font/nunito_extrabold"-->
+<!--            android:text="Keluar"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/green_apple"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/btn_peng_akun" />-->
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_peng_akun"
+            android:id="@+id/btn_detail_pribadi"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/ic_button"
+            android:layout_marginHorizontal="36dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/ic_button_radius_atas"
             android:fontFamily="@font/nunito_extrabold"
-            android:gravity="center"
-            android:text="Pengaturan Akun"
+            android:paddingHorizontal="30dp"
+            android:gravity="start|center"
+            android:drawableEnd="@drawable/ic_arrow_right_white"
+            android:text="Detail Pribadi"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nama" />
+            app:layout_constraintTop_toBottomOf="@id/tv_nama" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_ganti_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="36dp"
+            android:background="@color/dark_cyan"
+            android:fontFamily="@font/nunito_extrabold"
+            android:paddingHorizontal="30dp"
+            android:gravity="start|center"
+            android:drawableEnd="@drawable/ic_arrow_right_white"
+            android:text="Email Terbaru"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_detail_pribadi" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_ganti_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="36dp"
+            android:background="@drawable/ic_button_radius_bawah"
+            android:fontFamily="@font/nunito_extrabold"
+            android:paddingHorizontal="30dp"
+            android:gravity="start|center"
+            android:drawableEnd="@drawable/ic_arrow_right_white"
+            android:text="Ubah Kata Sandi"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_ganti_email" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_hapus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="36dp"
+            android:background="@drawable/ic_button_linegreen_radius_atas"
+            android:fontFamily="@font/nunito_extrabold"
+            android:paddingHorizontal="30dp"
+            android:gravity="start|center"
+            android:drawableEnd="@drawable/ic_arrow_right_green"
+            android:text="Hapus Akun"
+            android:textAllCaps="false"
+            android:textColor="@color/green_apple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_ganti_password" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_keluar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/ic_button_linegreen"
+            android:layout_marginHorizontal="36dp"
+            android:background="@drawable/ic_button_linegreen_radius_bawah"
             android:fontFamily="@font/nunito_extrabold"
-            android:text="Keluar"
+            android:paddingHorizontal="30dp"
+            android:gravity="start|center"
+            android:drawableEnd="@drawable/ic_arrow_right_green"
+            android:text="Keluar Akun"
             android:textAllCaps="false"
             android:textColor="@color/green_apple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_peng_akun" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/dark_cyan"
-            android:indeterminateTintMode="src_atop"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/btn_hapus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/dark_cyan"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"/>
 
 </FrameLayout>

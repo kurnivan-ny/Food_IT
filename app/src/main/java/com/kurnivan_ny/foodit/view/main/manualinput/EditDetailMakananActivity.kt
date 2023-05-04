@@ -29,10 +29,8 @@ class EditDetailMakananActivity : AppCompatActivity() {
 
     private lateinit var satuan: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityEditDetailMakananBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onStart() {
+        super.onStart()
 
         progressBar(true)
 
@@ -42,23 +40,18 @@ class EditDetailMakananActivity : AppCompatActivity() {
                 progressBar(false)
             }
         }, 2000)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityEditDetailMakananBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.tvTitle.setText("")
 
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
-
-//        val loading = ProgressDialog(this)
-//        loading.setMessage("Menunggu...")
-//        loading.setCancelable(false)
-//        loading.show()
-//        val handler = Handler()
-//        handler.postDelayed(object: Runnable{
-//            override fun run() {
-//                loading.dismiss()
-//            }
-//        }, 4000)
 
         val nama_makanan = intent.getStringExtra("nama_makanan").toString()
 

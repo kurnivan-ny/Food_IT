@@ -26,8 +26,14 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_pengAkunFragment"
-            app:destination="@id/pengAkunFragment" />
+            android:id="@+id/action_profileFragment_to_detailPribadiFragment"
+            app:destination="@id/detailPribadiFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_gantiEmailFragment"
+            app:destination="@id/gantiEmailFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_gantiPasswordFragment"
+            app:destination="@id/gantiPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailPribadiFragment"
@@ -35,26 +41,8 @@
         android:label="DetailPribadiFragment"
         tools:layout="@layout/fragment_detail_pribadi">
         <action
-            android:id="@+id/action_detailPribadiFragment_to_pengAkunFragment"
-            app:destination="@id/pengAkunFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/pengAkunFragment"
-        android:name="com.kurnivan_ny.foodit.view.main.fragment.profile.PengAkunFragment"
-        android:label="PengAkunFragment"
-        tools:layout="@layout/fragment_peng_akun">
-        <action
-            android:id="@+id/action_pengAkunFragment_to_profileFragment"
+            android:id="@+id/action_detailPribadiFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_pengAkunFragment_to_detailPribadiFragment"
-            app:destination="@id/detailPribadiFragment" />
-        <action
-            android:id="@+id/action_pengAkunFragment_to_gantiEmailFragment"
-            app:destination="@id/gantiEmailFragment" />
-        <action
-            android:id="@+id/action_pengAkunFragment_to_gantiPasswordFragment"
-            app:destination="@id/gantiPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailHistoryFragment"
@@ -71,8 +59,8 @@
         android:label="fragment_ganti_email"
         tools:layout="@layout/fragment_ganti_email" >
         <action
-            android:id="@+id/action_gantiEmailFragment_to_pengAkunFragment"
-            app:destination="@id/pengAkunFragment" />
+            android:id="@+id/action_gantiEmailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/gantiPasswordFragment"
@@ -80,11 +68,11 @@
         android:label="fragment_ganti_password"
         tools:layout="@layout/fragment_ganti_password" >
         <action
-            android:id="@+id/action_gantiPasswordFragment_to_pengAkunFragment"
-            app:destination="@id/pengAkunFragment" />
-        <action
             android:id="@+id/action_gantiPasswordFragment_to_profileLupaPasswordFragment"
             app:destination="@id/profileLupaPasswordFragment" />
+        <action
+            android:id="@+id/action_gantiPasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileLupaPasswordFragment"
@@ -92,8 +80,11 @@
         android:label="fragment_profile_lupa_password"
         tools:layout="@layout/fragment_profile_lupa_password" >
         <action
-            android:id="@+id/action_profileLupaPasswordFragment_to_pengAkunFragment"
-            app:destination="@id/pengAkunFragment" />
+            android:id="@+id/action_profileLupaPasswordFragment_to_gantiPasswordFragment"
+            app:destination="@id/gantiPasswordFragment" />
+        <action
+            android:id="@+id/action_profileLupaPasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
 </navigation>

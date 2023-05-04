@@ -43,10 +43,10 @@ class InputODActivity : AppCompatActivity() {
 
     private lateinit var viewModel: InputODViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityInputOdBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onStart() {
+        super.onStart()
+
+        progressBar(true)
 
         val handler = Handler()
         handler.postDelayed(object: Runnable{
@@ -54,14 +54,18 @@ class InputODActivity : AppCompatActivity() {
                 progressBar(false)
             }
         }, 2000)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityInputOdBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         sharedPreferences = SharedPreferences(this)
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
         viewModel = ViewModelProvider(this).get(InputODViewModel::class.java)
-
-        progressBar(true)
 
         viewModel.imageFileURL.value = intent.getStringExtra("imageFile")
 
@@ -182,19 +186,19 @@ class InputODActivity : AppCompatActivity() {
             .addOnSuccessListener { taskSnapshot ->
                 progressDialog.dismiss()
 
-                val loading = ProgressDialog(this)
-                loading.setMessage("Menunggu...")
-                loading.setCancelable(false)
-                loading.show()
-                val handler = Handler()
-                handler.postDelayed(object: Runnable{
-                    override fun run() {
-                        loading.dismiss()
-                        val intent = Intent(this@InputODActivity, InputODActivity::class.java)
-                        intent.putExtra("imageFile", "$imageFile")
-                        startActivity(intent)
-                    }
-                }, 12000)
+//                val loading = ProgressDialog(this)
+//                loading.setMessage("Menunggu...")
+//                loading.setCancelable(false)
+//                loading.show()
+//                val handler = Handler()
+//                handler.postDelayed(object: Runnable{
+//                    override fun run() {
+//                        loading.dismiss()
+//                        val intent = Intent(this@InputODActivity, InputODActivity::class.java)
+//                        intent.putExtra("imageFile", "$imageFile")
+//                        startActivity(intent)
+//                    }
+//                }, 12000)
 
                 Toast.makeText(this,"Berhasil", Toast.LENGTH_LONG).show()
             }.addOnFailureListener { e ->

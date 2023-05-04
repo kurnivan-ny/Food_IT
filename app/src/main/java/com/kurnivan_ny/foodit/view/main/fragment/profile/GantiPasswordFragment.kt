@@ -51,7 +51,7 @@ class GantiPasswordFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.ivBackAkun.setOnClickListener {
-            toPengAkun()
+            toProfileFragment()
         }
 
         binding.tvLupaPassword.setOnClickListener {
@@ -104,7 +104,7 @@ class GantiPasswordFragment : Fragment() {
 
                                                 Toast.makeText(requireContext(), "Password Berhasil Diubah", Toast.LENGTH_LONG).show()
 
-                                                toPengAkun()
+                                                toProfileFragment()
                                             } else {
                                                 Toast.makeText(requireContext(), "Password Tidak Berhasil Diubah", Toast.LENGTH_LONG).show()
                                             }
@@ -125,9 +125,9 @@ class GantiPasswordFragment : Fragment() {
 
     }
 
-    private fun toPengAkun() {
-        val toPengAkunFragment = GantiPasswordFragmentDirections.actionGantiPasswordFragmentToPengAkunFragment()
-        binding.root.findNavController().navigate(toPengAkunFragment)
+    private fun toProfileFragment() {
+        val toProfileFragment = GantiPasswordFragmentDirections.actionGantiPasswordFragmentToProfileFragment()
+        binding.root.findNavController().navigate(toProfileFragment)
     }
 
 }

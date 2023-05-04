@@ -29,10 +29,8 @@ class DetailMakananActivity : AppCompatActivity() {
 
     private lateinit var satuan: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityDetailMakananBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onStart() {
+        super.onStart()
 
         progressBar(true)
 
@@ -42,6 +40,12 @@ class DetailMakananActivity : AppCompatActivity() {
                 progressBar(false)
             }
         }, 2000)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityDetailMakananBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.tvTitle.setText("")
 

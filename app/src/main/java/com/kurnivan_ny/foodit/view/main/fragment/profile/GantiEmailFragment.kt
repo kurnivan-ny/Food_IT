@@ -51,7 +51,7 @@ class GantiEmailFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.ivBackAkun.setOnClickListener {
-            toPengAkun()
+            toProfileFragment()
         }
 
         binding.btnSimpan.setOnClickListener {
@@ -91,7 +91,7 @@ class GantiEmailFragment : Fragment() {
 
                                             Toast.makeText(requireContext(), "Email Berhasil Diubah", Toast.LENGTH_LONG).show()
 
-                                            toPengAkun()
+                                            toProfileFragment()
                                         } else {
                                             Toast.makeText(requireContext(), "Email Gagal Diubah", Toast.LENGTH_LONG).show()
                                         }
@@ -107,9 +107,9 @@ class GantiEmailFragment : Fragment() {
 
     }
 
-    private fun toPengAkun() {
-        val toPengAkunFragment = GantiEmailFragmentDirections.actionGantiEmailFragmentToPengAkunFragment()
-        binding.root.findNavController().navigate(toPengAkunFragment)
+    private fun toProfileFragment() {
+        val toProfileFragment = GantiEmailFragmentDirections.actionGantiEmailFragmentToProfileFragment()
+        binding.root.findNavController().navigate(toProfileFragment)
     }
 
 }

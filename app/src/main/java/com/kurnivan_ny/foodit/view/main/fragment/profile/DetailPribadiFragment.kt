@@ -121,7 +121,7 @@ class DetailPribadiFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             val toProfileFragment =
-                DetailPribadiFragmentDirections.actionDetailPribadiFragmentToPengAkunFragment()
+                DetailPribadiFragmentDirections.actionDetailPribadiFragmentToProfileFragment()
             binding.root.findNavController().navigate(toProfileFragment)
         }
 
@@ -154,7 +154,7 @@ class DetailPribadiFragment : Fragment() {
                 val TotalEnergi:Float = predictRegressi(sJenisKelamin, sUmur, sTinggi, sBerat)
                 saveUser(sNama, sJenisKelamin, sUmur, sTinggi, sBerat, sUsername, TotalEnergi, UserUID)
                 val toProfileFragment =
-                    DetailPribadiFragmentDirections.actionDetailPribadiFragmentToPengAkunFragment()
+                    DetailPribadiFragmentDirections.actionDetailPribadiFragmentToProfileFragment()
                 binding.root.findNavController().navigate(toProfileFragment)
             }
         }
