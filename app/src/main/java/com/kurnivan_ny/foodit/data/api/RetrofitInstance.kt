@@ -7,8 +7,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-const val BASE_URL = "" // URL GCP
-const val TIME_OUT = 120L
+private const val BASE_URL = "http://34.126.156.251/" // URL VM
+private const val TIME_OUT = 120L
 
 class RetrofitInstance {
     companion object{
@@ -38,6 +38,5 @@ class RetrofitInstance {
         val API_OBJECT: ApiService by lazy {
             retrofit.create(ApiService::class.java)
         }
-
     }
 }

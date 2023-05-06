@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FoodIT</string>
+    <string name="app_name">Foodit</string>
 
     <!--string array-->
     <string-array name="jenis_kelamin">

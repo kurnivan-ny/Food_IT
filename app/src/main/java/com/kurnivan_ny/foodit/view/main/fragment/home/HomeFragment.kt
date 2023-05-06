@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
 import android.os.*
 import android.text.Html
@@ -18,7 +17,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -31,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.data.api.RetrofitInstance
-import com.kurnivan_ny.foodit.data.model.auth.UpdatedODResponse
 import com.kurnivan_ny.foodit.view.adapter.ImageHomeAdapter
 import com.kurnivan_ny.foodit.data.model.modelui.home.ImageHomeModel
 import com.kurnivan_ny.foodit.data.model.modelfirestore.Konsumsi
@@ -40,6 +37,9 @@ import com.kurnivan_ny.foodit.view.main.manualinput.ManualInputActivity
 import com.kurnivan_ny.foodit.view.main.odinput.InputODActivity
 import com.kurnivan_ny.foodit.viewmodel.HomeViewModel
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Math.abs
 import java.util.*
 import kotlin.collections.ArrayList
@@ -134,15 +134,6 @@ class HomeFragment : Fragment() {
             binding.vpImage.adapter = ImageHomeAdapter(it)
             progressBar(false)
 
-//            val loading = ProgressDialog(activity)
-//            loading.setMessage("Menunggu...")
-//            loading.show()
-//            val handler = Handler()
-//            handler.postDelayed(object: Runnable{
-//                override fun run() {
-//                    loading.dismiss()
-//                }
-//            }, 4000)
         })
 
         handler = Handler(Looper.getMainLooper())
@@ -566,7 +557,7 @@ class HomeFragment : Fragment() {
     private fun addImagetoCloudStorage(filePath: Uri) {
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan").toString()
         val UserUID = sharedPreferences.getValuesString("user_uid").toString()
-        val imageFile = "$UserUID-$sTanggalMakan-$waktu_makan"
+        val imageFile = "$UserUID-$sTanggalMakan-$waktu_makan.jpeg"
 
         val progressDialog = ProgressDialog(activity)
         progressDialog.setCancelable(false)
@@ -577,25 +568,21 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener {
                 progressDialog.dismiss()
 
-                val intent = Intent(activity, InputODActivity::class.java)
-                intent.putExtra("imageFile", "$imageFile")
-                startActivity(intent)
-
-//                val loading = ProgressDialog(activity)
-//                loading.setMessage("Menunggu...")
-//                loading.setCancelable(false)
-//                loading.show()
-//                val handler = Handler()
-//                handler.postDelayed(object: Runnable{
-//                    override fun run() {
-//                        loading.dismiss()
-//                        val intent = Intent(activity, InputODActivity::class.java)
-//                        intent.putExtra("imageFile", "$imageFile")
-//                        startActivity(intent)
-//                    }
-//                }, 12000)
-
                 Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
+
+                progressBar(true)
+
+                val dataToBeSendToAPI = hashMapOf(
+                    "image_url" to imageFile,
+                    "useruid" to sUserUID, // CEK
+                    "bulan_makan" to sBulanMakan,
+                    "tanggal_makan" to sTanggalMakan,
+                    "waktu_makan" to waktu_makan
+                )
+
+                observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI)
+
+
             }.addOnFailureListener { e ->
                 progressDialog.dismiss()
                 Toast.makeText(activity, "Gagal", Toast.LENGTH_SHORT).show()
@@ -604,24 +591,27 @@ class HomeFragment : Fragment() {
                 progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")
             }
 
-        val dataToBeSendToAPI = hashMapOf(
-            "image_url" to imageFile,
-            "user_id" to sUserUID, // CEK
-            "bulan_makan" to sBulanMakan,
-            "tanggal_makan" to sTanggalMakan,
-            "waktu_makan" to waktu_makan
-        )
-
-//        observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI)
-
     }
 
     private fun observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI: HashMap<String, String>) {
-//        val returnValue = MutableLiveData<Resources<UpdatedODResponse>>()
-        val response = RetrofitInstance.API_OBJECT.postODResult(dataToBeSendToAPI)
-        if (response.isSuccessful){
-//            returnValue.value = Resources.Success
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = RetrofitInstance.API_OBJECT.postODResult(dataToBeSendToAPI)
+            if (response.isSuccessful){
+                val response_body = response.body()
+
+                if (response_body != null){
+                    if (response_body.status == "predict"){
+
+                        val intent = Intent(activity, InputODActivity::class.java)
+                        intent.putExtra("imageFile", dataToBeSendToAPI["image_url"])
+                        startActivity(intent)
+//                        Toast.makeText(activity,"Berhasil Memprediksi Makanan", Toast.LENGTH_LONG)
+//                            .show()
+                    }
+                }
+            }
         }
+
     }
 
     private fun searchMakanan() {
