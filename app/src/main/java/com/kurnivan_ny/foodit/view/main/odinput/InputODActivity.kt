@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
+import com.kurnivan_ny.foodit.data.api.RetrofitInstance
 import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
 import com.kurnivan_ny.foodit.databinding.ActivityInputOdBinding
 import com.kurnivan_ny.foodit.view.adapter.ListManualAdapter
@@ -27,6 +28,9 @@ import com.kurnivan_ny.foodit.view.main.manualinput.EditDetailMakananActivity
 import com.kurnivan_ny.foodit.viewmodel.InputODViewModel
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class InputODActivity : AppCompatActivity() {
 
@@ -176,7 +180,12 @@ class InputODActivity : AppCompatActivity() {
     }
 
     private fun addImagetoCloudStorage(filePath: Uri) {
-        val imageFile = intent.getStringExtra("imageFile")
+        val imageFile = intent.getStringExtra("imageFile").toString()
+        val UserUID = intent.getStringExtra("useruid").toString()
+        val BulanMakan = intent.getStringExtra("tanggal_makan").toString()
+        val TanggalMakan = intent.getStringExtra("bulan_makan").toString()
+        val waktu_makan = intent.getStringExtra("waktu_makan").toString()
+
 
         val progressDialog = ProgressDialog(this)
         progressDialog.setCancelable(false)
@@ -186,21 +195,20 @@ class InputODActivity : AppCompatActivity() {
             .addOnSuccessListener { taskSnapshot ->
                 progressDialog.dismiss()
 
-//                val loading = ProgressDialog(this)
-//                loading.setMessage("Menunggu...")
-//                loading.setCancelable(false)
-//                loading.show()
-//                val handler = Handler()
-//                handler.postDelayed(object: Runnable{
-//                    override fun run() {
-//                        loading.dismiss()
-//                        val intent = Intent(this@InputODActivity, InputODActivity::class.java)
-//                        intent.putExtra("imageFile", "$imageFile")
-//                        startActivity(intent)
-//                    }
-//                }, 12000)
-
                 Toast.makeText(this,"Berhasil", Toast.LENGTH_LONG).show()
+
+                progressBar(true)
+
+                val dataToBeSendToAPI = hashMapOf(
+                    "image_url" to imageFile,
+                    "useruid" to UserUID, // CEK
+                    "bulan_makan" to BulanMakan,
+                    "tanggal_makan" to TanggalMakan,
+                    "waktu_makan" to waktu_makan
+                )
+
+                observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI)
+
             }.addOnFailureListener { e ->
                 progressDialog.dismiss()
                 Toast.makeText(this, "Gagal" + e.message, Toast.LENGTH_SHORT).show()
@@ -208,6 +216,30 @@ class InputODActivity : AppCompatActivity() {
                 val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
                 progressDialog.setMessage("Mengunggah " + progress.toInt() + "%")
             }
+    }
+
+    private fun observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI: HashMap<String, String>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = RetrofitInstance.API_OBJECT.postODResult(dataToBeSendToAPI)
+            if (response.isSuccessful){
+                val response_body = response.body()
+
+                if (response_body != null){
+                    if (response_body.status == "predict"){
+
+                        val intent = Intent(this@InputODActivity, InputODActivity::class.java)
+                        intent.putExtra("imageFile", dataToBeSendToAPI["image_url"])
+                        intent.putExtra("useruid", dataToBeSendToAPI["useruid"])
+                        intent.putExtra("tanggal_makan", dataToBeSendToAPI["tanggal_makan"])
+                        intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
+                        intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
+                        startActivity(intent)
+//                        Toast.makeText(activity,"Berhasil Memprediksi Makanan", Toast.LENGTH_LONG)
+//                            .show()
+                    }
+                }
+            }
+        }
     }
 
     private fun getDataFirestore() {

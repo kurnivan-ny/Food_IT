@@ -604,6 +604,10 @@ class HomeFragment : Fragment() {
 
                         val intent = Intent(activity, InputODActivity::class.java)
                         intent.putExtra("imageFile", dataToBeSendToAPI["image_url"])
+                        intent.putExtra("useruid", dataToBeSendToAPI["useruid"])
+                        intent.putExtra("tanggal_makan", dataToBeSendToAPI["tanggal_makan"])
+                        intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
+                        intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
                         startActivity(intent)
 //                        Toast.makeText(activity,"Berhasil Memprediksi Makanan", Toast.LENGTH_LONG)
 //                            .show()
