@@ -255,6 +255,9 @@ class DetailHistoryFragment : Fragment() {
             val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
 
             tv_title.setText("Karbohidrat")
+            tv_dikonsumsi.setText("0,00 gr")
+            background.setBackgroundColor(ContextCompat
+                .getColor(requireContext(), R.color.white))
 
             db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
@@ -394,6 +397,9 @@ class DetailHistoryFragment : Fragment() {
             val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
 
             tv_title.setText("Karbohidrat")
+            tv_dikonsumsi.setText("0,00 gr")
+            background.setBackgroundColor(ContextCompat
+                .getColor(requireContext(), R.color.white))
 
             db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
@@ -634,6 +640,9 @@ class DetailHistoryFragment : Fragment() {
             val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
 
             tv_title.setText("Protein")
+            tv_dikonsumsi.setText("0,00 gr")
+            background.setBackgroundColor(ContextCompat
+                .getColor(requireContext(), R.color.white))
 
             db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
@@ -773,6 +782,9 @@ class DetailHistoryFragment : Fragment() {
             val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
 
             tv_title.setText("Protein")
+            tv_dikonsumsi.setText("0,00 gr")
+            background.setBackgroundColor(ContextCompat
+                .getColor(requireContext(), R.color.white))
 
             db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
@@ -1014,6 +1026,9 @@ class DetailHistoryFragment : Fragment() {
             val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
 
             tv_title.setText("Lemak")
+            tv_dikonsumsi.setText("0,00 gr")
+            background.setBackgroundColor(ContextCompat
+                .getColor(requireContext(), R.color.white))
 
             db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)
@@ -1154,6 +1169,9 @@ class DetailHistoryFragment : Fragment() {
             val rv_makan_malam = view.findViewById<RecyclerView>(R.id.rv_hasil_makan_malam)
 
             tv_title.setText("Lemak")
+            tv_dikonsumsi.setText("0,00 gr")
+            background.setBackgroundColor(ContextCompat
+                .getColor(requireContext(), R.color.white))
 
             db.collection("users").document(userID!!)
                 .collection(bulan_makan!!).document(tanggal_makan!!)

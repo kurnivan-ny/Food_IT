@@ -15,10 +15,9 @@ import com.kurnivan_ny.foodit.view.adapter.ImageSlideAdapter
 import com.kurnivan_ny.foodit.data.model.modelui.onboarding.ImageSlideModel
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.databinding.ActivityOnBoardingBinding
-import com.kurnivan_ny.foodit.view.sign.LoginActivity
-import com.kurnivan_ny.foodit.view.sign.RegisterActivity
+import com.kurnivan_ny.foodit.view.auth.LoginActivity
+import com.kurnivan_ny.foodit.view.auth.RegisterActivity
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
-import com.kurnivan_ny.foodit.view.main.activity.HomeActivity
 
 class OnBoardingActivity : AppCompatActivity() {
 
@@ -79,24 +78,24 @@ class OnBoardingActivity : AppCompatActivity() {
 
         sharedPreferences = SharedPreferences(this)
 
-        if (sharedPreferences.getValuesString("onboarding").equals("1")){
-            sharedPreferences.setValuesString("onboarding", "1")
-
-            val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
-            startActivity(intent)
-        }
+//        if (sharedPreferences.getValuesString("onboarding").equals("1")){
+//            sharedPreferences.setValuesString("onboarding", "1")
+//
+//            val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
+//            startActivity(intent)
+//        }
 
         binding.btnMasuk.setOnClickListener {
-            sharedPreferences.setValuesString("onboarding", "1")
-            finishAffinity()
+//            sharedPreferences.setValuesString("onboarding", "1")
+//            finishAffinity()
 
             val intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
             startActivity(intent)
         }
 
         binding.btnDaftar.setOnClickListener {
-            sharedPreferences.setValuesString("onboarding", "1")
-            finishAffinity()
+//            sharedPreferences.setValuesString("onboarding", "1")
+//            finishAffinity()
 
             val intent = Intent(this@OnBoardingActivity, RegisterActivity::class.java)
             startActivity(intent)

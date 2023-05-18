@@ -156,6 +156,8 @@ class DetailPribadiFragment : Fragment() {
                 val toProfileFragment =
                     DetailPribadiFragmentDirections.actionDetailPribadiFragmentToProfileFragment()
                 binding.root.findNavController().navigate(toProfileFragment)
+
+                binding.root.findNavController().popBackStack()
             }
         }
     }

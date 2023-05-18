@@ -90,7 +90,7 @@
                 android:id="@+id/tv_listmakanan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hasil Pemindaian"
+                android:text="Hasil"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito_bold"

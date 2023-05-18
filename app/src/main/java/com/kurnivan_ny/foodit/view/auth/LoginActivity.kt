@@ -1,12 +1,8 @@
-package com.kurnivan_ny.foodit.view.sign
+package com.kurnivan_ny.foodit.view.auth
 
-import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
-import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,19 +30,19 @@ class LoginActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         sharedPreferences = SharedPreferences(this)
 
-        sharedPreferences.setValuesString("onboarding", "1")
+//        sharedPreferences.setValuesString("onboarding", "1")
 
         binding.btnDaftar.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
         }
 
-        if (sharedPreferences.getValuesString("status").equals("1")){
-            finishAffinity()
-
-            val goHome = Intent(this@LoginActivity, HomeActivity::class.java)
-            startActivity(goHome)
-        }
+//        if (sharedPreferences.getValuesString("status").equals("1")){
+//            finishAffinity()
+//
+//            val goHome = Intent(this@LoginActivity, HomeActivity::class.java)
+//            startActivity(goHome)
+//        }
 
         binding.tvLupaPass.setOnClickListener {
             val intent = Intent(this@LoginActivity, LupaPasswordActivity::class.java)
@@ -98,12 +94,11 @@ class LoginActivity : AppCompatActivity() {
 
                                    sharedPreferences.setValuesString("user_uid", user_uid)
 
-                                   sharedPreferences.setValuesString("status", "1")
+//                                   sharedPreferences.setValuesString("status", "1")
 
-                                   finishAffinity()
-
-                                   var intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                   val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                                    startActivity(intent)
+
                                } else {
                                    db.collection("users").document(user_uid)
                                        .update(
@@ -127,17 +122,20 @@ class LoginActivity : AppCompatActivity() {
 
                                                    sharedPreferences.setValuesString("user_uid", user_uid)
 
-                                                   sharedPreferences.setValuesString("status", "1")
+//                                                   sharedPreferences.setValuesString("status", "1")
 
                                                    finishAffinity()
 
-                                                   var intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                                   val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                                                    startActivity(intent)
                                                }
                                        }
                                }
                            }
                    }
+
+                   finish()
+
                } else {
                    Toast.makeText(this@LoginActivity, "Login Gagal Dilakukan", Toast.LENGTH_LONG).show()
                }

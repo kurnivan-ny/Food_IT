@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
-    tools:context=".view.sign.RegisterActivity">
+    tools:context=".view.auth.RegisterActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -138,7 +138,7 @@
             android:background="@drawable/ic_form_white"
             android:fontFamily="@font/nunito_bold"
             android:gravity="start|center"
-            android:hint="Masukan Tinggi"
+            android:hint="Masukan Tinggi Badan"
             android:inputType="number"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"

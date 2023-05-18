@@ -1,6 +1,5 @@
 package com.kurnivan_ny.foodit.view.main.fragment.profile
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.kurnivan_ny.foodit.databinding.FragmentProfileLupaPasswordBinding
-import com.kurnivan_ny.foodit.view.sign.LoginActivity
 
 class ProfileLupaPasswordFragment : Fragment() {
 
@@ -68,7 +66,10 @@ class ProfileLupaPasswordFragment : Fragment() {
                             ).show()
                         }
                     }
+
                 toProfileFragment()
+
+                binding.root.findNavController().popBackStack()
             }
 
         }

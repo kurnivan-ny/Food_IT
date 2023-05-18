@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.R
 import com.kurnivan_ny.foodit.databinding.FragmentProfileBinding
-import com.kurnivan_ny.foodit.view.sign.LoginActivity
+import com.kurnivan_ny.foodit.view.auth.LoginActivity
 import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 
 class ProfileFragment : Fragment(), View.OnClickListener {

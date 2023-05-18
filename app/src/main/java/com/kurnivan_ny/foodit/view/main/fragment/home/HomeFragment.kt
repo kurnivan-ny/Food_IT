@@ -235,7 +235,6 @@ class HomeFragment : Fragment() {
 
         binding.dateEditText.isFocusable = false
 
-
         binding.dateEditText.setOnClickListener {
 
             val year = calendar.get(Calendar.YEAR)
@@ -574,7 +573,7 @@ class HomeFragment : Fragment() {
 
                 val dataToBeSendToAPI = hashMapOf(
                     "image_url" to imageFile,
-                    "useruid" to sUserUID, // CEK
+                    "useruid" to sUserUID, 
                     "bulan_makan" to sBulanMakan,
                     "tanggal_makan" to sTanggalMakan,
                     "waktu_makan" to waktu_makan

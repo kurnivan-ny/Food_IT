@@ -69,6 +69,8 @@ class InputODActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
+        binding.tvTitle.text = capitalize(sharedPreferences.getValuesString("waktu_makan"))
+
         viewModel = ViewModelProvider(this).get(InputODViewModel::class.java)
 
         viewModel.imageFileURL.value = intent.getStringExtra("imageFile")
@@ -287,6 +289,11 @@ class InputODActivity : AppCompatActivity() {
         } else {
             this.progressBar.visibility = View.GONE
         }
+    }
+
+    private fun capitalize(str: String?): CharSequence? {
+        return str?.trim()?.split("\\s+".toRegex())
+            ?.map { it.capitalize() }?.joinToString(" ")
     }
 
 }

@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/iv_title"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:layout_gravity="center"

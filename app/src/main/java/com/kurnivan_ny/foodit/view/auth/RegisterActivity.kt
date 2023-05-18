@@ -1,4 +1,4 @@
-package com.kurnivan_ny.foodit.view.sign
+package com.kurnivan_ny.foodit.view.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -26,10 +26,10 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = SharedPreferences(this)
-        sharedPreferences.setValuesString("onboarding", "1")
+
+//        sharedPreferences.setValuesString("onboarding", "1")
 
         binding.btnMasuk.setOnClickListener {
-            finish()
 
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)

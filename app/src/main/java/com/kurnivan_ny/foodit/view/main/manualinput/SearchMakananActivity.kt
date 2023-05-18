@@ -52,11 +52,22 @@ class SearchMakananActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        db.collection("food")
+            .get().addOnCompleteListener {
+                if (it.isSuccessful)
+                {
+                    searchList = it.result!!.toObjects(SearchModel::class.java)
+                    searchListAdapter.searchList = searchList
+                    searchListAdapter.notifyDataSetChanged()
+                }
+            }
+
         binding.svMakanan.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
                 // Get Value of field
                 binding.svMakanan.hint
                 binding.svMakanan.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
@@ -101,12 +112,24 @@ class SearchMakananActivity : AppCompatActivity() {
 //        val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
 //        val bulan_makan = sharedPreferences.getValuesString("bulan_makan")
 
-        db.collection("food")
-            .whereArrayContains("kata_kunci", searchText)
-            .get().addOnCompleteListener() {
-                if (it.isSuccessful) {
+        if (searchText.equals("")){
+            db.collection("food")
+                .get().addOnCompleteListener {
+                    if (it.isSuccessful)
+                    {
+                        searchList = it.result!!.toObjects(SearchModel::class.java)
+//                    searchListAdapter.searchList = doc
+                        searchListAdapter.searchList = searchList
+                        searchListAdapter.notifyDataSetChanged()
+                    }
+                }
+        } else {
+            db.collection("food")
+                .whereArrayContains("kata_kunci", searchText)
+                .get().addOnCompleteListener() {
+                    if (it.isSuccessful) {
 
-                    // Get the list and set in to adapter
+                        // Get the list and set in to adapter
 //                    val doc = arrayListOf<SearchData>()
 //                    for (dc in it.result.documents) {
 //                        val data = dc.toObject(SearchData::class.java)
@@ -115,12 +138,13 @@ class SearchMakananActivity : AppCompatActivity() {
 //                        }
 //                    }
 
-                    searchList = it.result!!.toObjects(SearchModel::class.java)
+                        searchList = it.result!!.toObjects(SearchModel::class.java)
 //                    searchListAdapter.searchList = doc
-                    searchListAdapter.searchList = searchList
-                    searchListAdapter.notifyDataSetChanged()
+                        searchListAdapter.searchList = searchList
+                        searchListAdapter.notifyDataSetChanged()
+                    }
                 }
-            }
+        }
     }
 
 }

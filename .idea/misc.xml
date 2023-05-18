@@ -13,6 +13,8 @@
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_arrow_right_green.xml" value="0.1865" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_background.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_background_white.xml" value="0.1" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_baseline_arrow_drop_down_hint.xml" value="0.1365" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_baseline_warning.xml" value="0.1845" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_border_round.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_btn_linegreen.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_btn_next.xml" value="0.1" />
@@ -27,6 +29,7 @@
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_cancel.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_circle.xml" value="0.1385" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_delete.xml" value="0.1885" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_drop_down_white.xml" value="0.1365" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_flight_airplane_boing_svgrepo_com_1.xml" value="0.2755" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_form_line_tea_green.xml" value="0.1625" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_form_white.xml" value="0.1" />
@@ -50,7 +53,7 @@
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/ic_user_profile.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/drawable/image_slider_onboarding.xml" value="0.1" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_detail_history.xml" value="0.33" />
-        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_detail_makanan.xml" value="0.33" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_detail_makanan.xml" value="0.2" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_edit_detail_makanan.xml" value="0.25" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_edit_od.xml" value="0.25" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/activity_history.xml" value="0.3484375" />
@@ -82,7 +85,7 @@
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_history.xml" value="0.264" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_home.xml" value="0.2724252491694352" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_peng_akun.xml" value="0.264" />
-        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_profile.xml" value="0.176" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/fragment_profile_lupa_password.xml" value="0.21422101449275363" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/home_food_dialog.xml" value="0.3625" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/image_container.xml" value="0.33" />
@@ -92,6 +95,7 @@
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/list_item_history.xml" value="0.33" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/list_item_manual.xml" value="0.33" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/over_dialog.xml" value="0.3614583333333333" />
+        <entry key="..\:/project android/FoodIT/app/src/main/res/layout/policy_privacy_dialog.xml" value="0.3625" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/profile_delete_account_dialog.xml" value="0.33725490196078434" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/profile_logout_dialog.xml" value="0.17603850050658562" />
         <entry key="..\:/project android/FoodIT/app/src/main/res/layout/search_item.xml" value="0.4" />

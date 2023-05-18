@@ -1,4 +1,4 @@
-package com.kurnivan_ny.foodit.view.sign
+package com.kurnivan_ny.foodit.view.auth
 
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kurnivan_ny.foodit.R
@@ -50,7 +49,7 @@ class RegisterAkunActivity : AppCompatActivity() {
         sharedPreferences.setValuesString("onboarding", "1")
 
         binding.ctvPrivacypolicy.setOnClickListener {
-            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_policy_privacy, null)
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.policy_privacy_dialog, null)
             val dialogBuilder = AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setView(dialogView)
@@ -85,8 +84,6 @@ class RegisterAkunActivity : AppCompatActivity() {
         }
 
         binding.btnMasuk.setOnClickListener {
-            finishAffinity()
-
             val intent = Intent(this@RegisterAkunActivity, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -250,6 +247,7 @@ class RegisterAkunActivity : AppCompatActivity() {
                                     finishAffinity()
                                     val intent = Intent(this@RegisterAkunActivity, HomeActivity::class.java)
                                     startActivity(intent)
+                                    finish()
                                 }
                             }
                     } else {
@@ -259,22 +257,22 @@ class RegisterAkunActivity : AppCompatActivity() {
             }
     }
 
-    private fun checkingUsername(sUsername: String, data: User) {
-        db.collection("users").document(sUsername).get()
-            .addOnSuccessListener { document ->
-                if (document.get("username") == null) {
-                    savetoFirestore(data)
-                    finishAffinity()
-                    val intent = Intent(this@RegisterAkunActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText (this, "Username sudah digunakan", Toast.LENGTH_LONG).show()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText (this, exception.message, Toast.LENGTH_LONG).show()
-            }
-    }
+//    private fun checkingUsername(sUsername: String, data: User) {
+//        db.collection("users").document(sUsername).get()
+//            .addOnSuccessListener { document ->
+//                if (document.get("username") == null) {
+//                    savetoFirestore(data)
+//                    finishAffinity()
+//                    val intent = Intent(this@RegisterAkunActivity, HomeActivity::class.java)
+//                    startActivity(intent)
+//                } else {
+//                    Toast.makeText (this, "Username sudah digunakan", Toast.LENGTH_LONG).show()
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                Toast.makeText (this, exception.message, Toast.LENGTH_LONG).show()
+//            }
+//    }
 
     private fun savetoFirestore(data: User) {
 
@@ -300,6 +298,6 @@ class RegisterAkunActivity : AppCompatActivity() {
         sharedPreferences.setValuesFloat("totalenergikal", data.totalenergikal.toString().toFloat())
 
         sharedPreferences.setValuesString("user_uid", userID)
-        sharedPreferences.setValuesString("status", "1")
+//        sharedPreferences.setValuesString("status", "1")
     }
 }

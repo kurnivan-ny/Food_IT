@@ -1,6 +1,6 @@
 package com.kurnivan_ny.foodit.data.api
 
-import com.kurnivan_ny.foodit.data.model.auth.ODResponse
+import com.kurnivan_ny.foodit.data.model.modeldataod.ODResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

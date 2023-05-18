@@ -1,4 +1,4 @@
-package com.kurnivan_ny.foodit.data.model.auth
+package com.kurnivan_ny.foodit.data.model.modeldataod
 
 import com.google.gson.annotations.SerializedName
 
