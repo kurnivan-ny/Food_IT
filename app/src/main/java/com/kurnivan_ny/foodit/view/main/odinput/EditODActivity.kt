@@ -96,7 +96,7 @@ class EditODActivity : AppCompatActivity() {
 
             val intent = Intent(this@EditODActivity, HomeActivity::class.java)
             startActivity(intent)
-            finishAffinity()
+            finish()
         }
 
         manualListAdapter.setOnItemClickListener(object : OnItemClickListener {

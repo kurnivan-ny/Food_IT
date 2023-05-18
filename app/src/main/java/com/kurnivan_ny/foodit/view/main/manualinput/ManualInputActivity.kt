@@ -113,7 +113,7 @@ class ManualInputActivity : AppCompatActivity() {
 
             val intent = Intent(this@ManualInputActivity, HomeActivity::class.java)
             startActivity(intent)
-            finishAffinity()
+            finish()
         }
 
         manualListAdapter.setOnItemClickListener(object : OnItemClickListener {

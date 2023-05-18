@@ -150,7 +150,7 @@ class InputODActivity : AppCompatActivity() {
 
             val intent = Intent(this@InputODActivity, HomeActivity::class.java)
             startActivity(intent)
-            finishAffinity()
+            finish()
         }
 
     }
