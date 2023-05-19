@@ -110,7 +110,9 @@ class HomeFragment : Fragment() {
         }
 
         if (binding.dateEditText.text.toString().equals("") or binding.dateEditText.text.toString().equals("Pilih Tanggal")){
+
             viewModel.tanggal_makan.value = "Pilih Tanggal"
+
             val docs = arrayListOf<ImageHomeModel>()
             docs.add(
                 ImageHomeModel("","","",
@@ -407,7 +409,7 @@ class HomeFragment : Fragment() {
             } else if (it > batas_atas_karbohidrat) {
                 status_konsumsi_karbohidrat = "Lebih"
                 updateKarbohidrattoFirestore(status_konsumsi_karbohidrat)
-                alertLebihKarbohidrat()
+//                alertLebihKarbohidrat()
             }
         })
     }
@@ -454,7 +456,7 @@ class HomeFragment : Fragment() {
             } else if (it > batas_atas_protein) {
                 status_konsumsi_protein = "Lebih"
                 updateProteintoFirestore(status_konsumsi_protein)
-                alertLebihProtein()
+//                alertLebihProtein()
             }
         })
     }
@@ -499,7 +501,7 @@ class HomeFragment : Fragment() {
             } else if (it > batas_atas_lemak) {
                 status_konsumsi_lemak = "Lebih"
                 updateLemaktoFirestore(status_konsumsi_lemak)
-                alertLebihLemak()
+//                alertLebihLemak()
             }
         })
     }

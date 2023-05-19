@@ -22,6 +22,43 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
         private val binding = itemView
         fun bind(data: ImageHomeModel, position: Int) {
 
+
+            // karbohidrat = energi/4 gram
+            val batas_bawah_karbohidrat = data.totalenergikal/4 *0.55
+            val batas_atas_karbohidrat = data.totalenergikal/4 *0.75
+
+            if (data.total_konsumsi_karbohidrat < batas_bawah_karbohidrat) {
+                data.status_konsumsi_karbohidrat = "Kurang"
+            } else if  ((data.total_konsumsi_karbohidrat > batas_bawah_karbohidrat)&&(data.total_konsumsi_karbohidrat < batas_atas_karbohidrat)){
+                data.status_konsumsi_karbohidrat = "Normal"
+            } else if (data.total_konsumsi_karbohidrat > batas_atas_karbohidrat) {
+                data.status_konsumsi_karbohidrat = "Lebih"
+            }
+
+            // protein = energi/4 gram
+            val batas_bawah_protein = data.totalenergikal/4 *0.07
+            val batas_atas_protein = data.totalenergikal/4 *0.2
+
+            if (data.total_konsumsi_protein < batas_bawah_protein){
+                data.status_konsumsi_protein = "Kurang"
+            } else if  ((data.total_konsumsi_protein > batas_bawah_protein)&&(data.total_konsumsi_protein < batas_atas_protein)){
+                data.status_konsumsi_protein = "Normal"
+            } else if (data.total_konsumsi_protein > batas_atas_protein) {
+                data.status_konsumsi_protein = "Lebih"
+            }
+
+            // lemak = energi/9 gram
+            val batas_bawah_lemak = data.totalenergikal/9 *0.15
+            val batas_atas_lemak = data.totalenergikal/9 *0.25
+
+            if (data.total_konsumsi_lemak < batas_bawah_lemak){
+                data.status_konsumsi_lemak = "Kurang"
+            } else if  ((data.total_konsumsi_lemak > batas_bawah_lemak)&&(data.total_konsumsi_lemak < batas_atas_lemak)){
+                data.status_konsumsi_lemak = "Normal"
+            } else if (data.total_konsumsi_lemak > batas_atas_lemak) {
+                data.status_konsumsi_lemak = "Lebih"
+            }
+
             if (position.equals(0)) {
                 karbohidrat(data.status_konsumsi_karbohidrat, data.total_konsumsi_karbohidrat)
             }
@@ -306,6 +343,9 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                 binding.cvMakro.setCardBackgroundColor(ContextCompat.getColor(itemView.context,
                     R.color.lebih
                 ))
+
+                alertLebihKarbohidrat()
+
                 binding.ivTitle.setImageResource(R.drawable.karbohidrat)
                 binding.tvTittle.setText("Karbohidrat")
                 binding.tvOutput.setText("${String.format("%.2f",totalKonsumsiKarbohidrat)} gr")
@@ -338,6 +378,9 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                 binding.cvMakro.setCardBackgroundColor(ContextCompat.getColor(itemView.context,
                     R.color.lebih
                 ))
+
+                alertLebihProtein()
+
                 binding.ivTitle.setImageResource(R.drawable.protein)
                 binding.tvTittle.setText("Protein")
                 binding.tvOutput.setText("${String.format("%.2f",totalKonsumsiProtein)} gr")
@@ -370,10 +413,47 @@ class ImageHomeAdapter(private val items: List<ImageHomeModel>)
                 binding.cvMakro.setCardBackgroundColor(ContextCompat.getColor(itemView.context,
                     R.color.lebih
                 ))
+
+                alertLebihLemak()
+
                 binding.ivTitle.setImageResource(R.drawable.lemak)
                 binding.tvTittle.setText("Lemak")
                 binding.tvOutput.setText("${String.format("%.2f",totalKonsumsiLemak)} gr")
             }
+        }
+
+        private fun alertLebihKarbohidrat() {
+            val view = View.inflate(itemView.context, R.layout.alert_over_dialog, null)
+            val tv_desc = view.findViewById<TextView>(R.id.tv_desc)
+
+            tv_desc.setText("Konsumsi gizi karbohidrat\ntelah melebihi batas!")
+
+            AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)
+                .setView(view)
+                .show()
+
+        }
+
+        private fun alertLebihProtein() {
+            val view = View.inflate(itemView.context, R.layout.alert_over_dialog, null)
+            val tv_desc = view.findViewById<TextView>(R.id.tv_desc)
+
+            tv_desc.setText("Konsumsi gizi protein\ntelah melebihi batas!")
+
+            AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)
+                .setView(view)
+                .show()
+        }
+
+        private fun alertLebihLemak() {
+            val view = View.inflate(itemView.context, R.layout.alert_over_dialog, null)
+            val tv_desc = view.findViewById<TextView>(R.id.tv_desc)
+
+            tv_desc.setText("Konsumsi gizi lemak\ntelah melebihi batas!")
+
+            AlertDialog.Builder(itemView.context, R.style.MyAlertDialogTheme)
+                .setView(view)
+                .show()
         }
     }
 

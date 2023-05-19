@@ -69,7 +69,6 @@ class ProfileLupaPasswordFragment : Fragment() {
 
                 toProfileFragment()
 
-                binding.root.findNavController().popBackStack()
             }
 
         }

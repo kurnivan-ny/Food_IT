@@ -51,15 +51,15 @@ class OnBoardingActivity : AppCompatActivity() {
         }
 
         list.add(
-            ImageSlideModel(R.drawable.karbohidrat, "Memantau Asupan Kadar Karbohidrat")
+            ImageSlideModel(R.drawable.karbohidrat, "Memantau Asupan\nKadar Karbohidrat")
         )
 
         list.add(
-            ImageSlideModel(R.drawable.lemak, "Memantau Asupan Kadar Protein")
+            ImageSlideModel(R.drawable.lemak, "Memantau Asupan\nKadar Protein")
         )
 
         list.add(
-            ImageSlideModel(R.drawable.protein, "Memantau Asupan Kadar Lemak")
+            ImageSlideModel(R.drawable.protein, "Memantau Asupan\nKadar Lemak")
         )
 
         adapter = ImageSlideAdapter(list)

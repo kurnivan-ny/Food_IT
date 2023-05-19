@@ -106,8 +106,6 @@ class GantiPasswordFragment : Fragment() {
 
                                                 toProfileFragment()
 
-                                                binding.root.findNavController().popBackStack()
-
                                             } else {
                                                 Toast.makeText(requireContext(), "Password Tidak Berhasil Diubah", Toast.LENGTH_LONG).show()
                                             }

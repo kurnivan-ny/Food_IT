@@ -153,11 +153,10 @@ class DetailPribadiFragment : Fragment() {
                 }
                 val TotalEnergi:Float = predictRegressi(sJenisKelamin, sUmur, sTinggi, sBerat)
                 saveUser(sNama, sJenisKelamin, sUmur, sTinggi, sBerat, sUsername, TotalEnergi, UserUID)
+
                 val toProfileFragment =
                     DetailPribadiFragmentDirections.actionDetailPribadiFragmentToProfileFragment()
                 binding.root.findNavController().navigate(toProfileFragment)
-
-                binding.root.findNavController().popBackStack()
             }
         }
     }

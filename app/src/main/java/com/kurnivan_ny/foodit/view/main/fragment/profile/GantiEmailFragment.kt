@@ -93,8 +93,6 @@ class GantiEmailFragment : Fragment() {
 
                                             toProfileFragment()
 
-                                            binding.root.findNavController().popBackStack()
-
                                         } else {
                                             Toast.makeText(requireContext(), "Email Gagal Diubah", Toast.LENGTH_LONG).show()
                                         }
