@@ -23,7 +23,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="100px"
+                android:layout_marginTop="36dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_user_profile" />
@@ -32,8 +32,8 @@
                 android:id="@+id/tv_nama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12px"
-                android:layout_marginTop="110px"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="42dp"
                 android:fontFamily="@font/nunito_extrabold"
                 android:textColor="@color/black"
                 android:text="Hallo, Kurnivan"
@@ -47,7 +47,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -57,6 +57,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="43dp"
+            android:layout_marginTop="18dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             app:boxStrokeWidth="0dp"

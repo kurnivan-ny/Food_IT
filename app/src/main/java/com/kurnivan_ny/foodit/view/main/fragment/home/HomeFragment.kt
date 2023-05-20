@@ -530,10 +530,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun getPicture() {
+
         ImagePicker.with(this)
             .crop()
             .compress(1024)
             .createIntent {  intent ->
+                progressBar(true)
                 ImageResult.launch(intent)
             }
     }
@@ -563,6 +565,8 @@ class HomeFragment : Fragment() {
         val progressDialog = ProgressDialog(activity)
         progressDialog.setCancelable(false)
         progressDialog.show()
+
+        progressBar(false)
 
         storage.reference.child("image_makanan/$imageFile")
             .putFile(filePath)

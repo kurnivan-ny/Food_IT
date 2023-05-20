@@ -32,7 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InputODActivity : AppCompatActivity() {
+class InputOD2Activity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInputOdBinding
 
@@ -92,7 +92,7 @@ class InputODActivity : AppCompatActivity() {
         })
 
         binding.ivSearch.setOnClickListener {
-            val intent = Intent(this@InputODActivity, EditODActivity::class.java)
+            val intent = Intent(this@InputOD2Activity, EditODActivity::class.java)
             startActivity(intent)
         }
 
@@ -115,7 +115,7 @@ class InputODActivity : AppCompatActivity() {
 
         manualListAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(position: Int, nama_makanan: String) {
-                val intent = Intent(this@InputODActivity, EditDetailMakananActivity::class.java)
+                val intent = Intent(this@InputOD2Activity, EditDetailMakananActivity::class.java)
                 intent.putExtra("nama_makanan", nama_makanan)
                 startActivity(intent)
                 manualListAdapter.notifyDataSetChanged()
@@ -148,7 +148,7 @@ class InputODActivity : AppCompatActivity() {
                     sharedPreferences.setValuesFloat("total_konsumsi_lemak", total_lemak)
                 }
 
-            val intent = Intent(this@InputODActivity, HomeActivity::class.java)
+            val intent = Intent(this@InputOD2Activity, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -232,7 +232,7 @@ class InputODActivity : AppCompatActivity() {
                 if (response_body != null){
                     if (response_body.status == "predict"){
 
-                        val intent = Intent(this@InputODActivity, InputOD2Activity::class.java)
+                        val intent = Intent(this@InputOD2Activity, InputODActivity::class.java)
                         intent.putExtra("imageFile", dataToBeSendToAPI["image_url"])
                         intent.putExtra("useruid", dataToBeSendToAPI["useruid"])
                         intent.putExtra("tanggal_makan", dataToBeSendToAPI["tanggal_makan"])

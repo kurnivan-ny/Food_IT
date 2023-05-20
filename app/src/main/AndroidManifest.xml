@@ -27,6 +27,9 @@
             android:name=".view.main.odinput.InputODActivity"
             android:exported="false" />
         <activity
+            android:name=".view.main.odinput.InputOD2Activity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.manualinput.EditDetailMakananActivity"
             android:exported="false" />
         <activity
