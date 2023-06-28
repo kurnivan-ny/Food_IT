@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kurnivan_ny.foodit">
+
     <!-- PERMISSION USED -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,49 +16,64 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.MaterialComponents.Light.noActionBar"
+        android:screenOrientation="sensorPortrait"
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".view.auth.LupaPasswordActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.auth.LupaPasswordActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.odinput.EditODActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.orinput.EditORActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.odinput.InputODActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.orinput.InputORActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.odinput.InputOD2Activity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.orinput.InputOR2Activity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.manualinput.EditDetailMakananActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.manualinput.EditDetailMakananActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.manualinput.DetailMakananActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.manualinput.DetailMakananActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.manualinput.SearchMakananActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.manualinput.SearchMakananActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.manualinput.ManualInputActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.manualinput.ManualInputActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.main.activity.HomeActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.main.activity.HomeActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.auth.RegisterAkunActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.auth.RegisterAkunActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.auth.RegisterActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.auth.RegisterActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.auth.LoginActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.auth.LoginActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.onboarding.OnBoardingActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.onboarding.OnBoardingActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="false" />
         <activity
-            android:name=".view.splashscreen.SplashScreenActivity"
+            android:name="com.kurnivan_ny.foodit.view.ui.splashscreen.SplashScreenActivity"
+            android:screenOrientation="sensorPortrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

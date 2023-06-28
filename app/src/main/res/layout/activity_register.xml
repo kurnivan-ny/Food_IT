@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
-    tools:context=".view.auth.RegisterActivity">
+    tools:context=".view.ui.auth.RegisterActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
