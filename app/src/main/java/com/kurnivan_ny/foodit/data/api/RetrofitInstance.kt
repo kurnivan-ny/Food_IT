@@ -8,14 +8,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "http://34.126.156.251/" // URL VM
-private const val TIME_OUT = 120L
+private const val TIME_OUT = 120L //s
 
 class RetrofitInstance {
+    // object retrofit 1 -> lebih aman
     companion object{
         private val retrofit by lazy {
             val gson = GsonBuilder()
                 .setLenient()
                 .create()
+            // json ke objek data (data class) -> key value
 
             val logging = HttpLoggingInterceptor()
             val level = HttpLoggingInterceptor.Level.BODY

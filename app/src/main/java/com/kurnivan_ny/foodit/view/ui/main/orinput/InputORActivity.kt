@@ -20,7 +20,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.data.api.RetrofitInstance
 import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
-import com.kurnivan_ny.foodit.databinding.ActivityInputOdBinding
+import com.kurnivan_ny.foodit.databinding.ActivityInputOrBinding
 import com.kurnivan_ny.foodit.view.adapter.manualinput.ListManualAdapter
 import com.kurnivan_ny.foodit.view.adapter.history.OnItemClickListener
 import com.kurnivan_ny.foodit.view.ui.main.activity.HomeActivity
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 
 class InputORActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityInputOdBinding
+    private lateinit var binding: ActivityInputOrBinding
 
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var storage: FirebaseStorage
@@ -62,7 +62,7 @@ class InputORActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityInputOdBinding.inflate(layoutInflater)
+        binding = ActivityInputOrBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sharedPreferences = SharedPreferences(this)

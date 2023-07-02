@@ -20,7 +20,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.kurnivan_ny.foodit.data.api.RetrofitInstance
 import com.kurnivan_ny.foodit.data.model.modelui.manualinput.ListManualModel
-import com.kurnivan_ny.foodit.databinding.ActivityInputOdBinding
+import com.kurnivan_ny.foodit.databinding.ActivityInputOr2Binding
 import com.kurnivan_ny.foodit.view.adapter.manualinput.ListManualAdapter
 import com.kurnivan_ny.foodit.view.adapter.history.OnItemClickListener
 import com.kurnivan_ny.foodit.view.ui.main.activity.HomeActivity
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 
 class InputOR2Activity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityInputOdBinding
+    private lateinit var binding: ActivityInputOr2Binding
 
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var storage: FirebaseStorage
@@ -62,7 +62,7 @@ class InputOR2Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityInputOdBinding.inflate(layoutInflater)
+        binding = ActivityInputOr2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sharedPreferences = SharedPreferences(this)
@@ -75,7 +75,7 @@ class InputOR2Activity : AppCompatActivity() {
 
         viewModel.imageFileURL.value = intent.getStringExtra("imageFile")
 
-        viewModel.imageFileURL.observe(this, androidx.lifecycle.Observer{
+        viewModel.imageFileURL.observe(this, Observer{
 
             storage.reference.child("image_makanan/$it").downloadUrl
                 .addOnSuccessListener { Uri ->
@@ -168,7 +168,7 @@ class InputOR2Activity : AppCompatActivity() {
     private val ImageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result->
 
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             //Image Uri will not be null for RESULT_OK
             val selectedImg: Uri = result.data?.data as Uri
             filePath = selectedImg

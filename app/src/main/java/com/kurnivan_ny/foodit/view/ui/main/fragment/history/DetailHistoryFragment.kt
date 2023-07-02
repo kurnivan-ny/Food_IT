@@ -107,7 +107,6 @@ class DetailHistoryFragment : Fragment() {
         
         val userID = sharedPreferences.getValuesString("user_uid")
 
-        val username = sharedPreferences.getValuesString("username")
         val tanggal_makan =  sharedPreferences.getValuesString("tanggal_makan_sekarang")
         val bulan_makan =  sharedPreferences.getValuesString("bulan_makan_sekarang")
 

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ORResponse(
 
-	@field:SerializedName("status")
+	@field:SerializedName("status") // key
 	val status: String? = null
 )
 

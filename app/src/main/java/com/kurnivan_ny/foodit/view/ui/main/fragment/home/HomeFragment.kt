@@ -40,6 +40,7 @@ import com.kurnivan_ny.foodit.data.model.preferences.SharedPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Math.abs
 import java.util.*
 import kotlin.collections.ArrayList
@@ -567,6 +568,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI: HashMap<String, String>) {
+        // thread baru -> main thread (ui)
+        // Dispatchers.IO -> thread baru
         CoroutineScope(Dispatchers.IO).launch {
             val response = RetrofitInstance.API_OBJECT.postORResult(dataToBeSendToAPI)
             if (response.isSuccessful){
@@ -582,6 +585,9 @@ class HomeFragment : Fragment() {
                         intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
                         intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
                         startActivity(intent)
+                        withContext(Dispatchers.Main){
+
+                        }
                     }
                 }
             }
