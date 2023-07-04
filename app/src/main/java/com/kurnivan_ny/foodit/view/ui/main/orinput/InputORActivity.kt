@@ -31,6 +31,8 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.HashMap
 
 class InputORActivity : AppCompatActivity() {
 
@@ -200,7 +202,7 @@ class InputORActivity : AppCompatActivity() {
             .addOnSuccessListener { taskSnapshot ->
                 progressDialog.dismiss()
 
-                Toast.makeText(this,"Berhasil", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Berhasil Mengunggah", Toast.LENGTH_LONG).show()
 
                 progressBar1(true)
 
@@ -232,26 +234,35 @@ class InputORActivity : AppCompatActivity() {
                 if (response_body != null){
                     if (response_body.status == "predict"){
 
-                        val intent = Intent(this@InputORActivity, InputOR2Activity::class.java)
+                        val intent = Intent(this@InputORActivity, InputORActivity::class.java)
                         intent.putExtra("imageFile", dataToBeSendToAPI["image_url"])
                         intent.putExtra("useruid", dataToBeSendToAPI["useruid"])
                         intent.putExtra("tanggal_makan", dataToBeSendToAPI["tanggal_makan"])
                         intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
                         intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
                         startActivity(intent)
-//                        Toast.makeText(activity,"Berhasil Memprediksi Makanan", Toast.LENGTH_LONG)
-//                            .show()
+
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@InputORActivity, "Berhasil Prediksi", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
+            else{
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@InputORActivity, "Gagal Prediksi", Toast.LENGTH_LONG)
+                        .show()
+                    progressBar(false)
+                }
+            }
         }
+
     }
 
     private fun getDataFirestore() {
 
         val UserUID = sharedPreferences.getValuesString("user_uid")
 
-        val username = sharedPreferences.getValuesString("username")
         val tanggal_makan = sharedPreferences.getValuesString("tanggal_makan")
         val waktu_makan = sharedPreferences.getValuesString("waktu_makan")
         val bulan_makan = sharedPreferences.getValuesString("bulan_makan")

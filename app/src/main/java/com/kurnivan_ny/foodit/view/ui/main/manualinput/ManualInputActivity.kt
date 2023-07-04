@@ -28,6 +28,8 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.HashMap
 
 class ManualInputActivity : AppCompatActivity() {
 
@@ -173,7 +175,7 @@ class ManualInputActivity : AppCompatActivity() {
             .addOnSuccessListener { taskSnapshot ->
                 progressDialog.dismiss()
 
-                Toast.makeText(this,"Berhasil", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Berhasil Mengunggah", Toast.LENGTH_LONG).show()
 
                 progressBar(true)
 
@@ -212,12 +214,23 @@ class ManualInputActivity : AppCompatActivity() {
                         intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
                         intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
                         startActivity(intent)
+
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@ManualInputActivity, "Berhasil Prediksi", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
+            else{
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@ManualInputActivity, "Gagal Prediksi", Toast.LENGTH_LONG)
+                        .show()
+                    progressBar(false)
+                }
+            }
         }
-    }
 
+    }
     private fun getDataFirestore() {
 
         val UserUID = sharedPreferences.getValuesString("user_uid")

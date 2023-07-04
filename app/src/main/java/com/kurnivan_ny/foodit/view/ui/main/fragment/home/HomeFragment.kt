@@ -189,7 +189,7 @@ class HomeFragment : Fragment() {
             btnMakan("makan siang")
         }
         binding.btnMalam.setOnClickListener {
-            btnMakan("makan siang")
+            btnMakan("makan malam")
         }
     }
 
@@ -362,7 +362,7 @@ class HomeFragment : Fragment() {
         sharedPreferences.setValuesFloat("total_konsumsi_lemak", (data.totalenergikal
             .toString().replace(",",".")+"F").toFloat())
 
-//      viewmodel
+        // viewmodel
 
         db.collection("users").document(sUserUID)
             .collection(data.bulan_makan!!).document(data.tanggal_makan!!)
@@ -542,7 +542,7 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener {
                 progressDialog.dismiss()
 
-                Toast.makeText(activity,"Berhasil", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity,"Berhasil Mengunggah", Toast.LENGTH_LONG).show()
 
                 progressBar(true)
 
@@ -568,8 +568,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun observerUpdateRetrievedDatatoDatabase(dataToBeSendToAPI: HashMap<String, String>) {
-        // thread baru -> main thread (ui)
-        // Dispatchers.IO -> thread baru
         CoroutineScope(Dispatchers.IO).launch {
             val response = RetrofitInstance.API_OBJECT.postORResult(dataToBeSendToAPI)
             if (response.isSuccessful){
@@ -585,10 +583,18 @@ class HomeFragment : Fragment() {
                         intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
                         intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
                         startActivity(intent)
-                        withContext(Dispatchers.Main){
 
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(requireContext(), "Berhasil Prediksi", Toast.LENGTH_LONG).show()
                         }
                     }
+                }
+            }
+            else{
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Gagal Prediksi", Toast.LENGTH_LONG)
+                        .show()
+                    progressBar(false)
                 }
             }
         }

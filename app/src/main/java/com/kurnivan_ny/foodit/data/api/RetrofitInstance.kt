@@ -7,8 +7,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "http://34.126.156.251/" // URL VM
-private const val TIME_OUT = 120L //s
+private const val BASE_URL = "http://34.101.232.205/" // URL VM
+private const val TIME_OUT = 120L //ms
 
 class RetrofitInstance {
     // object retrofit 1 -> lebih aman

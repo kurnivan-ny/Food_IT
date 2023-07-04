@@ -111,8 +111,6 @@ class LoginActivity : AppCompatActivity() {
 
                                                    sharedPreferences.setValuesString("user_uid", user_uid)
 
-                                                   finishAffinity()
-
                                                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                                                    startActivity(intent)
                                                }

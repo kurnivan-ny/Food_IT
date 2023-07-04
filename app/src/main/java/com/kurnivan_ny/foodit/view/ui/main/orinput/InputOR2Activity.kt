@@ -31,6 +31,8 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.HashMap
 
 class InputOR2Activity : AppCompatActivity() {
 
@@ -239,12 +241,22 @@ class InputOR2Activity : AppCompatActivity() {
                         intent.putExtra("bulan_makan", dataToBeSendToAPI["bulan_makan"])
                         intent.putExtra("waktu_makan", dataToBeSendToAPI["waktu_makan"])
                         startActivity(intent)
-//                        Toast.makeText(activity,"Berhasil Memprediksi Makanan", Toast.LENGTH_LONG)
-//                            .show()
+
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@InputOR2Activity, "Berhasil Prediksi", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
+            else{
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@InputOR2Activity, "Gagal Prediksi", Toast.LENGTH_LONG)
+                        .show()
+                    progressBar(false)
+                }
+            }
         }
+
     }
 
     private fun getDataFirestore() {
